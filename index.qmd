@@ -72,6 +72,14 @@ Cite new paper [@su2012linear]
 
 Classification of Knee OA was studied here [@guida2021knee]. This is another example of LCA [@weller2020latent]
 
+--------------- 
+Introduction Start 
+---------------
+
+Electronic warfare is not a new technology, but it is ever evolving technology including with drones used in a military capacity, and this motivated the selection of this dataset, as it enables the application of neural network work and  Bayesian analysis models to predict signal-to-noise ratio (SNR) and examine how signal quality varies across different conditions.  This project uses the DeepSig RadioML 2018 dataset, downloaded from Kaggle, which contains simulated radio frequency (RF) signals with different signal types (modulation types) and varying levels of noise. The dataset provides a useful framework for studying how signal quality changes under different conditions (interference conditions). It includes 24 signal types, multiple signal-to-noise ratio (SNR) levels, and 1024 samples per signal, with approximately 2.5 million total observations.
+The objective of this project is to model SNR as the response variable using neural networks and Bayesian analysis.  The dataset contains a large number of raw signal measurements, certain engineering techniques will be applied to summarize the data into meaningful predictors based on the in-phase and quadrature (I/Q) signal components. Model performance will be evaluated using metrics such as mean squared error (MSE), and comparisons will be made to assess how well regularization methods, commonly used in neural networks, handle multicollinearity and improve prediction accuracy.
+
+
 ## Methods
 
 -   Detail the models or algorithms used.
@@ -123,6 +131,7 @@ library(dslabs)
 
 ```{python}
 import pandas as pd
+
 ```
 
 ```{r, warning=FALSE, echo=TRUE}
