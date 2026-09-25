@@ -130,7 +130,11 @@ library(dslabs)
 ```
 
 ```{python}
+
 import pandas as pd
+from data_processing import X_transformed,y
+import numpy as np
+print(f"Y mean: {y.mean().values[0]}")
 
 ```
 
