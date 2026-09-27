@@ -41,13 +41,17 @@ plt.xlabel('Epoch')
 plt.ylabel('MSE')
 plt.show()
 y_pred = model.predict(x_test)
+#print(type(y_pred))
+#print(type(y_test))
 predicted_vs_actual = {
     
 }
-predicted_vs_actual.setdefault("Predicted",y_pred)
-predicted_vs_actual.setdefault("Actual",y_test)
+predicted_vs_actual.setdefault("Predicted",y_pred.ravel())
+predicted_vs_actual.setdefault("Actual",y_test.to_numpy())
 pred_v_actual = pd.DataFrame(predicted_vs_actual)
+
 pred_v_actual[["Predicted","Actual"]].plot(title="Pred vs Actual")
+plt.show()
 
 
 '''y_values = sorted(list(set(y.values.ravel())))
