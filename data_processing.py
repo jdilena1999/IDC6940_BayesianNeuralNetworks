@@ -35,23 +35,23 @@ model.compile(optimizer='adam', loss='mse', metrics=['mae','mse'])
 history = model.fit(x_train, y_train, epochs=50, validation_split=0.2)
 model_performance = pd.DataFrame(history.history)
 model_performance.index.name = 'epoch'
-print(model_performance)
+#print(model_performance)
 model_performance[['mse','val_mse']].plot(title='Training vs Validation MSE')
 plt.xlabel('Epoch')
 plt.ylabel('MSE')
 plt.show()
-y_pred = model.predict(x_test)
+#y_pred = model.predict(x_test)
 #print(type(y_pred))
 #print(type(y_test))
 predicted_vs_actual = {
     
 }
-predicted_vs_actual.setdefault("Predicted",y_pred.ravel())
+'''predicted_vs_actual.setdefault("Predicted",y_pred.ravel())
 predicted_vs_actual.setdefault("Actual",y_test.to_numpy())
-pred_v_actual = pd.DataFrame(predicted_vs_actual)
+pred_v_actual = pd.DataFrame(predicted_vs_actual)'''
 
-pred_v_actual[["Predicted","Actual"]].plot(title="Pred vs Actual")
-plt.show()
+#pred_v_actual[["Predicted","Actual"]].plot(title="Pred vs Actual")
+#plt.show()
 
 
 '''y_values = sorted(list(set(y.values.ravel())))
