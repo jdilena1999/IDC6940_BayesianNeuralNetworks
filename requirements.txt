@@ -4,3 +4,4 @@ scikit-learn
 jupyter
 tensorflow
 pandas
+datetime

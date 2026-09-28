@@ -1,8 +1,9 @@
 ---
-title: "Writing a great story for data science projects "
-subtitle: "This is a Report Template Quarto"
-author: "Student Name (Advisor: Dr. Cohen)"
-date: '`r Sys.Date()`'
+title: "This Means (Bayesian) War(fare)!"
+subtitle: "A Bayesian Neural Network Approach to Electronic Warfare"
+author: "Maggie Morrison and Joshua DiLena (Advisor: Dr. Cohen)"
+date: today
+date-format: "MMMM D, YYYY"
 format:
   html:
     code-fold: true
