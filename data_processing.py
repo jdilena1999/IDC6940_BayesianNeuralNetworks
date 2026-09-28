@@ -36,10 +36,10 @@ history = model.fit(x_train, y_train, epochs=50, validation_split=0.2)
 model_performance = pd.DataFrame(history.history)
 model_performance.index.name = 'epoch'
 #print(model_performance)
-model_performance[['mse','val_mse']].plot(title='Training vs Validation MSE')
+'''model_performance[['mse','val_mse']].plot(title='Training vs Validation MSE')
 plt.xlabel('Epoch')
 plt.ylabel('MSE')
-plt.show()
+plt.show()'''
 #y_pred = model.predict(x_test)
 #print(type(y_pred))
 #print(type(y_test))

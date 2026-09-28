@@ -40,17 +40,17 @@ The introduction should:
 
 - This is Josh's 2nd Test
 
--   Develop a storyline that captures attention and maintains interest.
+- Develop a storyline that captures attention and maintains interest.
 
--   Your audience is your peers
+- Your audience is your peers
 
--   Clearly state the problem or question you're addressing.
+- Clearly state the problem or question you're addressing.
 
 <!-- -->
 
--   Introduce why it is relevant needs.
+- Introduce why it is relevant needs.
 
--   Provide an overview of your approach.
+- Provide an overview of your approach.
 
 Example of writing including citing references:
 
@@ -62,7 +62,7 @@ non-linear relationship, kernel estimator or kernel smoothing is the
 main method to estimate the curve for non-parametric statistics. In
 kernel estimator, weight function is known as kernel function
 [@efr2008]. Cite this paper [@bro2014principal]. The GEE [@wang2014].
-The PCA [@daffertshofer2004pca]*. Topology can be used in machine 
+The PCA [@daffertshofer2004pca]*. Topology can be used in machine
 learning [@adams2021topology]
 
 For Symbolic Regression [@wang2019symbolic] *This is my work and I want
@@ -70,24 +70,72 @@ to add more work...*
 
 Cite new paper [@su2012linear]
 
-Classification of Knee OA was studied here [@guida2021knee]. This is another example of LCA [@weller2020latent]
+Classification of Knee OA was studied here [@guida2021knee]. This is
+another example of LCA [@weller2020latent]
 
---------------- 
-Introduction Start 
----------------
+|                    |
+|--------------------|
+| Introduction Start |
 
-The military has been using Electronic Warfare (EW) since World War I [@noauthor_under_nodate]. With recent technological advances, EW will continue to evolve; most recently, through the military use of drones, which depend on reliable radio frequency (RF) links and are vulnerable to jamming and interference [@vgi_admin_drones_2025]. Recently, machine learning is used to address these threats. For example, Jere et al. combined supervised learning with Bayesian network inference to detect and classify jamming in 5G New Radio networks in near real time [@10352089]. That work shows that Bayesian methods can utilize machine learning models in wireless security which will be more accurate and more interpretable [@10352089]. The selection of a signal dataset that supports both neural network modeling and Bayesian analysis to predict signal-to-noise ratio (SNR) and examine how signal quality varies across conditions [@10352089].
-Our project uses the DeepSig RadioML 2018.01A dataset, downloaded from Kaggle, containing simulated RF signals across different modulation types with varying levels of noise [@OShea2018]. The dataset includes 24 modulation types, 26 SNR levels ranging from −20 dB to +30 dB, and 1,024 in-phase and quadrature (I/Q) samples per signal, for approximately 2.5 million total observations [@OShea2018]. It therefore provides a useful schema for studying how signal quality changes under different interference conditions [@OShea2018].
-The objective of this project is to model SNR as the response variable using neural networks and Bayesian analysis. Bayesian methods treat model parameters as probability distributions rather than fixed values. This allows prior knowledge to be formally incorporated and results to be expressed as direct probability statements about quantities of interest [@Berger01122000]. Applied to neural networks, the Bayesian framework has a solution to overfitting and ways to quantify uncertainty in predictions [@Bishop1997]. In addition, Bayesian neural networks are better than standard networks when data are noisy, because Bayesian neural networks reports show how confident each prediction is [@DBLP:journals/corr/abs-1801-07710]. Guidance on using these models with deep learning tools is explained by Jospin et al. Because the dataset is large, scalability is an important consideration [@9756596]. Hernández-Lobato et al. studied that "probabilistic backpropagation allows Bayesian neural networks to be trained efficiently on large datasets while retaining accurate uncertainty estimates" [@pmlr-v37-hernandez-lobatoc15].
-Because our dataset DeepSig 2018 contains a large number of raw signal measurements, feature engineering techniques will be applied to summarize the I/Q components into meaningful predictors. It might be seen that some of the predictors are correlated with one another, so factor sensitivity analysis using Bayesian neural networks will identify which inputs strongly influence the predicted SNR [@5376749]. Model performance will be evaluated using statistics metrics such as mean squared error (MSE). Comparisons will be made to assess how well regularization methods commonly used in neural networks handle multicollinearity and improve prediction accuracy. In the Bayesian setting, prior distributions on network weights act as a natural form of regularization, comparable to weight decay in conventional networks [@Bishop1997]. Finally, Bayesian optimization will be considered for tuning model hyperparameters. Prior work shows that it can find strong configurations with fewer training runs than grid or random search [@snoek2015scalable].
-
-
+The military has been using Electronic Warfare (EW) since World War I
+[@noauthor_under_nodate]. With recent technological advances, EW will
+continue to evolve; most recently, through the military use of drones,
+which depend on reliable radio frequency (RF) links and are vulnerable
+to jamming and interference [@vgi_admin_drones_2025]. Recently, machine
+learning is used to address these threats. For example, Jere et al.
+combined supervised learning with Bayesian network inference to detect
+and classify jamming in 5G New Radio networks in near real time
+[@10352089]. That work shows that Bayesian methods can utilize machine
+learning models in wireless security which will be more accurate and
+more interpretable [@10352089]. The selection of a signal dataset that
+supports both neural network modeling and Bayesian analysis to predict
+signal-to-noise ratio (SNR) and examine how signal quality varies across
+conditions [@10352089]. Our project uses the DeepSig RadioML 2018.01A
+dataset, downloaded from Kaggle, containing simulated RF signals across
+different modulation types with varying levels of noise [@OShea2018].
+The dataset includes 24 modulation types, 26 SNR levels ranging from −20
+dB to +30 dB, and 1,024 in-phase and quadrature (I/Q) samples per
+signal, for approximately 2.5 million total observations [@OShea2018].
+It therefore provides a useful schema for studying how signal quality
+changes under different interference conditions [@OShea2018]. The
+objective of this project is to model SNR as the response variable using
+neural networks and Bayesian analysis. Bayesian methods treat model
+parameters as probability distributions rather than fixed values. This
+allows prior knowledge to be formally incorporated and results to be
+expressed as direct probability statements about quantities of interest
+[@Berger01122000]. Applied to neural networks, the Bayesian framework
+has a solution to overfitting and ways to quantify uncertainty in
+predictions [@Bishop1997]. In addition, Bayesian neural networks are
+better than standard networks when data are noisy, because Bayesian
+neural networks reports show how confident each prediction is
+[@DBLP:journals/corr/abs-1801-07710]. Guidance on using these models
+with deep learning tools is explained by Jospin et al. Because the
+dataset is large, scalability is an important consideration [@9756596].
+Hernández-Lobato et al. studied that "probabilistic backpropagation
+allows Bayesian neural networks to be trained efficiently on large
+datasets while retaining accurate uncertainty estimates"
+[@pmlr-v37-hernandez-lobatoc15]. Because our dataset DeepSig 2018
+contains a large number of raw signal measurements, feature engineering
+techniques will be applied to summarize the I/Q components into
+meaningful predictors. It might be seen that some of the predictors are
+correlated with one another, so factor sensitivity analysis using
+Bayesian neural networks will identify which inputs strongly influence
+the predicted SNR [@5376749]. Model performance will be evaluated using
+statistics metrics such as mean squared error (MSE). Comparisons will be
+made to assess how well regularization methods commonly used in neural
+networks handle multicollinearity and improve prediction accuracy. In
+the Bayesian setting, prior distributions on network weights act as a
+natural form of regularization, comparable to weight decay in
+conventional networks [@Bishop1997]. Finally, Bayesian optimization will
+be considered for tuning model hyperparameters. Prior work shows that it
+can find strong configurations with fewer training runs than grid or
+random search [@snoek2015scalable].
 
 ## Methods
 
--   Detail the models or algorithms used.
+- Detail the models or algorithms used.
 
--   Justify your choices based on the problem and data.
+- Justify your choices based on the problem and data.
 
 *The common non-parametric regression model is*
 $Y_i = m(X_i) + \varepsilon_i$*, where* $Y_i$ *can be defined as the sum
@@ -114,11 +162,11 @@ $$
 
 ### Data Exploration and Visualization
 
--   Describe your data sources and collection process.
+- Describe your data sources and collection process.
 
--   Present initial findings and insights through visualizations.
+- Present initial findings and insights through visualizations.
 
--   Highlight unexpected patterns or anomalies.
+- Highlight unexpected patterns or anomalies.
 
 A study was conducted to determine how...
 
@@ -163,13 +211,13 @@ ggplot1 = murders %>% ggplot(mapping = aes(x=population/10^6, y=total))
 
 ### Modeling and Results
 
--   Explain your data preprocessing and cleaning steps.
+- Explain your data preprocessing and cleaning steps.
 
--   Present your key findings in a clear and concise manner.
+- Present your key findings in a clear and concise manner.
 
--   Use visuals to support your claims.
+- Use visuals to support your claims.
 
--   **Tell a story about what the data reveals.**
+- **Tell a story about what the data reveals.**
 
 ```{r}
 
@@ -177,8 +225,8 @@ ggplot1 = murders %>% ggplot(mapping = aes(x=population/10^6, y=total))
 
 ### Conclusion
 
--   Summarize your key findings.
+- Summarize your key findings.
 
--   Discuss the implications of your results.
+- Discuss the implications of your results.
 
 ## References
