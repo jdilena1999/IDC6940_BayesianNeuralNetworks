@@ -28,5 +28,17 @@ history = model.fit(x_train,y_train,validation_split=0.2,epochs=50,verbose=0)
 
 performance_df = pd.DataFrame(history.history)
 
+y_pred = model.predict(x_test,verbose=0)
+
+actual_v_predicted = {
+    
+}
+
+actual_v_predicted.setdefault("Actual",y_test)
+actual_v_predicted.setdefault("Predicted",y_pred)
+
+a_v_p = pd.DataFrame(actual_v_predicted)
+
+
 #plt.show()
 
