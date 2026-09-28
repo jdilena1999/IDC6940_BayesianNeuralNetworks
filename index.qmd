@@ -129,44 +129,18 @@ $$
 
 A study was conducted to determine how...
 
-```{r, warning=FALSE, echo=T, message=FALSE}
-reticulate::use_python("/Users/jd/.local/share/virtualenvs/jd-y3HzYupt/bin/python", required = TRUE)
-# loading packages 
-library(tidyverse)
-library(knitr)
-library(ggthemes)
-library(ggrepel)
-library(dslabs)
-```
+
 
 ```{python}
 
 import pandas as pd
 from data_processing import X_transformed,y
 import numpy as np
-print(f"Y mean: {y.mean().values[0]}")
+print(f"Y mean: {y.mean()}")
 
 ```
 
-```{r, warning=FALSE, echo=TRUE}
-# Load Data
-kable(head(murders))
 
-ggplot1 = murders %>% ggplot(mapping = aes(x=population/10^6, y=total)) 
-
-  ggplot1 + geom_point(aes(col=region), size = 4) +
-  geom_text_repel(aes(label=abb)) +
-  scale_x_log10() +
-  scale_y_log10() +
-  geom_smooth(formula = "y~x", method=lm,se = F)+
-  xlab("Populations in millions (log10 scale)") + 
-  ylab("Total number of murders (log10 scale)") +
-  ggtitle("US Gun Murders in 2010") +
-  scale_color_discrete(name = "Region")+
-      theme_bw()
-  
-
-```
 
 ### Modeling and Results
 
@@ -178,9 +152,7 @@ ggplot1 = murders %>% ggplot(mapping = aes(x=population/10^6, y=total))
 
 - **Tell a story about what the data reveals.**
 
-```{r}
 
-```
 
 ### Conclusion
 

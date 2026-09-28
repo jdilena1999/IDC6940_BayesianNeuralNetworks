@@ -14,7 +14,7 @@ import tensorflow as tf
 data = pd.read_csv("radioml_features.csv")
 y_col = ['SNR']
 x_cols = [x for x in data.columns if x not in y_col]
-y = data[y_col]
+y = data[y_col[0]]
 X = data[x_cols]
 
 
@@ -23,7 +23,7 @@ scaler = StandardScaler()
 X_transformed = scaler.fit_transform(X)
 x_train,x_test,y_train,y_test = train_test_split(X_transformed,y,test_size=0.3,stratify=y)
 
-model = tf.keras.models.Sequential([
+'''model = tf.keras.models.Sequential([
     tf.keras.layers.Input(shape=(X_transformed.shape[1],)),
     tf.keras.layers.Dense(60,activation='relu'),
     tf.keras.layers.Dense(30,activation='relu'),
@@ -36,25 +36,26 @@ history = model.fit(x_train, y_train, epochs=50, validation_split=0.2)
 model_performance = pd.DataFrame(history.history)
 model_performance.index.name = 'epoch'
 #print(model_performance)
-'''model_performance[['mse','val_mse']].plot(title='Training vs Validation MSE')
+model_performance[['mse','val_mse']].plot(title='Training vs Validation MSE')
 plt.xlabel('Epoch')
 plt.ylabel('MSE')
-plt.show()'''
-#y_pred = model.predict(x_test)
+plt.show()
+y_pred = model.predict(x_test)
+
 #print(type(y_pred))
 #print(type(y_test))
 predicted_vs_actual = {
     
 }
-'''predicted_vs_actual.setdefault("Predicted",y_pred.ravel())
+predicted_vs_actual.setdefault("Predicted",y_pred.ravel())
 predicted_vs_actual.setdefault("Actual",y_test.to_numpy())
-pred_v_actual = pd.DataFrame(predicted_vs_actual)'''
+pred_v_actual = pd.DataFrame(predicted_vs_actual)
 
-#pred_v_actual[["Predicted","Actual"]].plot(title="Pred vs Actual")
-#plt.show()
+pred_v_actual[["Predicted","Actual"]].plot(title="Pred vs Actual")
+plt.show()
 
 
-'''y_values = sorted(list(set(y.values.ravel())))
+y_values = sorted(list(set(y.values.ravel())))
 for y in y_values:
     plt.scatter(x_cols[0],x_cols[1],data=data[data["SNR"].isin([y])],label=y)
 plt.legend()
