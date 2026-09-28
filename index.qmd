@@ -77,7 +77,7 @@ another example of LCA [@weller2020latent]
 |--------------------|
 | Introduction Start |
 
-The military has been using Electronic Warfare (EW) since World War I
+  The military has been using Electronic Warfare (EW) since World War I
 [@noauthor_under_nodate]. With recent technological advances, EW will
 continue to evolve; most recently, through the military use of drones,
 which depend on reliable radio frequency (RF) links and are vulnerable
@@ -90,15 +90,18 @@ learning models in wireless security which will be more accurate and
 more interpretable [@10352089]. The selection of a signal dataset that
 supports both neural network modeling and Bayesian analysis to predict
 signal-to-noise ratio (SNR) and examine how signal quality varies across
-conditions [@10352089]. Our project uses the DeepSig RadioML 2018.01A
+conditions [@10352089]. 
+
+  Our project uses the DeepSig RadioML 2018.01A
 dataset, downloaded from Kaggle, containing simulated RF signals across
 different modulation types with varying levels of noise [@OShea2018].
 The dataset includes 24 modulation types, 26 SNR levels ranging from −20
 dB to +30 dB, and 1,024 in-phase and quadrature (I/Q) samples per
 signal, for approximately 2.5 million total observations [@OShea2018].
 It therefore provides a useful schema for studying how signal quality
-changes under different interference conditions [@OShea2018]. The
-objective of this project is to model SNR as the response variable using
+changes under different interference conditions [@OShea2018]. 
+
+  The objective of this project is to model SNR as the response variable using
 neural networks and Bayesian analysis. Bayesian methods treat model
 parameters as probability distributions rather than fixed values. This
 allows prior knowledge to be formally incorporated and results to be
@@ -114,11 +117,10 @@ dataset is large, scalability is an important consideration [@9756596].
 Hernández-Lobato et al. studied that "probabilistic backpropagation
 allows Bayesian neural networks to be trained efficiently on large
 datasets while retaining accurate uncertainty estimates"
-[@pmlr-v37-hernandez-lobatoc15]. Because our dataset DeepSig 2018
-contains a large number of raw signal measurements, feature engineering
-techniques will be applied to summarize the I/Q components into
-meaningful predictors. It might be seen that some of the predictors are
-correlated with one another, so factor sensitivity analysis using
+[@pmlr-v37-hernandez-lobatoc15]. 
+
+  Because our dataset DeepSig 2018 contains a large number of raw signal 
+measurements, feature engineering techniques will be applied to summarize the I/Q components into meaningful predictors. It might be seen that some of the predictors are correlated with one another, so factor sensitivity analysis using
 Bayesian neural networks will identify which inputs strongly influence
 the predicted SNR [@5376749]. Model performance will be evaluated using
 statistics metrics such as mean squared error (MSE). Comparisons will be
