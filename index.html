@@ -6,10 +6,10 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Student Name (Advisor: Dr. Cohen)">
+<meta name="author" content="Maggie Morrison and Joshua DiLena (Advisor: Dr. Cohen)">
 <meta name="dcterms.date" content="2026-09-28">
 
-<title>Writing a great story for data science projects</title>
+<title>This Means (Bayesian) War(fare)!</title>
 <style>
 
 span.smallcaps{font-variant: small-caps;}
@@ -2370,8 +2370,8 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Writing a great story for data science projects</h1>
-<p class="subtitle lead">This is a Report Template Quarto</p>
+<h1 class="title">This Means (Bayesian) War(fare)!</h1>
+<p class="subtitle lead">A Bayesian Neural Network Approach to Electronic Warfare</p>
 </div>
 
 
@@ -2381,7 +2381,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Author</div>
     <div class="quarto-title-meta-contents">
-             <p>Student Name (Advisor: Dr. Cohen) </p>
+             <p>Maggie Morrison and Joshua DiLena (Advisor: Dr. Cohen) </p>
           </div>
   </div>
     
@@ -2400,22 +2400,7 @@ window.Quarto = {
 </header>
 
 
-<p>Slides: <a href="slides.html" target="_blank">slides.html</a> ( Go to <code>slides.qmd</code> to edit)</p>
-<div class="callout callout-style-default callout-important callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Important
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p><strong>Remember:</strong> Your goal is to make your audience understand and care about your findings. By crafting a compelling story, you can effectively communicate the value of your data science project.</p>
-<p>Carefully read this template since it has instructions and tips to writing!</p>
-<p>Nice report! I am adding this to show updates from RStudio.</p>
-</div>
-</div>
+<p>Slides: <a href="slides.html" target="_blank">slides.html</a></p>
 <section id="introduction" class="level2">
 <h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
 <p>The military has been using Electronic Warfare (EW) since World War I <span class="citation" data-cites="noauthor_under_nodate">(<a href="#ref-noauthor_under_nodate" role="doc-biblioref"><em>Electronic Warfare</em>, n.d.</a>)</span>. With recent technological advances, EW will continue to evolve; most recently, through the military use of drones, which depend on reliable radio frequency (RF) links and are vulnerable to jamming and interference <span class="citation" data-cites="vgi_admin_drones_2025">(<a href="#ref-vgi_admin_drones_2025" role="doc-biblioref"><span class="nocase">vgi_admin</span> 2025</a>)</span>. Recently, machine learning is used to address these threats. For example, Jere et al. combined supervised learning with Bayesian network inference to detect and classify jamming in 5G New Radio networks in near real time <span class="citation" data-cites="10352089">(<a href="#ref-10352089" role="doc-biblioref">Jere et al. 2024</a>)</span>. That work shows that Bayesian methods can utilize machine learning models in wireless security which will be more accurate and more interpretable <span class="citation" data-cites="10352089">(<a href="#ref-10352089" role="doc-biblioref">Jere et al. 2024</a>)</span>. The selection of a signal dataset that supports both neural network modeling and Bayesian analysis to predict signal-to-noise ratio (SNR) and examine how signal quality varies across conditions <span class="citation" data-cites="10352089">(<a href="#ref-10352089" role="doc-biblioref">Jere et al. 2024</a>)</span>.</p>
@@ -2448,7 +2433,7 @@ y_i = \beta_0 + \beta_1 X_1 +\varepsilon_i
 <li><p>Highlight unexpected patterns or anomalies.</p></li>
 </ul>
 <p>A study was conducted to determine how…</p>
-<div id="0dc5fd65" class="cell" data-execution_count="1">
+<div id="cfe36d3d" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
