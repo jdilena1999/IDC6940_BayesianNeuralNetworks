@@ -3,6 +3,7 @@ title: "This Means (Bayesian) War(fare)!"
 subtitle: "A Bayesian Neural Network Approach to Electronic Warfare"
 author: "Maggie Morrison and Joshua DiLena (Advisor: Dr. Cohen)"
 date: today
+date-format: "MMMM D, YYYY"
 format:
   revealjs
 course: Capstone Projects in Data Science
@@ -17,19 +18,8 @@ editor:
     wrap: 72
 ---
 
-::: callout-important
-**Remember:** Your goal is to make your audience understand and care
-about your findings. By crafting a compelling story, you can effectively
-communicate the value of your data science project.
 
-Carefully read this template since it has instructions and tips to
-writing!
-
-More information about `revealjs`:
-<https://quarto.org/docs/reference/formats/presentations/revealjs.html>
-:::
-
-## Introduction  {.smaller}
+## EW Introduction  {.smaller}
 
 The military has been using Electronic Warfare (EW) since World War I
 [@noauthor_under_nodate]. With recent technological advances, EW will
@@ -46,6 +36,8 @@ supports both neural network modeling and Bayesian analysis to predict
 signal-to-noise ratio (SNR) and examine how signal quality varies across
 conditions [@10352089]. 
 
+## Data Introduction
+
   Our project uses the DeepSig RadioML 2018.01A
 dataset, downloaded from Kaggle, containing simulated RF signals across
 different modulation types with varying levels of noise [@OShea2018].
@@ -54,6 +46,8 @@ dB to +30 dB, and 1,024 in-phase and quadrature (I/Q) samples per
 signal, for approximately 2.5 million total observations [@OShea2018].
 It therefore provides a useful schema for studying how signal quality
 changes under different interference conditions [@OShea2018]. 
+
+## Project Introduction
 
   The objective of this project is to model SNR as the response variable using
 neural networks and Bayesian analysis. Bayesian methods treat model
@@ -73,6 +67,7 @@ allows Bayesian neural networks to be trained efficiently on large
 datasets while retaining accurate uncertainty estimates"
 [@pmlr-v37-hernandez-lobatoc15]. 
 
+## Methods Introduction
   Because our dataset DeepSig 2018 contains a large number of raw signal 
 measurements, feature engineering techniques will be applied to summarize the I/Q components into meaningful predictors. It might be seen that some of the predictors are correlated with one another, so factor sensitivity analysis using
 Bayesian neural networks will identify which inputs strongly influence
