@@ -5,3 +5,5 @@ jupyter
 tensorflow
 pandas
 datetime
+tensorflow_probability
+tf_keras

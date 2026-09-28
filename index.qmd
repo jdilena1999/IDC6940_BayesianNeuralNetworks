@@ -124,9 +124,14 @@ A study was conducted to determine how...
 ```{python}
 
 import pandas as pd
-from data_processing import X_transformed,y
+from BNN import performance_df
+import matplotlib.pyplot as plt
 import numpy as np
-print(f"Y mean: {y.mean()}")
+performance_df[['mse','val_mse']].plot(title="MSE: Train vs Validation by Epoch")
+performance_df.index.name = 'epoch'
+plt.xlabel("Epoch")
+plt.ylabel("MSE")
+plt.show()
 
 ```
 
