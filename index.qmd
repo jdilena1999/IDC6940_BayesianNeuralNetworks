@@ -127,8 +127,6 @@ Outlier analysis identified extreme values in power-based features, with I_power
 
 
 
-- Highlight unexpected patterns or anomalies.
-
 ```{python}
 #| label: fig-cor-heatmap
 #| fig-cap: "Correlation Heatmap of all Variables"
