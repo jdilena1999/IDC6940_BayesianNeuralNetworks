@@ -24,6 +24,9 @@ Slides: [slides.html](slides.html){target="_blank"}
 
 ## Introduction
 
+![EW Visual](images/visual.png){#fig-ew-visual fig-alt="Density plot of power-based features" width=80%}
+
+
   The military has been using Electronic Warfare (EW) since World War I
 [@noauthor_under_nodate]. With recent technological advances, EW will
 continue to evolve; most recently, through the military use of drones,
