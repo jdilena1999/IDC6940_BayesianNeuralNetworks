@@ -111,15 +111,15 @@ $$
 
 ### Data Exploration and Visualization
 
-The RadioML 2018.01A dataset, created by DeepSig Inc. and accessed via Kaggle (pinxau1000, 2021) and used for this analysis. The dataset contains 5,000 observations across 13 variables. The response variable, SNR ranges from -20dB to +30dB across 26 discrete levels. Each observation represents a radio signal originally captured as 1,024 I/Q samples, which were summarized into 11 statistical features for analysis. I/Q data describes the behavior of the RF signal. The I_power is defined as In-phase (aligned with the original wave) and Q_power stands for Quadrature (a shift of 90 degrees), so this signal would be out-of-phase from the original wave by 90 degrees.  I/Q together explain the complete structure of the RF signal, Amplitude, Phase and Frequency. (In-phase and quadrature components, 2026) For modulation, a dummy variable was created to handle the modulation type, which has 24 distinct categories. No missing values were identified, and the data was balanced across modulation types with approximately 200 observations per class, shown in 
-
-Table 1. 
+The RadioML 2018.01A dataset, created by DeepSig Inc. and accessed via Kaggle (pinxau1000, 2021) and used for this analysis. The dataset contains 5,000 observations across 13 variables. The response variable, SNR ranges from -20dB to +30dB across 26 discrete levels. Each observation represents a radio signal originally captured as 1,024 I/Q samples, which were summarized into 11 statistical features for analysis. I/Q data describes the behavior of the RF signal. The I_power is defined as In-phase (aligned with the original wave) and Q_power stands for Quadrature (a shift of 90 degrees), so this signal would be out-of-phase from the original wave by 90 degrees.  I/Q together explain the complete structure of the RF signal, Amplitude, Phase and Frequency. (In-phase and quadrature components, 2026) For modulation, a dummy variable was created to handle the modulation type, which has 24 distinct categories. No missing values were identified, and the data was balanced across modulation types with approximately 200 observations per class, shown in Table 1. 
 
 The dataset was prepared by several preprocessing steps for analysis. First, the modulation variable was converted from integer to factor as a categorical variable with 24 distinct modulation types. Multicollinearity testing showed IQ_power was perfectly correlated with Q_power. This correlation was confirmed using the alias() function in R and is consistent with the physical definition of total signal power in RF systems where total power equals the sum of the I and Q channel powers (O'Shea & Hoydis, 2017). Therefore, IQ_power was removed from the dataset to remove the ambiguity of perfect collinearity.
 
-
+#### Variable Descriptions
 ![Variable Descriptions](images/data_table.png){#fig-data_table fig-alt="Description of Dataset" width=80%}
 
+#### Variable General Statistics
+![Exploratory Analysis](images/exploratory_analysis.png){#fig-exploratory_analysis width=80%}
 
 Outlier analysis identified extreme values in power-based features, with I_power reaching 575.93 and Q_power reaching 389.88. A density plot shown in Figure 1 was created to visually examine these extreme values. After careful consideration, the outliers are retained in the dataset since they represent legitimate high SNR signal conditions errors. Removing them would remove signal behavior needed for analysis. All predictor variables were standardized prior to model fitting. Standardization transforms each variable to have a mean of zero and standard deviation of one, which is needed for regularization methods which penalize coefficients based on magnitude. Standardization ensures that all predictors are penalized equally regardless of their original scale.
 
