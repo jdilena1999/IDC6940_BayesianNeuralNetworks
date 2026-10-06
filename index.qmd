@@ -111,28 +111,21 @@ $$
 
 ### Data Exploration and Visualization
 
-- Describe your data sources and collection process.
+The RadioML 2018.01A dataset, created by DeepSig Inc. and accessed via Kaggle (pinxau1000, 2021) and used for this analysis. The dataset contains 5,000 observations across 13 variables. The response variable, SNR ranges from -20dB to +30dB across 26 discrete levels. Each observation represents a radio signal originally captured as 1,024 I/Q samples, which were summarized into 11 statistical features for analysis. I/Q data describes the behavior of the RF signal. The I_power is defined as In-phase (aligned with the original wave) and Q_power stands for Quadrature (a shift of 90 degrees), so this signal would be out-of-phase from the original wave by 90 degrees.  I/Q together explain the complete structure of the RF signal, Amplitude, Phase and Frequency. (In-phase and quadrature components, 2026) For modulation, a dummy variable was created to handle the modulation type, which has 24 distinct categories. No missing values were identified, and the data was balanced across modulation types with approximately 200 observations per class, shown in 
+
+Table 1. 
+
+The dataset was prepared by several preprocessing steps for analysis. First, the modulation variable was converted from integer to factor as a categorical variable with 24 distinct modulation types. Multicollinearity testing showed IQ_power was perfectly correlated with Q_power. This correlation was confirmed using the alias() function in R and is consistent with the physical definition of total signal power in RF systems where total power equals the sum of the I and Q channel powers (O'Shea & Hoydis, 2017). Therefore, IQ_power was removed from the dataset to remove the ambiguity of perfect collinearity.
 
 
-- Present initial findings and insights through visualizations.
+![Variable Descriptions](images/data_table.png){#fig-data_table fig-alt="Description of Dataset" width=80%}
 
-| Variable        | Description   | Data Type   |
-|:---------------:|:-------------:|:-----------:|
-| I Mean     | 0.82          | Float         |
-| Q Mean   | 0.91          | Float         |
-| I Var   | 0.91          | Float         |
-| Q Var   | 0.91          | Float         |
-| I SD   | 0.91          | Float         |
-| Q SD   | 0.91          | Float         |
-| I Power   | 0.91          | Float         |
-| Q Power   | 0.91          | Float         |
-| IQ Power   | 0.91          | Float         |
-| IQ Mean   | 0.91          | Float         |
-| IQ SD   | 0.91          | Float         |
-| SNR   | 0.91          | Integer         |
-| Modulation   | 0.91          | Integer         |
 
-: Variable Descriptions {#tbl-datadesc}
+Outlier analysis identified extreme values in power-based features, with I_power reaching 575.93 and Q_power reaching 389.88. A density plot shown in Figure 1 was created to visually examine these extreme values. After careful consideration, the outliers are retained in the dataset since they represent legitimate high SNR signal conditions errors. Removing them would remove signal behavior needed for analysis. All predictor variables were standardized prior to model fitting. Standardization transforms each variable to have a mean of zero and standard deviation of one, which is needed for regularization methods which penalize coefficients based on magnitude. Standardization ensures that all predictors are penalized equally regardless of their original scale.
+
+![Density Power Plot](images/density_power.png){#fig-density-power fig-alt="Density plot of power-based features" width=80%}
+
+
 
 - Highlight unexpected patterns or anomalies.
 
@@ -150,7 +143,7 @@ sns.heatmap(data.corr(),cmap="coolwarm",center=0)
 ```
 
 
-A Histogram is shown to display the distribution of our Signal-to-Noise (SNR) Ratios in our dataset (@fig-snr-dist)
+Histograms are shown to display the distribution of our Signal-to-Noise (SNR) Ratios and Modulation values in our dataset (@fig-snr-dist and @fig-modulation-dist, respectively)
 
 
 ```{python}
@@ -162,12 +155,39 @@ import matplotlib.pyplot as plt
 data = pd.read_csv("radioml_features.csv")
 
 plt.hist(data['SNR'].to_numpy(),bins=sorted(list(set(data["SNR"].to_numpy()))),edgecolor='black')
+counts = []
+for val in list(set(data["SNR"].to_numpy())):
+  counts.append(list(data["SNR"].to_numpy()).count(val))
 plt.ylabel("Frequency")
 plt.xlabel("SNR Ratio")
+plt.axhline(np.array(counts).mean(),-30,30,linestyle='--',color='red')
 #plt.title("Response Variable (Signal-to-Noise Ratio) Distribution")
 plt.show()
 
 ```
+
+
+
+```{python}
+#| label: fig-modulation-dist
+#| fig-cap: "Distribution of Modulation Type in the RadioML dataset"
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+data = pd.read_csv("radioml_features.csv")
+
+plt.hist(data['Modulation'].to_numpy(),bins=sorted(list(set(data["Modulation"].to_numpy()))),edgecolor='black')
+counts = []
+for val in list(set(data["Modulation"].to_numpy())):
+  counts.append(list(data["Modulation"].to_numpy()).count(val))
+plt.ylabel("Frequency")
+plt.xlabel("Modulation")
+plt.axhline(np.array(counts).mean(),xmin=-30,xmax=30,linestyle='--',color='red')
+#plt.title("Response Variable (Signal-to-Noise Ratio) Distribution")
+plt.show()
+
+```
+
 
 ```{python}
 #| label: fig-means
