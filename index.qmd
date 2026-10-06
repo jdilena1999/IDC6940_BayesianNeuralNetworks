@@ -189,6 +189,11 @@ plt.show()
 ```
 
 
+
+
+Scatter plots are shown to display the distribution of our mean and power features within our dataset (@fig-means and @fig-powers, respectively)
+
+
 ```{python}
 #| label: fig-means
 #| fig-cap: "Comparing Means"
