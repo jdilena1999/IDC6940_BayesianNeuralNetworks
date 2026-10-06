@@ -113,37 +113,96 @@ $$
 
 - Describe your data sources and collection process.
 
+
 - Present initial findings and insights through visualizations.
+
+| Variable        | Description   | Data Type   |
+|:---------------:|:-------------:|:-----------:|
+| I Mean     | 0.82          | Float         |
+| Q Mean   | 0.91          | Float         |
+| I Var   | 0.91          | Float         |
+| Q Var   | 0.91          | Float         |
+| I SD   | 0.91          | Float         |
+| Q SD   | 0.91          | Float         |
+| I Power   | 0.91          | Float         |
+| Q Power   | 0.91          | Float         |
+| IQ Power   | 0.91          | Float         |
+| IQ Mean   | 0.91          | Float         |
+| IQ SD   | 0.91          | Float         |
+| SNR   | 0.91          | Integer         |
+| Modulation   | 0.91          | Integer         |
+
+: Variable Descriptions {#tbl-datadesc}
 
 - Highlight unexpected patterns or anomalies.
 
-A study was conducted to determine how...
-
 ```{python}
-
-from data_processing import data
-import matplotlib.pyplot as plt
-
-plt.hist(data['SNR'].to_numpy(),bins=sorted(list(set(data["SNR"].to_numpy()))))
-plt.title("Response Variable (Signal-to-Noise Ratio) Distribution")
-plt.show()
-
-```
-
-```{python}
-
+#| label: fig-cor-heatmap
+#| fig-cap: "Correlation Heatmap of all Variables"
 import pandas as pd
-from BNN import performance_df
-import matplotlib.pyplot as plt
 import numpy as np
-performance_df[['mse','val_mse']].plot(title="MSE: Train vs Validation by Epoch")
-performance_df.index.name = 'epoch'
-plt.xlabel("Epoch")
-plt.ylabel("MSE")
+import matplotlib.pyplot as plt
+import seaborn as sns
+data = pd.read_csv("radioml_features.csv")
+
+sns.heatmap(data.corr(),cmap="coolwarm",center=0)
+
+```
+
+
+A Histogram is shown to display the distribution of our Signal-to-Noise (SNR) Ratios in our dataset (@fig-snr-dist)
+
+
+```{python}
+#| label: fig-snr-dist
+#| fig-cap: "Distribution of Signal-to-Noise Ratio in the RadioML dataset"
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+data = pd.read_csv("radioml_features.csv")
+
+plt.hist(data['SNR'].to_numpy(),bins=sorted(list(set(data["SNR"].to_numpy()))),edgecolor='black')
+plt.ylabel("Frequency")
+plt.xlabel("SNR Ratio")
+#plt.title("Response Variable (Signal-to-Noise Ratio) Distribution")
 plt.show()
 
 ```
 
+```{python}
+#| label: fig-means
+#| fig-cap: "Comparing Means"
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+data = pd.read_csv("radioml_features.csv")
+for col,c,name in zip(["I_mean","Q_mean","IQ_mean"],['red','blue','green'],["I Mean","Q Mean","IQ Mean"]):
+  plt.scatter(data[col].to_numpy(),data['SNR'].to_numpy(),c=c,edgecolors='black',label=name,alpha=0.4, s=15)
+#plt.title("Response Variable (Signal-to-Noise Ratio) Distribution")
+plt.legend()
+plt.ylabel("Signal-to-Noise Ratio")
+plt.show()
+
+```
+
+```{python}
+#| label: fig-powers
+#| fig-cap: "Comparing Powers"
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+data = pd.read_csv("radioml_features.csv")
+for col,c,name in zip(["I_power","Q_power","IQ_power"],['red','blue','green'],["I Power","Q Power","IQ Power"]):
+  plt.scatter(data[col].to_numpy(),data['SNR'].to_numpy(),c=c,edgecolors='black',label=name,alpha=0.4, s=15)
+plt.legend()
+plt.ylabel("Signal-to-Noise Ratio")
+plt.show()
+#plt.title("Response Variable (Signal-to-Noise Ratio) Distribution")
+#plt.legend()
+#plt.ylabel("Signal-to-Noise Ratio")
+#plt.show()
+
+```
 
 
 ### Modeling and Results
