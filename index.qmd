@@ -155,7 +155,7 @@ import matplotlib.pyplot as plt
 data = pd.read_csv("radioml_features.csv")
 
 bins1 = np.arange(min(data['SNR'].to_numpy())-1,max(data["SNR"].to_numpy())+2)
-print(bins1)
+
 
 plt.hist(data['SNR'].to_numpy(),bins=bins1,edgecolor='black')
 counts = []
@@ -180,7 +180,7 @@ import matplotlib.pyplot as plt
 data = pd.read_csv("radioml_features.csv")
 
 bins1 = np.arange(min(data['Modulation'].to_numpy())-1,max(data["Modulation"].to_numpy())+2)
-print(bins1)
+
 
 plt.hist(data['Modulation'].to_numpy(),bins=bins1,edgecolor='black')
 counts = []
