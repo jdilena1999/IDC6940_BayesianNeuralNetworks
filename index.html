@@ -2513,6 +2513,7 @@ Figure 4: Distribution of Signal-to-Noise Ratio in the RadioML dataset
 </div>
 </div>
 </div>
+<p>The SNR distribution has 26 discrete levels from -20dB to +30dB, visually appears to look like a uniform distribution</p>
 <div id="cell-fig-modulation-dist" class="cell" data-execution_count="3">
 <details class="code-fold">
 <summary>Code</summary>
@@ -2532,9 +2533,7 @@ Figure 4: Distribution of Signal-to-Noise Ratio in the RadioML dataset
 <span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">&quot;Modulation&quot;</span>)</span>
 <span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>plt.axhline(np.array(counts).mean(),xmin<span class="op">=-</span><span class="dv">30</span>,xmax<span class="op">=</span><span class="dv">30</span>,linestyle<span class="op">=</span><span class="st">&#39;--&#39;</span>,color<span class="op">=</span><span class="st">&#39;red&#39;</span>)</span>
 <span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="co">#plt.title(&quot;Response Variable (Signal-to-Noise Ratio) Distribution&quot;)</span></span>
-<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
-<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">len</span>(<span class="bu">set</span>(data[<span class="st">&quot;Modulation&quot;</span>].to_numpy())))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-display">
 <div id="fig-modulation-dist" class="quarto-float quarto-figure quarto-figure-center anchored">
@@ -2548,25 +2547,22 @@ Figure 5: Distribution of Modulation Type in the RadioML dataset
 </figure>
 </div>
 </div>
-<div class="cell-output cell-output-stdout">
-<pre><code>24</code></pre>
-</div>
 </div>
 <p>The modulation distribution has 24 modulation types, balanced classes approximately 200 per type, with the lowest count at 189 observations and the highest count at 232, a difference of only 43 observations out of 5000. This small difference confirms the dataset does not have a significant class imbalance.</p>
 <p>Scatter plots are shown to display the distribution of our mean and power features within our dataset (<a href="#fig-means" class="quarto-xref">Figure 6</a> and <a href="#fig-powers" class="quarto-xref">Figure 7</a>, respectively)</p>
 <div id="cell-fig-means" class="cell" data-execution_count="4">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> pd.read_csv(<span class="st">&quot;radioml_features.csv&quot;</span>)</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> col,c,name <span class="kw">in</span> <span class="bu">zip</span>([<span class="st">&quot;I_mean&quot;</span>,<span class="st">&quot;Q_mean&quot;</span>,<span class="st">&quot;IQ_mean&quot;</span>],[<span class="st">&#39;red&#39;</span>,<span class="st">&#39;blue&#39;</span>,<span class="st">&#39;green&#39;</span>],[<span class="st">&quot;I Mean&quot;</span>,<span class="st">&quot;Q Mean&quot;</span>,<span class="st">&quot;IQ Mean&quot;</span>]):</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  plt.scatter(data[col].to_numpy(),data[<span class="st">&#39;SNR&#39;</span>].to_numpy(),c<span class="op">=</span>c,edgecolors<span class="op">=</span><span class="st">&#39;black&#39;</span>,label<span class="op">=</span>name,alpha<span class="op">=</span><span class="fl">0.4</span>, s<span class="op">=</span><span class="dv">15</span>)</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="co">#plt.title(&quot;Response Variable (Signal-to-Noise Ratio) Distribution&quot;)</span></span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">&quot;Signal-to-Noise Ratio&quot;</span>)</span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> pd.read_csv(<span class="st">&quot;radioml_features.csv&quot;</span>)</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> col,c,name <span class="kw">in</span> <span class="bu">zip</span>([<span class="st">&quot;I_mean&quot;</span>,<span class="st">&quot;Q_mean&quot;</span>,<span class="st">&quot;IQ_mean&quot;</span>],[<span class="st">&#39;red&#39;</span>,<span class="st">&#39;blue&#39;</span>,<span class="st">&#39;green&#39;</span>],[<span class="st">&quot;I Mean&quot;</span>,<span class="st">&quot;Q Mean&quot;</span>,<span class="st">&quot;IQ Mean&quot;</span>]):</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  plt.scatter(data[col].to_numpy(),data[<span class="st">&#39;SNR&#39;</span>].to_numpy(),c<span class="op">=</span>c,edgecolors<span class="op">=</span><span class="st">&#39;black&#39;</span>,label<span class="op">=</span>name,alpha<span class="op">=</span><span class="fl">0.4</span>, s<span class="op">=</span><span class="dv">15</span>)</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="co">#plt.title(&quot;Response Variable (Signal-to-Noise Ratio) Distribution&quot;)</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">&quot;Signal-to-Noise Ratio&quot;</span>)</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-display">
 <div id="fig-means" class="quarto-float quarto-figure quarto-figure-center anchored">
@@ -2584,19 +2580,19 @@ Figure 6: Comparing Means
 <div id="cell-fig-powers" class="cell" data-execution_count="5">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> pd.read_csv(<span class="st">&quot;radioml_features.csv&quot;</span>)</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> col,c,name <span class="kw">in</span> <span class="bu">zip</span>([<span class="st">&quot;I_power&quot;</span>,<span class="st">&quot;Q_power&quot;</span>,<span class="st">&quot;IQ_power&quot;</span>],[<span class="st">&#39;red&#39;</span>,<span class="st">&#39;blue&#39;</span>,<span class="st">&#39;green&#39;</span>],[<span class="st">&quot;I Power&quot;</span>,<span class="st">&quot;Q Power&quot;</span>,<span class="st">&quot;IQ Power&quot;</span>]):</span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  plt.scatter(data[col].to_numpy(),data[<span class="st">&#39;SNR&#39;</span>].to_numpy(),c<span class="op">=</span>c,edgecolors<span class="op">=</span><span class="st">&#39;black&#39;</span>,label<span class="op">=</span>name,alpha<span class="op">=</span><span class="fl">0.4</span>, s<span class="op">=</span><span class="dv">15</span>)</span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">&quot;Signal-to-Noise Ratio&quot;</span>)</span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="co">#plt.title(&quot;Response Variable (Signal-to-Noise Ratio) Distribution&quot;)</span></span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="co">#plt.legend()</span></span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a><span class="co">#plt.ylabel(&quot;Signal-to-Noise Ratio&quot;)</span></span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a><span class="co">#plt.show()</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> pd.read_csv(<span class="st">&quot;radioml_features.csv&quot;</span>)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> col,c,name <span class="kw">in</span> <span class="bu">zip</span>([<span class="st">&quot;I_power&quot;</span>,<span class="st">&quot;Q_power&quot;</span>,<span class="st">&quot;IQ_power&quot;</span>],[<span class="st">&#39;red&#39;</span>,<span class="st">&#39;blue&#39;</span>,<span class="st">&#39;green&#39;</span>],[<span class="st">&quot;I Power&quot;</span>,<span class="st">&quot;Q Power&quot;</span>,<span class="st">&quot;IQ Power&quot;</span>]):</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  plt.scatter(data[col].to_numpy(),data[<span class="st">&#39;SNR&#39;</span>].to_numpy(),c<span class="op">=</span>c,edgecolors<span class="op">=</span><span class="st">&#39;black&#39;</span>,label<span class="op">=</span>name,alpha<span class="op">=</span><span class="fl">0.4</span>, s<span class="op">=</span><span class="dv">15</span>)</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">&quot;Signal-to-Noise Ratio&quot;</span>)</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="co">#plt.title(&quot;Response Variable (Signal-to-Noise Ratio) Distribution&quot;)</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="co">#plt.legend()</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="co">#plt.ylabel(&quot;Signal-to-Noise Ratio&quot;)</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="co">#plt.show()</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-display">
 <div id="fig-powers" class="quarto-float quarto-figure quarto-figure-center anchored">

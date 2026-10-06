@@ -169,6 +169,7 @@ plt.show()
 
 ```
 
+The SNR distribution has 26 discrete levels from -20dB to +30dB, visually appears to look like a uniform distribution
 
 
 ```{python}
@@ -192,7 +193,7 @@ plt.axhline(np.array(counts).mean(),xmin=-30,xmax=30,linestyle='--',color='red')
 #plt.title("Response Variable (Signal-to-Noise Ratio) Distribution")
 plt.show()
 
-print(len(set(data["Modulation"].to_numpy())))
+
 ```
 
 The modulation distribution has 24 modulation types, balanced classes approximately 200 per type, with the lowest count at 189 observations and the highest count at 232, a difference of only 43 observations out of 5000. This small difference confirms the dataset does not have a significant class imbalance.
