@@ -119,7 +119,16 @@ $$
 
 A study was conducted to determine how...
 
+```{python}
 
+from data_processing import data
+import matplotlib.pyplot as plt
+
+plt.hist(data['SNR'].to_numpy(),bins=sorted(list(set(data["SNR"].to_numpy()))))
+plt.title("Response Variable (Signal-to-Noise Ratio) Distribution")
+plt.show()
+
+```
 
 ```{python}
 
