@@ -154,7 +154,10 @@ import numpy as np
 import matplotlib.pyplot as plt
 data = pd.read_csv("radioml_features.csv")
 
-plt.hist(data['SNR'].to_numpy(),bins=sorted(list(set(data["SNR"].to_numpy()))),edgecolor='black')
+bins1 = np.arange(min(data['SNR'].to_numpy())-1,max(data["SNR"].to_numpy())+2)
+print(bins1)
+
+plt.hist(data['SNR'].to_numpy(),bins=bins1,edgecolor='black')
 counts = []
 for val in list(set(data["SNR"].to_numpy())):
   counts.append(list(data["SNR"].to_numpy()).count(val))
@@ -176,7 +179,10 @@ import numpy as np
 import matplotlib.pyplot as plt
 data = pd.read_csv("radioml_features.csv")
 
-plt.hist(data['Modulation'].to_numpy(),bins=sorted(list(set(data["Modulation"].to_numpy()))),edgecolor='black')
+bins1 = np.arange(min(data['Modulation'].to_numpy())-1,max(data["Modulation"].to_numpy())+2)
+print(bins1)
+
+plt.hist(data['Modulation'].to_numpy(),bins=bins1,edgecolor='black')
 counts = []
 for val in list(set(data["Modulation"].to_numpy())):
   counts.append(list(data["Modulation"].to_numpy()).count(val))
@@ -186,9 +192,10 @@ plt.axhline(np.array(counts).mean(),xmin=-30,xmax=30,linestyle='--',color='red')
 #plt.title("Response Variable (Signal-to-Noise Ratio) Distribution")
 plt.show()
 
+print(len(set(data["Modulation"].to_numpy())))
 ```
 
-
+The modulation distribution has 24 modulation types, balanced classes approximately 200 per type, with the lowest count at 189 observations and the highest count at 232, a difference of only 43 observations out of 5000. This small difference confirms the dataset does not have a significant class imbalance.
 
 
 Scatter plots are shown to display the distribution of our mean and power features within our dataset (@fig-means and @fig-powers, respectively)
