@@ -120,10 +120,41 @@ The RadioML 2018.01A dataset, created by DeepSig Inc. and accessed via Kaggle (p
 The dataset was prepared by several preprocessing steps for analysis. First, the modulation variable was converted from integer to factor as a categorical variable with 24 distinct modulation types. Multicollinearity testing showed IQ_power was perfectly correlated with Q_power. This correlation was confirmed using the alias() function in R and is consistent with the physical definition of total signal power in RF systems where total power equals the sum of the I and Q channel powers (O'Shea & Hoydis, 2017). Therefore, IQ_power was removed from the dataset to remove the ambiguity of perfect collinearity.
 
 #### Variable Descriptions
-![Variable Descriptions](images/data_table.png){#fig-data_table fig-alt="Description of Dataset" width=80%}
+| Variable Name | Type | Feature Type | Description |
+|---|---|---|---|
+| SNR | Numeric | Response | Signal-to-noise ratio (target variable) |
+| I_mean | Numeric | \*\*Time-domain | Mean of in-phase signal |
+| Q_mean | Numeric | \*\*Time-domain | Mean of quadrature signal |
+| I_var | Numeric | \*\*Time-domain | Variance of I component |
+| Q_var | Numeric | \*\*Time-domain | Variance of Q component |
+| I_power | Numeric | \*\*Time-domain | Average power of I signal |
+| Q_power | Numeric | \*\*Time-domain | Average power of Q signal |
+| *IQ_power | Numeric | Combined | Total signal power from I and Q |
+| IQ_std | Numeric | Combined | Standard deviation of signal magnitude |
+| Modulation | Categorical | Categorical | Type of modulation (e.g., QPSK, BPSK) |
+
+: Feature definitions and categories {#tbl-feature-definitions}
+
+\* `IQ_power` was subsequently removed during preprocessing due to perfect collinearity with `I_power` and `Q_power`.
+
+\** Features were categorized into time-domain, combined signal, and distribution-based groups to better capture different aspects of the RF signal behavior and support interpretation of model performance.
 
 #### Variable General Statistics
 ![Exploratory Analysis](images/exploratory_analysis.png){#fig-exploratory_analysis width=80%}
+
+
+```{python}
+#| label: tbl-general-stats
+#| fig-cap: "General Statistics of all Variables"
+from General_Statistics import table
+import pandas as pd
+
+pd.set_option("display.width", 2000)
+pd.set_option("display.max_columns", None)
+print(table)
+
+```
+
 
 Outlier analysis identified extreme values in power-based features, with I_power reaching 575.93 and Q_power reaching 389.88. A density plot shown in Figure 1 was created to visually examine these extreme values. After careful consideration, the outliers are retained in the dataset since they represent legitimate high SNR signal conditions errors. Removing them would remove signal behavior needed for analysis. All predictor variables were standardized prior to model fitting. Standardization transforms each variable to have a mean of zero and standard deviation of one, which is needed for regularization methods which penalize coefficients based on magnitude. Standardization ensures that all predictors are penalized equally regardless of their original scale.
 
