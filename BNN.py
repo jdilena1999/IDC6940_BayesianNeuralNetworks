@@ -33,35 +33,46 @@ model_bayes = tf.keras.Sequential([
     tfp.layers.DenseFlipout(32, activation='relu'),
 
     tfp.layers.DenseFlipout(2),  # outputs params for a distribution
-    tfp.layers.DistributionLambda(
-        lambda t: tfp.distributions.Normal(loc=t[..., :1], scale=tf.math.softplus(t[..., 1:]))
-    )
+    #tfp.layers.DistributionLambda(
+        #lambda t: tfp.distributions.Normal(loc=t[..., :1], scale=tf.math.softplus(t[..., 1:]))
+    #)
 ])
 
 
 # Train using negative log-likelihood
-def nll(y_true, y_pred):
-    return -y_pred.log_prob(tf.cast(y_true, y_pred.dtype))
+tfd = tfp.distributions
 
-# Evaluate the predicted mean with standard regression metrics
+# Match y_true's shape to the single predicted target per example.
+def unpack_predictions(y_pred):
+    loc = y_pred[..., :1]
+    scale = 1e-3 + tf.nn.softplus(y_pred[..., 1:2])
+    return loc, scale
+
+def gaussian_nll(y_true, y_pred):
+    loc, scale = unpack_predictions(y_pred)
+    y_true = tf.reshape(tf.cast(y_true, loc.dtype), tf.shape(loc))
+
+    dist = tfd.Normal(loc=loc, scale=scale)
+    return -tf.reduce_mean(dist.log_prob(y_true))
+
 def mean_mse(y_true, y_pred):
-    mean = y_pred.mean()
-    return tf.reduce_mean(tf.square(
-        tf.cast(y_true, mean.dtype) - mean
-    ))
+    loc, _ = unpack_predictions(y_pred)
+    y_true = tf.reshape(tf.cast(y_true, loc.dtype), tf.shape(loc))
+    return tf.reduce_mean(tf.square(y_true - loc))
 
 def mean_mae(y_true, y_pred):
-    mean = y_pred.mean()
-    return tf.reduce_mean(tf.abs(
-        tf.cast(y_true, mean.dtype) - mean
-    ))
+    loc, _ = unpack_predictions(y_pred)
+    y_true = tf.reshape(tf.cast(y_true, loc.dtype), tf.shape(loc))
+    return tf.reduce_mean(tf.abs(y_true - loc))
 
 model_bayes.compile(
-    optimizer='adam',
-    loss=nll,
+    optimizer=tf.keras.optimizers.Adam(
+    learning_rate=1e-4
+),
+    loss=gaussian_nll,
     metrics=[mean_mae, mean_mse]
 )
-history = model_bayes.fit(x_train,y_train,validation_split=0.2,epochs=50,verbose=0)
+history = model_bayes.fit(x_train,y_train,validation_split=0.2,epochs=50,verbose=0,shuffle=True)
 
 performance_df = pd.DataFrame(history.history)
 
@@ -74,13 +85,16 @@ actual_v_predicted = {
 actual_v_predicted.setdefault("Actual",y_test.to_numpy())
 actual_v_predicted.setdefault("Predicted",y_pred.ravel())
 
-a_v_p = pd.DataFrame(actual_v_predicted)
+#a_v_p = pd.DataFrame(actual_v_predicted)
 #print(actual_v_predicted)
 #print(a_v_p)
-#print(performance_df)
-fig,ax = plt.subplots()
-sns.lineplot(data=performance_df,x=performance_df.index.values,y='mse',color='red')
-sns.lineplot(data=performance_df,x=performance_df.index.values,y='val_mse',color='blue')
+print(performance_df)
+fig,ax = plt.subplots(figsize=(12,6))
+sns.lineplot(data=performance_df,x=performance_df.index.values,y='loss',color='red',label="Negative Log-Loss (Training)",ax=ax)
+sns.lineplot(data=performance_df,x=performance_df.index.values,y='val_loss',color='blue',label="Negative Log-Loss (Validation)",ax=ax)
+
+plt.title(f"Training vs Validation Loss (Negative Log-Loss)")
+plt.savefig(f"./images/Training vs Validation Loss (Negative Log-Loss).png")
 plt.show()
 #plt.show()
 

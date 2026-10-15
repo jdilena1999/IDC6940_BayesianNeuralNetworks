@@ -86,9 +86,25 @@ random search [@snoek2015scalable].
 
 ## Methods
 
-- Detail the models or algorithms used.
+### Loss Function
 
-- Justify your choices based on the problem and data.
+$$
+\mathcal{L} =
+\frac{1}{2}\log(2\pi\sigma^2)
++
+\frac{(y-\mu)^2}{2\sigma^2}
+$$
+
+where:
+
+- $y$ is the observed target value.
+- $\mu$ is the predicted mean.
+- $\sigma$ is the predicted standard deviation.
+- $\sigma^2$ is the predicted variance.
+
+The first term penalizes excessive uncertainty, while the second penalizes prediction errors relative to the predicted variance.
+
+
 
 *The common non-parametric regression model is*
 $Y_i = m(X_i) + \varepsilon_i$*, where* $Y_i$ *can be defined as the sum
