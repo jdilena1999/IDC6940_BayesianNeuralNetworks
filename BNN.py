@@ -39,8 +39,28 @@ model_bayes = tf.keras.Sequential([
 ])
 
 
-model_bayes.compile(optimizer='adam', loss='mse', metrics=['mae','mse'])
+# Train using negative log-likelihood
+def nll(y_true, y_pred):
+    return -y_pred.log_prob(tf.cast(y_true, y_pred.dtype))
 
+# Evaluate the predicted mean with standard regression metrics
+def mean_mse(y_true, y_pred):
+    mean = y_pred.mean()
+    return tf.reduce_mean(tf.square(
+        tf.cast(y_true, mean.dtype) - mean
+    ))
+
+def mean_mae(y_true, y_pred):
+    mean = y_pred.mean()
+    return tf.reduce_mean(tf.abs(
+        tf.cast(y_true, mean.dtype) - mean
+    ))
+
+model_bayes.compile(
+    optimizer='adam',
+    loss=nll,
+    metrics=[mean_mae, mean_mse]
+)
 history = model_bayes.fit(x_train,y_train,validation_split=0.2,epochs=50,verbose=0)
 
 performance_df = pd.DataFrame(history.history)
