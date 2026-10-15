@@ -1,3 +1,14 @@
+# How to start a python 3.11 virtual environment:
+#   deactivate
+#   rm -rf .venv
+#   /Library/Frameworks/Python.framework/Versions/3.11/bin/python3 -m venv .venv
+#   source .venv/bin/activate
+
+
+
+# Use negative log-likelihood (NLL) as the training loss, 
+# since your model predicts a probability distribution. 
+# You can still calculate MSE and MAE separately using the distribution's predicted mean.
 import os
 os.environ["TF_USE_LEGACY_KERAS"] = "1"
 import tensorflow as tf
@@ -5,6 +16,7 @@ import tensorflow_probability as tfp
 from data_processing import x_train,x_test,y_train,y_test
 import pandas as pd
 import matplotlib.pyplot as plt
+import seaborn as sns
 
 '''model = tf.keras.models.Sequential([
      tf.keras.layers.Input(shape=(x_train.shape[1],)),
@@ -16,7 +28,10 @@ import matplotlib.pyplot as plt
 
 # For a probabilistic output too:
 model_bayes = tf.keras.Sequential([
+    tfp.layers.DenseFlipout(128, activation='relu'),
     tfp.layers.DenseFlipout(64, activation='relu'),
+    tfp.layers.DenseFlipout(32, activation='relu'),
+
     tfp.layers.DenseFlipout(2),  # outputs params for a distribution
     tfp.layers.DistributionLambda(
         lambda t: tfp.distributions.Normal(loc=t[..., :1], scale=tf.math.softplus(t[..., 1:]))
@@ -35,13 +50,17 @@ y_pred = model_bayes.predict(x_test,verbose=0)
 actual_v_predicted = {
     
 }
-
-actual_v_predicted.setdefault("Actual",y_test)
-actual_v_predicted.setdefault("Predicted",y_pred)
+#
+actual_v_predicted.setdefault("Actual",y_test.to_numpy())
+actual_v_predicted.setdefault("Predicted",y_pred.ravel())
 
 a_v_p = pd.DataFrame(actual_v_predicted)
-
-print(a_v_p)
-
+#print(actual_v_predicted)
+#print(a_v_p)
+#print(performance_df)
+fig,ax = plt.subplots()
+sns.lineplot(data=performance_df,x=performance_df.index.values,y='mse',color='red')
+sns.lineplot(data=performance_df,x=performance_df.index.values,y='val_mse',color='blue')
+plt.show()
 #plt.show()
 
