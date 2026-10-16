@@ -88,7 +88,7 @@ random search [@snoek2015scalable].
 ### Data Cleaning
 All input features were first scaled down by subtracting the feature's mean from each value, then dividing by the feature's standard deviation. Then all features were separated into either the training set or testing set so that our model would not be overfit. During this process, 70% of the data was held for training the model and 30% was used for testing the model's performance later on.
 
-### Model Configuration
+### Model Compilation
 A Bayesian Neural Network was created with 5 hidden layers and 1 output layer, where the output layer is the predicted mean and standard deviation. The model was created using Tensorflow's Sequential model and each layer is comprised of Tensorflow_Probability's DenseFlipout layer with varying numbers of nodes and each having a relu activation function.
 
 $$
@@ -117,7 +117,22 @@ where:
 - $\sigma$ is the predicted standard deviation.
 - $\sigma^2$ is the predicted variance.
 
-An Adam (Adaptive Moment Estimation) optimizer was used during the training of the model and both Mean Square Error (MSE) and Mean Absolute Error (MAE) were used as metrics to judge model performance over 200 iterations.
+An Adam (Adaptive Moment Estimation) optimizer was used during the training of the model and both Mean Square Error (MSE) and Mean Absolute Error (MAE) were used as metrics to judge model performance.
+
+
+### Model Training
+The model was trained on the previously mentioned training data over 200 epochs. A validation dataset (20% of the training data) was witheld in each iteration so that the model could be diagnosed as overfitting, if applicable. Then, in order to find a scope of distributions the true distribution might be, this process was repeated 200 times and each of those probability density functions can be found at @fig-all-dist. An average of the means and standard deviations were then taken to find an overall mean and standard deviation, shown in @fig-avg-dist.
+
+![Loss](images/Training vs Validation Loss (Negative Log-Loss).png){#fig-loss width=80%}
+
+![MAE](images/Training vs Validation MAE.png){#fig-mae width=80%}
+
+![MSE](images/Training vs Validation MSE.png){#fig-mse width=80%}
+
+![All Distributions](images/All_Distributions.png){#fig-all-dist fig-alt="200 Sample Distributions predicted" width=80%}
+
+![Final Distribution](images/Average_Distribution.png){#fig-avg-dist fig-alt="Final Predicted Distribution, found by taking the mean of the means and standard deviations" width=80%}
+
 
 <!---
 The first term penalizes excessive uncertainty, while the second penalizes prediction errors relative to the predicted variance.
