@@ -102,5 +102,20 @@ sns.lineplot(data=performance_df,x=performance_df.index.values,y='val_loss',colo
 plt.title(f"Training vs Validation Loss (Negative Log-Loss)")
 plt.savefig(f"./images/Training vs Validation Loss (Negative Log-Loss).png")
 plt.show()
-#plt.show()
+
+
+# Overall Means and Standard Devs:
+
+T = 200
+means,stdevs = [],[]
+for _ in range(T):
+    y_pred = model_bayes.predict(x_test,verbose=0)
+    mean,std = unpack_predictions(y_pred)
+    means.append(mean)
+    stdevs.append(std)
+means = np.stack(means)
+stdevs = np.stack(stdevs)
+
+final_mean_pred = means.mean(axis=0)
+total_sd = np.sqrt(means.var(axis=0) + (stdevs**2).mean(axis=0))  # epistemic + aleatoric
 
