@@ -117,7 +117,7 @@ where:
 - $\sigma$ is the predicted standard deviation.
 - $\sigma^2$ is the predicted variance.
 
-An Adam (Adaptive Moment Estimation) optimizer was used during the training of the model and both Mean Square Error (MSE) and Mean Absolute Error (MAE) were used as metrics to judge model performance through iterations.
+An Adam (Adaptive Moment Estimation) optimizer was used during the training of the model and both Mean Square Error (MSE) and Mean Absolute Error (MAE) were used as metrics to judge model performance over 200 iterations.
 
 <!---
 The first term penalizes excessive uncertainty, while the second penalizes prediction errors relative to the predicted variance.

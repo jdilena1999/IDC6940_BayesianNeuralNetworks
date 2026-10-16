@@ -103,7 +103,27 @@ sns.lineplot(data=performance_df,x=performance_df.index.values,y='val_mean_mse',
 
 plt.title(f"Training vs Validation MSE")
 plt.savefig(f"./images/Training vs Validation MSE.png")
-plt.show()
+#plt.show()
+
+
+fig,ax = plt.subplots(figsize=(12,6))
+sns.lineplot(data=performance_df,x=performance_df.index.values,y='mean_mae',color='red',label="Training MAE",ax=ax)
+sns.lineplot(data=performance_df,x=performance_df.index.values,y='val_mean_mae',color='blue',label="Validation MAE",ax=ax)
+
+plt.title(f"Training vs Validation MAE")
+plt.savefig(f"./images/Training vs Validation MAE.png")
+#plt.show()
+
+
+
+fig,ax = plt.subplots(figsize=(12,6))
+sns.lineplot(data=performance_df,x=performance_df.index.values,y='loss',color='red',label="Training Loss",ax=ax)
+sns.lineplot(data=performance_df,x=performance_df.index.values,y='val_loss',color='blue',label="Validation Loss",ax=ax)
+
+plt.title(f"Training vs Validation Loss")
+plt.savefig(f"./images/Training vs Validation Loss (Negative Log-Loss).png")
+#plt.show()
+
 
 '''
 # Overall Means and Standard Devs:

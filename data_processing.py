@@ -13,7 +13,7 @@ import tensorflow as tf
 
 data = pd.read_csv("radioml_features.csv")
 y_col = ['SNR']
-x_cols = [x for x in data.columns if x not in y_col]
+x_cols = [x for x in data.columns if x not in y_col+['IQ_power']]
 y = data[y_col[0]]
 X = data[x_cols]
 
