@@ -17,6 +17,7 @@ from data_processing import x_train,x_test,y_train,y_test
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
+import numpy as np
 
 '''model = tf.keras.models.Sequential([
      tf.keras.layers.Input(shape=(x_train.shape[1],)),
@@ -30,6 +31,8 @@ import seaborn as sns
 model_bayes = tf.keras.Sequential([
     tfp.layers.DenseFlipout(128, activation='relu'),
     tfp.layers.DenseFlipout(64, activation='relu'),
+    tfp.layers.DenseFlipout(50, activation='relu'),
+     tfp.layers.DenseFlipout(50, activation='relu'),
     tfp.layers.DenseFlipout(32, activation='relu'),
 
     tfp.layers.DenseFlipout(2),  # outputs params for a distribution
@@ -72,23 +75,26 @@ model_bayes.compile(
     loss=gaussian_nll,
     metrics=[mean_mae, mean_mse]
 )
-history = model_bayes.fit(x_train,y_train,validation_split=0.2,epochs=50,verbose=0,shuffle=True)
+history = model_bayes.fit(x_train,y_train,validation_split=0.2,epochs=200,verbose=0,shuffle=True)
 
 performance_df = pd.DataFrame(history.history)
 
 y_pred = model_bayes.predict(x_test,verbose=0)
+y_pred_means,y_pred_std = unpack_predictions(y_pred)
 
 actual_v_predicted = {
     
 }
 #
 actual_v_predicted.setdefault("Actual",y_test.to_numpy())
-actual_v_predicted.setdefault("Predicted",y_pred.ravel())
+actual_v_predicted.setdefault("Predicted Mean",np.array(y_pred_means).ravel())
+actual_v_predicted.setdefault("Predicted Std",np.array(y_pred_std).ravel())
 
-#a_v_p = pd.DataFrame(actual_v_predicted)
+
+a_v_p = pd.DataFrame(actual_v_predicted)
 #print(actual_v_predicted)
-#print(a_v_p)
-print(performance_df)
+print(a_v_p)
+#print(performance_df)
 fig,ax = plt.subplots(figsize=(12,6))
 sns.lineplot(data=performance_df,x=performance_df.index.values,y='loss',color='red',label="Negative Log-Loss (Training)",ax=ax)
 sns.lineplot(data=performance_df,x=performance_df.index.values,y='val_loss',color='blue',label="Negative Log-Loss (Validation)",ax=ax)
