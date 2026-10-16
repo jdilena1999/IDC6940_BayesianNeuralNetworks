@@ -46,3 +46,4 @@ Werkzeug==3.1.9
 wrapt==2.5.1
 scikit-learn
 matplotlib
+scipy
