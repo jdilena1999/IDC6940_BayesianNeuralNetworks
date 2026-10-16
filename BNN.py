@@ -96,14 +96,14 @@ a_v_p = pd.DataFrame(actual_v_predicted)
 #print(a_v_p)
 #print(actual_v_predicted)
 #print(a_v_p)
-print(performance_df)
+#print(performance_df)
 fig,ax = plt.subplots(figsize=(12,6))
 sns.lineplot(data=performance_df,x=performance_df.index.values,y='mean_mse',color='red',label="Training MSE",ax=ax)
 sns.lineplot(data=performance_df,x=performance_df.index.values,y='val_mean_mse',color='blue',label="Validation MSE",ax=ax)
 
 plt.title(f"Training vs Validation MSE")
 plt.savefig(f"./images/Training vs Validation MSE.png")
-#plt.show()
+plt.show()
 
 
 fig,ax = plt.subplots(figsize=(12,6))
@@ -112,7 +112,7 @@ sns.lineplot(data=performance_df,x=performance_df.index.values,y='val_mean_mae',
 
 plt.title(f"Training vs Validation MAE")
 plt.savefig(f"./images/Training vs Validation MAE.png")
-#plt.show()
+plt.show()
 
 
 
@@ -122,10 +122,10 @@ sns.lineplot(data=performance_df,x=performance_df.index.values,y='val_loss',colo
 
 plt.title(f"Training vs Validation Loss")
 plt.savefig(f"./images/Training vs Validation Loss (Negative Log-Loss).png")
-#plt.show()
+plt.show()
 
 
-'''
+
 # Overall Means and Standard Devs:
 
 T = 200
@@ -139,32 +139,33 @@ means = np.stack(means)
 stdevs = np.stack(stdevs)
 
 final_mean_pred = means.mean(axis=0)
-total_sd = np.sqrt(means.var(axis=0) + (stdevs**2).mean(axis=0))  # epistemic + aleatoric'''
+total_sd = np.sqrt(means.var(axis=0) + (stdevs**2).mean(axis=0))  # epistemic + aleatoric
 '''print(final_mean_pred.shape())
 print(total_sd.shape())'''
 #print(final_mean_pred)
 #print(total_sd)
 
 # All Distributions:
-'''rand_xs = np.linspace(final_mean_pred-4*total_sd,final_mean_pred+4*total_sd,1000)
+rand_xs = np.linspace(final_mean_pred-4*total_sd,final_mean_pred+4*total_sd,1000)
 rand_ys = np.array(stats.Normal(mu=final_mean_pred,sigma=total_sd).pdf(rand_xs))
 
 plt.plot(rand_xs,rand_ys)
 plt.title("All Distributions")
 plt.savefig(f"./images/All_Distributions.png")
-plt.show()'''
+plt.show()
 
 # Avg Distribution:
 
-'''rand_xs = np.linspace(final_mean_pred.mean()-4*total_sd.mean(),final_mean_pred.mean()+4*total_sd.mean(),1000)
+rand_xs = np.linspace(final_mean_pred.mean()-4*total_sd.mean(),final_mean_pred.mean()+4*total_sd.mean(),1000)
 rand_ys = np.array(stats.Normal(mu=final_mean_pred.mean(),sigma=total_sd.mean()).pdf(rand_xs))
 
 plt.plot(rand_xs,rand_ys)
 plt.title(f"Average Distibution\nMean: {final_mean_pred.mean():,.2f} | St. Dev: {total_sd.mean():,.2f}")
-for sd in [x*total_sd.mean() + final_mean_pred.mean() for x in [-3,-2,-1,1,2,3]]:
-    plt.axvline(sd,0,1,linestyle='--',color='red')
-
+for sd,c,label in zip([x*total_sd.mean() + final_mean_pred.mean() for x in [1,2,3]],["green",'yellow','red'],["1 SD","2 SD","3 SD"]):
+    plt.axvline(sd,0,1,linestyle='--',color=c)
+    plt.axvline(-sd,0,1,linestyle='--',color=c)
+plt.legend()
 plt.savefig(f"./images/Average_Distribution.png")
-plt.show()'''
+plt.show()
 
 
