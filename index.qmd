@@ -85,8 +85,23 @@ can find strong configurations with fewer training runs than grid or
 random search [@snoek2015scalable].
 
 ## Methods
+### Data Cleaning
+All input features were first scaled down by subtracting the feature's mean from each value, then dividing by the feature's standard deviation. Then all features were separated into either the training set or testing set so that our model would not be overfit. During this process, 70% of the data was held for training the model and 30% was used for testing the model's performance later on.
 
-### Loss Function
+### Model Configuration
+A Bayesian Neural Network was created with 5 hidden layers and 1 output layer, where the output layer is the predicted mean and standard deviation. The model was created using Tensorflow's Sequential model and each layer is comprised of Tensorflow_Probability's DenseFlipout layer with varying numbers of nodes and each having a relu activation function.
+
+$$
+\operatorname{ReLU}(x) =
+\begin{cases}
+0, & x \leq 0, \\
+x, & x > 0.
+\end{cases}
+$$
+
+
+The Loss Function used during the model compilation was a negative log-loss function (seen below).
+
 
 $$
 \mathcal{L} =
@@ -102,6 +117,9 @@ where:
 - $\sigma$ is the predicted standard deviation.
 - $\sigma^2$ is the predicted variance.
 
+An Adam (Adaptive Moment Estimation) optimizer was used during the training of the model and both Mean Square Error (MSE) and Mean Absolute Error (MAE) were used as metrics to judge model performance through iterations.
+
+<!---
 The first term penalizes excessive uncertainty, while the second penalizes prediction errors relative to the predicted variance.
 
 
@@ -126,7 +144,7 @@ Weights are positive numbers and small if* $X_i$ *is far from* $x$*.*
 $$
 y_i = \beta_0 + \beta_1 X_1 +\varepsilon_i
 $$
-
+--->
 ## Analysis and Results
 
 ### Data Exploration and Visualization

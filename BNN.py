@@ -33,7 +33,7 @@ model_bayes = tf.keras.Sequential([
     tfp.layers.DenseFlipout(128, activation='relu'),
     tfp.layers.DenseFlipout(64, activation='relu'),
     tfp.layers.DenseFlipout(50, activation='relu'),
-     tfp.layers.DenseFlipout(50, activation='relu'),
+    tfp.layers.DenseFlipout(50, activation='relu'),
     tfp.layers.DenseFlipout(32, activation='relu'),
 
     tfp.layers.DenseFlipout(2),  # outputs params for a distribution
@@ -93,19 +93,19 @@ actual_v_predicted.setdefault("Predicted Std",np.array(y_pred_std).ravel())
 
 
 a_v_p = pd.DataFrame(actual_v_predicted)
-print(a_v_p)
+#print(a_v_p)
 #print(actual_v_predicted)
 #print(a_v_p)
-#print(performance_df)
-'''fig,ax = plt.subplots(figsize=(12,6))
-sns.lineplot(data=performance_df,x=performance_df.index.values,y='loss',color='red',label="Negative Log-Loss (Training)",ax=ax)
-sns.lineplot(data=performance_df,x=performance_df.index.values,y='val_loss',color='blue',label="Negative Log-Loss (Validation)",ax=ax)
+print(performance_df)
+fig,ax = plt.subplots(figsize=(12,6))
+sns.lineplot(data=performance_df,x=performance_df.index.values,y='mean_mse',color='red',label="Training MSE",ax=ax)
+sns.lineplot(data=performance_df,x=performance_df.index.values,y='val_mean_mse',color='blue',label="Validation MSE",ax=ax)
 
-plt.title(f"Training vs Validation Loss (Negative Log-Loss)")
-plt.savefig(f"./images/Training vs Validation Loss (Negative Log-Loss).png")
-plt.show()'''
+plt.title(f"Training vs Validation MSE")
+plt.savefig(f"./images/Training vs Validation MSE.png")
+plt.show()
 
-
+'''
 # Overall Means and Standard Devs:
 
 T = 200
@@ -119,7 +119,7 @@ means = np.stack(means)
 stdevs = np.stack(stdevs)
 
 final_mean_pred = means.mean(axis=0)
-total_sd = np.sqrt(means.var(axis=0) + (stdevs**2).mean(axis=0))  # epistemic + aleatoric
+total_sd = np.sqrt(means.var(axis=0) + (stdevs**2).mean(axis=0))  # epistemic + aleatoric'''
 '''print(final_mean_pred.shape())
 print(total_sd.shape())'''
 #print(final_mean_pred)
