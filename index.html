@@ -2423,8 +2423,8 @@ Figure 1: EW Visual
 <section id="data-cleaning" class="level3">
 <h3 class="anchored" data-anchor-id="data-cleaning">Data Cleaning</h3>
 <p>All input features were first scaled down by subtracting the feature’s mean from each value, then dividing by the feature’s standard deviation. Then all features were separated into either the training set or testing set so that our model would not be overfit. During this process, 70% of the data was held for training the model and 30% was used for testing the model’s performance later on.</p>
-<p>Multicollinearity testing showed that IQ_Power is an exact linear combination of two other predictors: IQ_Power = I_Power + Q_Power. The IQ_Power definition, is the total power of a baseband signal is the sum of its in-phase and quadrature channel powers (O’Shea &amp; Hoydis, 2017). The column means in Table 2 confirm the identity (2.598 + 2.612 = 5.210), and the alias() function in R flagged the exact dependence. Because a linear dependence will make the design matrix rank-deficient and the coefficients non-identifiable, IQ_Power was removed. IQ_mean and IQ_sd were retained. The IQ_mean and the IQ_sd are nonlinear functions of the I/Q samples, so they are correlated with the power features but not linearly dependent on them.</p>
-<p>The dataset was prepared by several preprocessing steps for analysis. First, the modulation variable was converted from integer to factor as a categorical variable with 24 distinct modulation types. Multicollinearity testing showed IQ_Power was perfectly correlated with Q_Power. This correlation was confirmed using the alias() function in R and is consistent with the physical definition of total signal power in RF systems where total power equals the sum of the I and Q channel powers (O’Shea &amp; Hoydis, 2017). Therefore, IQ_Power was removed from the dataset to remove the ambiguity of perfect collinearity.</p>
+<p>Multicollinearity testing showed that IQ_Power is an exact linear combination of two other predictors: IQ_Power = I_Power + Q_Power. The IQ_Power definition, is the total power of a baseband signal is the sum of its in-phase and quadrature channel powers <span class="citation" data-cites="8054694">(<a href="#ref-8054694" role="doc-biblioref">O’Shea and Hoydis 2017</a>)</span>. The column means in Table 2 confirm the identity (2.598 + 2.612 = 5.210), and the alias() function in R flagged the exact dependence. Because a linear dependence will make the design matrix rank-deficient and the coefficients non-identifiable, IQ_Power was removed. IQ_mean and IQ_sd were retained. The IQ_mean and the IQ_sd are nonlinear functions of the I/Q samples, so they are correlated with the power features but not linearly dependent on them.</p>
+<p>The dataset was prepared by several preprocessing steps for analysis. First, the modulation variable was converted from integer to factor as a categorical variable with 24 distinct modulation types. This correlation was confirmed using the alias() function in R and is consistent with the physical definition of total signal power in RF systems where total power equals the sum of the I and Q channel powers (O’Shea &amp; Hoydis, 2017). Therefore, IQ_Power was removed from the dataset to remove the ambiguity of perfect collinearity.</p>
 </section>
 <section id="model-compilation" class="level3">
 <h3 class="anchored" data-anchor-id="model-compilation">Model Compilation</h3>
@@ -2584,7 +2584,7 @@ Table 1: Feature definitions and categories
 <td>IQ_mean</td>
 <td>Numeric</td>
 <td>**Time-domain</td>
-<td>Mean of the signal magnitude across the 1,024 samples</td>
+<td>Mean of the signal magnitude across the 1,024 samples: <span class="math inline">\(\text{IQ\_mean} = \frac{1}{N}\sum_{n=1}^{N} |x_n|\)</span></td>
 </tr>
 <tr class="odd">
 <td>I_var</td>
@@ -2620,7 +2620,7 @@ Table 1: Feature definitions and categories
 <td>IQ_sd</td>
 <td>Numeric</td>
 <td>Combined</td>
-<td>Standard deviation of signal magnitude</td>
+<td>Standard deviation of signal magnitude: <span class="math inline">\(\text{IQ\_sd} = \sqrt{\frac{1}{N}\sum_{n=1}^{N}\big(|x_n| - \text{IQ\_mean}\big)^2}\)</span></td>
 </tr>
 <tr class="odd">
 <td>Modulation</td>
@@ -2889,6 +2889,9 @@ Mullachery, Vikram, Aniruddh Khera, and Amir Husain. 2018. <span>“Bayesian Neu
 </div>
 <div id="ref-OShea2018" class="csl-entry" role="listitem">
 O’Shea, Timothy James, Tamoghna Roy, and T. Charles Clancy. 2018. <span>“Over-the-Air Deep Learning Based Radio Signal Classification.”</span> <em>IEEE Journal of Selected Topics in Signal Processing</em> 12 (1): 168–79. <a href="https://doi.org/10.1109/jstsp.2018.2797022">https://doi.org/10.1109/jstsp.2018.2797022</a>.
+</div>
+<div id="ref-8054694" class="csl-entry" role="listitem">
+O’Shea, Timothy, and Jakob Hoydis. 2017. <span>“An Introduction to Deep Learning for the Physical Layer.”</span> <em>IEEE Transactions on Cognitive Communications and Networking</em> 3 (4): 563–75. <a href="https://doi.org/10.1109/TCCN.2017.2758370">https://doi.org/10.1109/TCCN.2017.2758370</a>.
 </div>
 <div id="ref-snoek2015scalable" class="csl-entry" role="listitem">
 Snoek, Jasper, Oren Rippel, Kevin Swersky, et al. 2015. <span>“Scalable Bayesian Optimization Using Deep Neural Networks.”</span> <em>International Conference on Machine Learning</em>, 2171–80.
