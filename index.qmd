@@ -43,16 +43,13 @@ supports both neural network modeling and Bayesian analysis to predict
 signal-to-noise ratio (SNR) and examine how signal quality varies across
 conditions [@10352089]. 
 
-  Our project uses the DeepSig RadioML 2018.01A
-dataset, downloaded from Kaggle, containing simulated RF signals across
+This project uses the RadioML 2018.01A dataset, created by DeepSig Inc. and accessed via Kaggle [@pinxau1000-Deepsig-2018], containing simulated RF signals across
 different modulation types with varying levels of noise [@OShea2018].
-The dataset includes 24 modulation types, 26 SNR levels ranging from −20
-dB to +30 dB, and 1,024 in-phase and quadrature (I/Q) samples per
-signal, for approximately 5,000 total observations [@OShea2018].
+The dataset contains 2,555,904 total frames and this research uses a random subsample of N = 5,000 signal frames, includes 24 modulation types, 26 SNR levels ranging from −20 dB to +30 dB, and 1,024 in-phase and quadrature (I/Q) samples per signal, for approximately 5,000 total observations [@OShea2018].
 It therefore provides a useful schema for studying how signal quality
 changes under different interference conditions [@OShea2018]. 
 
-  The objective of this project is to model SNR as the response variable using
+The objective of this project is to model SNR as the response variable using
 neural networks and Bayesian analysis. Bayesian methods treat model
 parameters as probability distributions rather than fixed values. This
 allows prior knowledge to be formally incorporated and results to be
@@ -104,14 +101,18 @@ x, & x > 0.
 $$
 
 
-The Loss Function used during the model compilation was a negative log-likelihood function (seen below).
 
+In TensorFlow Probability, predicting mean ($\mu$) and variance ($\sigma^2$ or standard deviation $\sigma$) assumes a Gaussian likelihood:
 
 $$
-\mathcal{L} =
-\frac{1}{2}\log(2\pi\sigma^2)
-+
-\frac{(y-\mu)^2}{2\sigma^2}
+y_i \sim N\left(\mu(x_i),\ \sigma^2(x_i)\right)
+$$
+
+
+The Loss Function used during the model compilation was a negative log-likelihood function and is computed below.
+
+$$
+L_{\text{NLL}}(\theta) = \frac{1}{2N} \sum_{i=1}^{N} \left[ \ln\left(\sigma^2(x_i)\right) + \frac{\left(y_i - \mu(x_i)\right)^2}{\sigma^2(x_i)} \right]
 $$
 
 where:
@@ -125,7 +126,7 @@ An Adam (Adaptive Moment Estimation) optimizer was used during the training of t
 
 
 ### Model Training
-The model was trained on the previously mentioned training data over 200 epochs. A validation dataset (20% of the training data) was witheld in each iteration so that the model could be diagnosed as overfitting, if applicable. Then, in order to find a scope of distributions the true distribution might be, this process was repeated 200 times and each of those probability density functions can be found at @fig-all-dist. An average of the means and standard deviations were then taken to find an overall mean and standard deviation, shown in @fig-avg-dist.
+The model was trained on the previously mentioned training data over 200 epochs. A validation dataset (20% of the training data) was withheld in each iteration so that the model could be diagnosed as overfitting, if applicable. Then, in order to find a scope of distributions the true distribution might be, this process was repeated 200 times and each of those probability density functions can be found at @fig-all-dist. An average of the means and standard deviations were then taken to find an overall mean and standard deviation, shown in @fig-avg-dist.
 
 ![Loss](images/Training vs Validation Loss (Negative Log-Loss).png){#fig-loss width=80%}
 
@@ -168,7 +169,7 @@ $$
 
 ### Data Exploration and Visualization
 
-The RadioML 2018.01A dataset, created by DeepSig Inc. and accessed via Kaggle (pinxau1000, 2021) and used for this analysis. The dataset contains 5,000 observations across 13 variables. The response variable, SNR ranges from -20dB to +30dB across 26 discrete levels. Each observation represents a radio signal originally captured as 1,024 I/Q samples, which were summarized into 11 statistical features for analysis. I/Q data describes the behavior of the RF signal. The I_Power is defined as In-phase (aligned with the original wave) and Q_Power stands for Quadrature (a shift of 90 degrees), so this signal would be out-of-phase from the original wave by 90 degrees.  I/Q together explain the complete structure of the RF signal, Amplitude, Phase and Frequency. (In-phase and quadrature components, 2026) For modulation, a dummy variable was created to handle the modulation type, which has 24 distinct categories. No missing values were identified, and the data was balanced across modulation types with approximately 200 observations per class, shown in @tbl-feature-definitions. 
+The RadioML 2018.01A dataset, created by DeepSig Inc. and accessed via Kaggle [@pinxau1000-Deepsig-2018] and used for this analysis. The project uses 5,000 observations across 13 variables. The response variable, SNR ranges from -20dB to +30dB across 26 discrete levels. Each observation represents a radio signal originally captured as 1,024 I/Q samples, which were summarized into 11 statistical features for analysis. I/Q data describes the behavior of the RF signal. The I_Power is defined as In-phase (aligned with the original wave) and Q_Power stands for Quadrature (a shift of 90 degrees), so this signal would be out-of-phase from the original wave by 90 degrees.  I/Q together explain the complete structure of the RF signal, Amplitude, Phase and Frequency. (In-phase and quadrature components, 2026) For modulation, a dummy variable was created to handle the modulation type, which has 24 distinct categories. No missing values were identified, and the data was balanced across modulation types with approximately 200 observations per class, shown in @tbl-feature-definitions. 
 
 
 
@@ -210,7 +211,7 @@ print(table)
 ```
 
 
-Outlier analysis identified extreme values in power-based features, with I_Power reaching 575.93 and Q_Power reaching 389.88. A density plot shown in [@fig-density-power] was created to visually examine these extreme values. After careful consideration, the outliers are retained in the dataset since they represent legitimate high SNR signal conditions errors. Removing them would remove signal behavior needed for analysis. All predictor variables were standardized prior to model fitting. Standardization transforms each variable to have a mean of zero and standard deviation of one, which is needed for regularization methods which penalize coefficients based on magnitude. Standardization ensures that all predictors are penalized equally regardless of their original scale.
+Outlier analysis identified extreme values in power-based features, with I_Power reaching 575.93 and Q_Power reaching 389.88. A density plot shown in [@fig-density-power] was created to visually examine these extreme values. After careful consideration, the outliers are retained in the dataset since they represent legitimate high SNR signal conditions errors. All predictor variables were standardized prior to model fitting. Standardization transforms each variable to have a mean of zero and standard deviation of one, which is needed for regularization methods which penalize coefficients based on magnitude. Standardization ensures that all predictors are penalized equally regardless of their original scale.
 
 ![Density Power Plot](images/density_power.png){#fig-density-power fig-alt="Density plot of power-based features" width=80%}
 
