@@ -28,12 +28,12 @@ Slides: [slides.html](slides.html){target="_blank"}
 
 
 
-  The military has been using Electronic Warfare (EW) since World War I
-[@noauthor_under_nodate]. With recent technological advances, EW will
+  Electronic Warfare (EW) has played a role in military operations since World War I, evolving across all military branches, alongside advances in communications technology and the increasing reliance on radio-frequency systems. 
+Today, EW remains essential to protecting aircraft and pilots in contested environments where EW jamming techniques can disrupt adversaries’ communication and compromise operational effectiveness[@noauthor_under_nodate]. With recent technological advances, EW will
 continue to evolve; most recently, through the military use of drones,
 which depend on reliable radio frequency (RF) links and are vulnerable
 to jamming and interference [@vgi_admin_drones_2025]. Recently, machine
-learning is used to address these threats. For example, Jere et al.
+learning was used to address these threats. For example, Jere et al.
 combined supervised learning with Bayesian network inference to detect
 and classify jamming in 5G New Radio networks in near real time
 [@10352089]. That work shows that Bayesian methods can utilize machine
@@ -50,48 +50,28 @@ It therefore provides a useful schema for studying how signal quality
 changes under different interference conditions [@OShea2018]. 
 
 The objective of this project is to model SNR as the response variable using
-neural networks and Bayesian analysis. Bayesian methods treat model
-parameters as probability distributions rather than fixed values. This
+neural networks and Bayesian analysis. This
 allows prior knowledge to be formally incorporated and results to be
 expressed as direct probability statements about quantities of interest
-[@Berger01122000]. Applied to neural networks, the Bayesian framework
-has a solution to overfitting and ways to quantify uncertainty in
-predictions [@Bishop1997]. In addition, Bayesian neural networks are
-better than standard networks when data are noisy, because Bayesian
-neural networks reports show how confident each prediction is
-[@DBLP:journals/corr/abs-1801-07710]. Guidance on using these models
-with deep learning tools is explained by Jospin et al. Because the
-dataset is large, scalability is an important consideration [@9756596].
-Hernández-Lobato et al. studied that "probabilistic backpropagation
-allows Bayesian neural networks to be trained efficiently on large
-datasets while retaining accurate uncertainty estimates"
-[@pmlr-v37-hernandez-lobatoc15]. 
+[@Berger01122000].
 
-  Because our dataset DeepSig 2018 contains a large number of raw signal 
-measurements, feature engineering techniques will be applied to summarize the I/Q components into meaningful predictors. It might be seen that some of the predictors are correlated with one another, so factor sensitivity analysis using
-Bayesian neural networks will identify which inputs strongly influence
-the predicted SNR [@5376749]. Model performance will be evaluated using
-statistics metrics such as mean squared error (MSE). Comparisons will be
-made to assess how well regularization methods commonly used in neural
-networks handle multicollinearity and improve prediction accuracy. In
-the Bayesian setting, prior distributions on network weights act as a
-natural form of regularization, comparable to weight decay in
-conventional networks [@Bishop1997]. Finally, Bayesian optimization will
-be considered for tuning model hyperparameters. Prior work shows that it
-can find strong configurations with fewer training runs than grid or
-random search [@snoek2015scalable].
+Building on the above research, this capstone will investigate “How effectively can a Bayesian neural network predict signal-to-noise (SNR) from signal-derived parameters from a sample given in a sample of the RadioML 2018.01A dataset, and can predictive uncertainty help characterize the resulting predictions?
+
+Bayesian methods treat model parameters as probability distributions rather than fixed values. Applied to neural networks, the Bayesian framework has a solution to overfitting and ways to quantify uncertainty in predictions [@Bishop1997]. In addition, Bayesian neural networks provide estimates of predictive uncertainty, which may be particularly useful when working with noisy data [@DBLP:journals/corr/abs-1801-07710]. Guidance on using these models with deep learning tools is explained by Jospin et al. Because the dataset is large, scalability is an important consideration [@9756596]. Hernández-Lobato et al. studied that “probabilistic backpropagation allows Bayesian neural networks to be trained efficiently on large datasets while retaining accurate uncertainty estimates” [@pmlr-v37-hernandez-lobatoc15]. In the Bayesian setting, prior distributions on network weights act as a natural form of regularization, comparable to weight decay in conventional networks [@Bishop1997].
 
 ## Methods
-### Data Cleaning
-All input features were first scaled down by subtracting the feature's mean from each value, then dividing by the feature's standard deviation. Then all features were separated into either the training set or testing set so that our model would not be overfit. During this process, 70% of the data was held for training the model and 30% was used for testing the model's performance later on.
+### Data Source and Sampling Procedure
+Because our dataset DeepSig 2018 contains a large number of raw signal measurements, feature engineering techniques will be applied to summarize the I/Q components into meaningful predictors. It might be seen that some of the predictors are correlated with one another, so factor sensitivity analysis using Bayesian neural networks will identify which inputs strongly influence the predicted SNR [@5376749]. Model performance will be evaluated using statistics metrics such as mean squared error (MSE). Comparisons will be made to assess how well regularization methods commonly used in neural networks handle multicollinearity and improve prediction accuracy. Finally, Bayesian optimization will be considered for tuning model hyperparameters. Prior work shows that it can find strong configurations with fewer training runs than grid or random search [@snoek2015scalable].
 
-Multicollinearity testing showed that IQ_Power is an exact linear combination of two other predictors: IQ_Power = I_Power + Q_Power. The IQ_Power definition, is the total power of a baseband signal is the sum of its in-phase and quadrature channel powers [@8054694]. The column means in Table 2 confirm the identity (2.598 + 2.612 = 5.210), and the alias() function in R flagged the exact dependence. Because a linear dependence will make the design matrix rank-deficient and the coefficients non-identifiable, IQ_Power was removed. IQ_mean and IQ_sd were retained. The IQ_mean and the IQ_sd are nonlinear functions of the I/Q samples, so they are correlated with the power features but not linearly dependent on them. 
+### Data Cleaning and Feature Engineering
+All input features were first scaled down by subtracting the feature’s mean from each value, then dividing by the feature’s standard deviation. Then all features were separated into either the training set or testing set so that our model would not be overfit. During this process, 70% of the data was held for training the model and 30% was used for testing the model’s performance later on.
 
-The dataset was prepared by several preprocessing steps for analysis. First, the modulation variable was converted from integer to factor as a categorical variable with 24 distinct modulation types. This correlation was confirmed using the alias() function in R and is consistent with the physical definition of total signal power in RF systems where total power equals the sum of the I and Q channel powers (O'Shea & Hoydis, 2017). Therefore, IQ_Power was removed from the dataset to remove the ambiguity of perfect collinearity.
+### Predictor Selection and Multicollinearity
+Multicollinearity testing showed that IQ_Power is an exact linear combination of two other predictors: IQ_Power = I_Power + Q_Power. The IQ_Power definition, is the total power of a baseband signal is the sum of its in-phase and quadrature channel powers [@8054694]. The column means in Table 2 confirm the identity (2.598 + 2.612 = 5.210), and the alias() function in R flagged the exact dependence. Because a linear dependence will make the design matrix rank-deficient and the coefficients non-identifiable, IQ_Power was removed. IQ_mean and IQ_sd were retained. The IQ_mean and the IQ_sd are nonlinear functions of the I/Q samples, so they are correlated with the power features but not linearly dependent on them.
+The dataset was prepared by several preprocessing steps for analysis. First, the modulation variable was converted from integer to factor as a categorical variable with 24 distinct modulation types. This correlation was confirmed using the alias() function in R and is consistent with the physical definition of total signal power in RF systems where total power equals the sum of the I and Q channel powers [@8054694]. Therefore, IQ_Power was removed from the dataset to remove the ambiguity of perfect collinearity.
 
-### Model Compilation
-A Bayesian Neural Network was created with 5 hidden layers and 1 output layer, where the output layer is the predicted mean and standard deviation. The model was created using Tensorflow's Sequential model and each layer is comprised of Tensorflow_Probability's DenseFlipout layer with varying numbers of nodes and each having a relu activation function.
-
+### Bayesian Neural-Network Architecture
+A Bayesian Neural Network was created with 5 hidden layers and 1 output layer, where the output layer is the predicted mean and standard deviation. The model was created using Tensorflow’s Sequential model and each layer is comprised of Tensorflow_Probability’s DenseFlipout layer with varying numbers of nodes and each having a relu activation function. In TensorFlow Probability, predicting mean () and variance (or standard deviation) assumes a Gaussian likelihood:
 $$
 \operatorname{ReLU}(x) =
 \begin{cases}
@@ -100,31 +80,35 @@ x, & x > 0.
 \end{cases}
 $$
 
-
-
-In TensorFlow Probability, predicting mean ($\mu$) and variance ($\sigma^2$ or standard deviation $\sigma$) assumes a Gaussian likelihood:
-
-$$
-y_i \sim N\left(\mu(x_i),\ \sigma^2(x_i)\right)
-$$
-
-
+### Probability Model and Loss Function
 The Loss Function used during the model compilation was a negative log-likelihood function and is computed below.
-
 $$
 L_{\text{NLL}}(\theta) = \frac{1}{2N} \sum_{i=1}^{N} \left[ \ln\left(\sigma^2(x_i)\right) + \frac{\left(y_i - \mu(x_i)\right)^2}{\sigma^2(x_i)} \right]
 $$
 
 where:
-
 - $y$ is the observed target value.
 - $\mu$ is the predicted mean.
 - $\sigma$ is the predicted standard deviation.
 - $\sigma^2$ is the predicted variance.
 
+### Model Training, Validation and Testing
+The model was trained on the previously mentioned training data over 200 epochs. A validation dataset (20% of the training data) was withheld in each iteration so that the model could be diagnosed as overfitting, if applicable.
+
+### Evaluation Metrics and Experimental Comparisons
 An Adam (Adaptive Moment Estimation) optimizer was used during the training of the model and both Mean Square Error (MSE) and Mean Absolute Error (MAE) were used as metrics to judge model performance.
 
+<!--
+$$
+y_i \sim N\left(\mu(x_i),\ \sigma^2(x_i)\right)
+$$
 
+-->
+
+
+<!--An Adam (Adaptive Moment Estimation) optimizer was used during the training of the model and both Mean Square Error (MSE) and Mean Absolute Error (MAE) were used as metrics to judge model performance.-->
+
+<!--
 ### Model Training
 The model was trained on the previously mentioned training data over 200 epochs. A validation dataset (20% of the training data) was withheld in each iteration so that the model could be diagnosed as overfitting, if applicable. Then, in order to find a scope of distributions the true distribution might be, this process was repeated 200 times and each of those probability density functions can be found at @fig-all-dist. An average of the means and standard deviations were then taken to find an overall mean and standard deviation, shown in @fig-avg-dist.
 
@@ -325,8 +309,11 @@ plt.show()
 
 ```
 
+-->
 
 ### Modeling and Results
+In order to find a scope of distributions the true distribution might be, this process was repeated 200 times and each of those probability density functions can be found at Figure 5. An average of the means and standard deviations were then taken to find an overall mean and standard deviation, shown in Figure 6
+
 
 - Explain your data preprocessing and cleaning steps.
 
