@@ -111,16 +111,9 @@ $$
 <!--
 ### Model Training
 The model was trained on the previously mentioned training data over 200 epochs. A validation dataset (20% of the training data) was withheld in each iteration so that the model could be diagnosed as overfitting, if applicable. Then, in order to find a scope of distributions the true distribution might be, this process was repeated 200 times and each of those probability density functions can be found at @fig-all-dist. An average of the means and standard deviations were then taken to find an overall mean and standard deviation, shown in @fig-avg-dist.
+-->
 
-![Loss](images/Training vs Validation Loss (Negative Log-Loss).png){#fig-loss width=80%}
 
-![MAE](images/Training vs Validation MAE.png){#fig-mae width=80%}
-
-![MSE](images/Training vs Validation MSE.png){#fig-mse width=80%}
-
-![All Distributions](images/All_Distributions.png){#fig-all-dist fig-alt="200 Sample Distributions predicted" width=80%}
-
-![Final Distribution](images/Average_Distribution.png){#fig-avg-dist fig-alt="Final Predicted Distribution, found by taking the mean of the means and standard deviations" width=80%}
 
 
 <!---
@@ -155,9 +148,7 @@ $$
 
 The RadioML 2018.01A dataset, created by DeepSig Inc. and accessed via Kaggle [@pinxau1000-Deepsig-2018] and used for this analysis. The project uses 5,000 observations across 13 variables. The response variable, SNR ranges from -20dB to +30dB across 26 discrete levels. Each observation represents a radio signal originally captured as 1,024 I/Q samples, which were summarized into 11 statistical features for analysis. I/Q data describes the behavior of the RF signal. The I_Power is defined as In-phase (aligned with the original wave) and Q_Power stands for Quadrature (a shift of 90 degrees), so this signal would be out-of-phase from the original wave by 90 degrees.  I/Q together explain the complete structure of the RF signal, Amplitude, Phase and Frequency. (In-phase and quadrature components, 2026) For modulation, a dummy variable was created to handle the modulation type, which has 24 distinct categories. No missing values were identified, and the data was balanced across modulation types with approximately 200 observations per class, shown in @tbl-feature-definitions. 
 
-
-
-#### Variable Descriptions
+### Variable Descriptions
 | Variable Name | Type | Feature Type | Description |
 |---|---|---|---|
 | SNR | Numeric | Response | Signal-to-noise ratio (target variable) |
@@ -309,19 +300,21 @@ plt.show()
 
 ```
 
--->
-
-### Modeling and Results
-In order to find a scope of distributions the true distribution might be, this process was repeated 200 times and each of those probability density functions can be found at Figure 5. An average of the means and standard deviations were then taken to find an overall mean and standard deviation, shown in Figure 6
 
 
-- Explain your data preprocessing and cleaning steps.
+### Statistical Modeling and Results
+In order to find a scope of distributions the true distribution might be, this process was repeated 200 times and each of those probability density functions can be found at @fig-all-dist. An average of the means and standard deviations were then taken to find an overall mean and standard deviation, shown in @fig-avg-dist.
 
-- Present your key findings in a clear and concise manner.
+![Loss](images/Training vs Validation Loss (Negative Log-Loss).png){#fig-loss width=80%}
 
-- Use visuals to support your claims.
+![MAE](images/Training vs Validation MAE.png){#fig-mae width=80%}
 
-- **Tell a story about what the data reveals.**
+![MSE](images/Training vs Validation MSE.png){#fig-mse width=80%}
+
+![All Distributions](images/All_Distributions.png){#fig-all-dist fig-alt="200 Sample Distributions predicted" width=80%}
+
+![Final Distribution](images/Average_Distribution.png){#fig-avg-dist fig-alt="Final Predicted Distribution, found by taking the mean of the means and standard deviations" width=80%}
+
 
 
 
