@@ -24,6 +24,6 @@ for col in data.columns:
     table["Mean"].append(data[col].mean())
     table["3rd Quartile"].append(np.quantile(data[col],[0.75])[0])
     table["Max"].append(data[col].max())
-table = pd.DataFrame(table)
+table = pd.DataFrame(table).round(2)
 #print(table)
     
