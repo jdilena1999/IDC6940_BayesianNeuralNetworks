@@ -13,15 +13,18 @@ import tensorflow as tf
 
 data = pd.read_csv("radioml_features.csv")
 y_col = ['SNR']
-x_cols = [x for x in data.columns if x not in y_col+['IQ_power']]
+x_cols = [x for x in data.columns if x not in y_col]
 y = data[y_col[0]]
 X = data[x_cols]
 
 
 # X Features scaled down to mean = 0 and standard_deviation = 1
 scaler = StandardScaler()
-X_transformed = scaler.fit_transform(X)
-x_train,x_test,y_train,y_test = train_test_split(X_transformed,y,test_size=0.3,stratify=y)
+x_train,x_test,y_train,y_test = train_test_split(X,y,test_size=0.3,stratify=y)
+
+x_train = scaler.fit_transform(x_train)
+x_test = scaler.transform(x_test)
+#X_transformed = scaler.fit_transform(X)
 
 '''model = tf.keras.models.Sequential([
     tf.keras.layers.Input(shape=(X_transformed.shape[1],)),
