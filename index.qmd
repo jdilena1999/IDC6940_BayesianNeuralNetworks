@@ -316,7 +316,17 @@ In order to find a scope of distributions the true distribution might be, this p
 ![Final Distribution](images/Average_Distribution.png){#fig-avg-dist fig-alt="Final Predicted Distribution, found by taking the mean of the means and standard deviations" width=80%}
 
 
+```{python}
+#| label: tbl-prior-posterior-kl
+#| fig-cap: "Prior vs Posterior Distributions"
+from prior_posterior_kl import model_priors_posteriors_kl
+import pandas as pd
 
+pd.set_option("display.width", 2000)
+pd.set_option("display.max_columns", None)
+print(model_priors_posteriors_kl)
+
+```
 
 ### Conclusion
 
