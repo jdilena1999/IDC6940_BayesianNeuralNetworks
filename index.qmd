@@ -305,6 +305,7 @@ plt.show()
 ### Statistical Modeling and Results
 In order to find a scope of distributions the true distribution might be, this process was repeated 200 times and each of those probability density functions can be found at @fig-all-dist. An average of the means and standard deviations were then taken to find an overall mean and standard deviation, shown in @fig-avg-dist.
 
+
 ![Loss](images/Training vs Validation Loss (Negative Log-Loss).png){#fig-loss width=80%}
 
 ![MAE](images/Training vs Validation MAE.png){#fig-mae width=80%}
