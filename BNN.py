@@ -174,6 +174,6 @@ for k, c in zip([1, 2, 3], ["green", "gold", "red"]):
     plt.axvline(mix_mean - k*mix_sd, linestyle="--", color=c)
 plt.title(f"Average Distribution (mixture)\nMean: {mix_mean:,.2f} | SD: {mix_sd:,.2f}")
 plt.legend()
-plt.savefig("./images/Average_Distribution.png")
+plt.savefig("./images/Predictive Distribution (test-set mixture).png")
 plt.show()
 

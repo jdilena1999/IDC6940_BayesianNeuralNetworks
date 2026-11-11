@@ -186,7 +186,7 @@ print(table)
 ```
 
 
-Outlier analysis identified extreme values in power-based features, with I_Power reaching 575.93 and Q_Power reaching 389.88. A density plot shown in [@fig-density-power] was created to visually examine these extreme values. After careful consideration, the outliers are retained in the dataset since they represent legitimate high SNR signal conditions errors. All predictor variables were standardized prior to model fitting. Standardization transforms each variable to have a mean of zero and standard deviation of one, which is needed for regularization methods which penalize coefficients based on magnitude. Standardization ensures that all predictors are penalized equally regardless of their original scale.
+Outlier analysis identified extreme values in power-based features, with I_Power reaching 391.88 and Q_Power reaching 566.98. A density plot shown in [@fig-density-power] was created to visually examine these extreme values. After careful consideration, the outliers are retained in the dataset since they represent legitimate high SNR signal conditions errors. All predictor variables were standardized prior to model fitting. Standardization transforms each variable to have a mean of zero and standard deviation of one, which is needed for regularization methods which penalize coefficients based on magnitude. Standardization ensures that all predictors are penalized equally regardless of their original scale.
 
 ![Density Power Plot](images/density_power.png){#fig-density-power fig-alt="Density plot of power-based features" width=80%}
 
@@ -314,8 +314,40 @@ In order to find a scope of distributions the true distribution might be, this p
 
 ![All Distributions](images/All_Distributions.png){#fig-all-dist fig-alt="200 Sample Distributions predicted" width=80%}
 
-![Final Distribution](images/Average_Distribution.png){#fig-avg-dist fig-alt="Final Predicted Distribution, found by taking the mean of the means and standard deviations" width=80%}
+![Final Distribution](images/Predictive Distribution (test-set mixture).png){#fig-avg-dist fig-alt="Final Predicted Distribution, found by taking the mean of the means and standard deviations" width=80%}
 
+The model's posterior predictive distribution is approximated by Monte Carlo sampling. For each test input $x_i$, we run $T = 200$ stochastic forward passes, each using a fresh draw of weights from the posterior and returning a predicted mean $\mu_t(x_i)$ and standard deviation $\sigma_t(x_i)$.
+
+The predictive mean is
+
+$$
+\bar{\mu}_i = \frac{1}{T}\sum_{t=1}^{T}\mu_t(x_i)
+$$
+
+and the total predictive variance combines epistemic and aleatoric components via the law of total variance:
+
+$$
+\sigma_i^2 = \underbrace{\frac{1}{T}\sum_{t=1}^{T}\left(\mu_t(x_i)-\bar{\mu}_i\right)^2}_{\text{epistemic}} + \underbrace{\frac{1}{T}\sum_{t=1}^{T}\sigma_t^2(x_i)}_{\text{aleatoric}}
+$$
+
+Each test example is thereby summarized as $\mathcal{N}(\bar{\mu}_i, \sigma_i^2)$. The overall predictive distribution across the $N$ test examples is the equal-weight mixture
+
+$$
+p(y) = \frac{1}{N}\sum_{i=1}^{N}\mathcal{N}\left(y;\,\bar{\mu}_i,\,\sigma_i^2\right)
+$$
+
+with mean $\bar{\mu} = \frac{1}{N}\sum_i \bar{\mu}_i$ 
+
+and variance $\sigma_{\text{mix}}^2 = \frac{1}{N}\sum_{i=1}^{N}\sigma_i^2 + \frac{1}{N}\sum_{i=1}^{N}\left(\bar{\mu}_i-\bar{\mu}\right)^2$
+
+The first term is the average per-example uncertainty and the second is the spread of predictions across examples.
+
+
+
+
+The prior distribution for each layer was a Normal Distribution with mean 0 and standard deviation 1.
+
+For each layer, the kernel is a big matrix of weights, and each weight has its own posterior mean and standard deviation. The “Kernel Post Mean” column is the average of all those per-weight means, and “Kernel Post Std” is the average of all those per-weight standard deviations at the final epoch (@tbl-prior-posterior-kl).
 
 ```{python}
 #| label: tbl-prior-posterior-kl
@@ -329,16 +361,13 @@ print(model_priors_posteriors_kl.round(4))
 
 ```
 
-The prior distribution for each layer was a Normal Distribution with mean 0 and standard deviation 1.
-
-For each layer, the kernel is a big matrix of weights, and each weight has its own posterior mean and standard deviation. The “Kernel Post Mean” column is the average of all those per-weight means, and “Kernel Post Std” is the average of all those per-weight standard deviations at the final epoch.
 
 
 
 | Uncertainty Type | Definition | Calculation |
 |---|---|---|
 | Epistemic | Uncertainty from the model's lack of knowledge, usually from a lack of available data | $\sigma_{\text{epi}}^2(x) = \frac{1}{T}\sum_{t=1}^{T}\left(\mu_t(x) - \bar{\mu}(x)\right)^2$ |
-| Aleatoric | Inherent noise or uncertainty, regardless of amoutn of available data | $\sigma_{\text{ale}}^2(x) = \frac{1}{T}\sum_{t=1}^{T}\sigma_t^2(x)$ |
+| Aleatoric | Inherent noise or uncertainty, regardless of amount of available data | $\sigma_{\text{ale}}^2(x) = \frac{1}{T}\sum_{t=1}^{T}\sigma_t^2(x)$ |
 | Total SD | The combination of Epistemic and Aleatoric uncertainty via summation | $\sigma_{\text{total}}(x) = \sqrt{\underbrace{\frac{1}{T}\sum_{t=1}^{T}\left(\mu_t(x) - \bar{\mu}(x)\right)^2}_{\text{epistemic}} + \underbrace{\frac{1}{T}\sum_{t=1}^{T}\sigma_t^2(x)}_{\text{aleatoric}}}$ |
 
 : Types of Uncertainty within the Model {#tbl-model-uncertainty}
@@ -363,8 +392,17 @@ print(pd.DataFrame(table).round(4))
 
 ### Conclusion
 
-- Summarize your key findings.
+Our capstone project explored the use of Bayesian neural networks in predicting signal-to-noise ratio (SNR) from signal-derived parameters using the RadioML 2018.01A dataset. The objective of the project was to evaluate the predictive accuracy of the Bayesian neural network and assess the ability of the network to quantify uncertainty in its predictions. A five-hidden-layer Bayesian neural network was used with DenseFlipout layers to obtain a root mean squared error (RMSE) of 4.16 dB and a prediction interval coverage probability (PICP) of 0.948. The results showed the Bayesian neural network can estimate the SNR as well as uncertainty in the estimates.
 
-- Discuss the implications of your results.
+Methods are also given careful consideration. The dataset was first split into training and testing sets before calculating normalization statistics in order to avoid data leakage and to ensure an unbiased evaluation. The set of predictors used in the models was chosen by first establishing the exact linear relationship between the variables I_Power, Q_Power, and IQ_Power and then removing the variable IQ_Power from the set of predictors as it contained redundant information to the individual in-phase and quadrature power variables. Lastly, the total variance of the predictions was calculated using the law of total variance in order to distinguish between the two types of uncertainty associated with the predictions: aleatoric uncertainty, which is due to the inherent signal variability, and epistemic uncertainty, which is due to the model’s uncertainty.
+
+Implications for Electronic Warfare
+The results found could be useful for applications in electronic warfare (EW) where the radio-frequency (RF) environment can change dynamically due to jamming or other interference. In such applications, the ability to estimate SNR as well as the uncertainty associated with the estimate can be very useful. Traditional estimators provide a point estimate of SNR, but no information regarding the uncertainty associated with the estimate. A Bayesian neural network provides an estimate of the SNR as well as the uncertainty associated with the estimate.
+In the future, the uncertainty of SNR estimates could be used in cognitive radio systems and autonomous platforms to detect changes in the RF environment and to make decisions in unfamiliar circumstances. For example, in communication systems, SNR estimates could be used to evaluate the reliability of communication and to decide whether further analysis or alternative communication means are needed. However, the results presented in this work were obtained using a simulated dataset and the real-time deployment of such systems as well as the development of autonomous electronic counter-countermeasure systems were not the subject of this work.
+
+#### Future Work
+
+There are several areas of future work that can be explored with this research. First, the full 2.55-million-frame RadioML 2018.01A dataset could be used for training of the Bayesian neural network using distributed variational inference. Second, the ability of the model to recognize out-of-distribution signals and generalize to previously unseen interference conditions could be explored. Also, the feasibility of deploying quantized, hardware-accelerated Bayesian neural network inference on software-defined radio (SDR) platforms or FPGA hardware for real-time operation in resource-constrained environments could be investigated. 
+
 
 ## References
