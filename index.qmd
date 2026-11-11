@@ -165,7 +165,7 @@ The RadioML 2018.01A dataset, created by DeepSig Inc. and accessed via Kaggle [@
 
 : Feature definitions and categories {#tbl-feature-definitions}
 
-\* `IQ_Power` was subsequently removed during preprocessing due to perfect collinearity with `I_Power` and `Q_Power`.
+\* `IQ_Power` was subsequently removed during preprocessing to ensure the posterior weights remain strongly identifiable and allow for quicker and more stable sampling and variational fitting.
 
 \** Features were categorized into time-domain, combined signal, and distribution-based groups to better capture different aspects of the RF signal behavior and support interpretation of model performance.
 
@@ -323,9 +323,41 @@ In order to find a scope of distributions the true distribution might be, this p
 from prior_posterior_kl import model_priors_posteriors_kl
 import pandas as pd
 
-pd.set_option("display.width", 2000)
+pd.set_option("display.width", 10_000)
 pd.set_option("display.max_columns", None)
-print(model_priors_posteriors_kl)
+print(model_priors_posteriors_kl.round(4))
+
+```
+
+The prior distribution for each layer was a Normal Distribution with mean 0 and standard deviation 1.
+
+For each layer, the kernel is a big matrix of weights, and each weight has its own posterior mean and standard deviation. The “Kernel Post Mean” column is the average of all those per-weight means, and “Kernel Post Std” is the average of all those per-weight standard deviations at the final epoch.
+
+
+
+| Uncertainty Type | Definition | Calculation |
+|---|---|---|
+| Epistemic | Uncertainty from the model's lack of knowledge, usually from a lack of available data | $\sigma_{\text{epi}}^2(x) = \frac{1}{T}\sum_{t=1}^{T}\left(\mu_t(x) - \bar{\mu}(x)\right)^2$ |
+| Aleatoric | Inherent noise or uncertainty, regardless of amoutn of available data | $\sigma_{\text{ale}}^2(x) = \frac{1}{T}\sum_{t=1}^{T}\sigma_t^2(x)$ |
+| Total SD | The combination of Epistemic and Aleatoric uncertainty via summation | $\sigma_{\text{total}}(x) = \sqrt{\underbrace{\frac{1}{T}\sum_{t=1}^{T}\left(\mu_t(x) - \bar{\mu}(x)\right)^2}_{\text{epistemic}} + \underbrace{\frac{1}{T}\sum_{t=1}^{T}\sigma_t^2(x)}_{\text{aleatoric}}}$ |
+
+: Types of Uncertainty within the Model {#tbl-model-uncertainty}
+
+Scalar values were then found for the epistemic, aleatoric, and total uncertainty of the model by taking the mean of each of the uncertainty arrays, then taking their square root (@tbl-epistemic-aleatoric-uncertainty).
+```{python}
+#| label: tbl-epistemic-aleatoric-uncertainty
+#| fig-cap: "Epistemic vs Aleatoric Uncertainty"
+from BNN import epistemic,aleatoric,total_sd
+import pandas as pd
+
+pd.set_option("display.width", 10_000)
+pd.set_option("display.max_columns", None)
+table = {
+  "Uncertainty Type":["Epistemic","Aleatoric","Total"],
+  "Value":[np.sqrt(epistemic.mean()),np.sqrt(aleatoric.mean()),np.sqrt(total_sd.mean())]
+  
+}
+print(pd.DataFrame(table).round(4))
 
 ```
 

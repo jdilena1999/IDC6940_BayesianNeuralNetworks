@@ -140,6 +140,8 @@ stdevs = np.stack(stdevs)
 
 final_mean_pred = means.mean(axis=0)
 total_sd = np.sqrt(means.var(axis=0) + (stdevs**2).mean(axis=0))  # epistemic + aleatoric
+epistemic =  np.sqrt(means.var(axis=0))
+aleatoric = np.sqrt((stdevs**2).mean(axis=0))
 '''print(final_mean_pred.shape())
 print(total_sd.shape())'''
 #print(final_mean_pred)
@@ -156,16 +158,22 @@ plt.show()
 
 # Avg Distribution:
 
-rand_xs = np.linspace(final_mean_pred.mean()-4*total_sd.mean(),final_mean_pred.mean()+4*total_sd.mean(),1000)
-rand_ys = np.array(stats.Normal(mu=final_mean_pred.mean(),sigma=total_sd.mean()).pdf(rand_xs))
+mu = final_mean_pred
+sigma = total_sd
 
-plt.plot(rand_xs,rand_ys)
-plt.title(f"Average Distibution\nMean: {final_mean_pred.mean():,.2f} | St. Dev: {total_sd.mean():,.2f}")
-for sd,c,label in zip([x*total_sd.mean() + final_mean_pred.mean() for x in [1,2,3]],["green",'yellow','red'],["1 SD","2 SD","3 SD"]):
-    plt.axvline(sd,0,1,linestyle='--',color=c)
-    plt.axvline(-sd,0,1,linestyle='--',color=c)
+# True average distribution: an equal-weight mixture of the per-example Normals
+xs = np.linspace((mu - 4*sigma).min(), (mu + 4*sigma).max(), 2000)
+pdf = stats.Normal(mu=mu, sigma=sigma).pdf(xs[:, None]).mean(axis=1)
+
+mix_mean = mu.mean()
+mix_sd = np.sqrt((sigma**2).mean() + mu.var())   # law of total variance again
+
+plt.plot(xs, pdf)
+for k, c in zip([1, 2, 3], ["green", "gold", "red"]):
+    plt.axvline(mix_mean + k*mix_sd, linestyle="--", color=c, label=f"{k} SD")
+    plt.axvline(mix_mean - k*mix_sd, linestyle="--", color=c)
+plt.title(f"Average Distribution (mixture)\nMean: {mix_mean:,.2f} | SD: {mix_sd:,.2f}")
 plt.legend()
-plt.savefig(f"./images/Average_Distribution.png")
+plt.savefig("./images/Average_Distribution.png")
 plt.show()
-
 
