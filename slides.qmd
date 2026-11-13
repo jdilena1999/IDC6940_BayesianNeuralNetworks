@@ -1,7 +1,7 @@
 ---
 title: "This Means (Bayesian) War(fare)!"
 subtitle: "A Bayesian Neural Network Approach to Electronic Warfare"
-author: "Maggie Morrison and Joshua DiLena (Advisor: Dr. Cohen)"
+author: "Margaret Morrison and Joshua DiLena (Advisor: Dr. Cohen)"
 date: today
 date-format: "MMMM D, YYYY"
 format:
