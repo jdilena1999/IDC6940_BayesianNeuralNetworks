@@ -140,10 +140,28 @@ print(f"Y mean: {y.mean()}")
 
 ```
 
-## Conclusion
+## Conclusion {.scrollable}
 
--   Summarize your key findings.
+::: {.panel-tabset}
 
--   Discuss the implications of your results.
+### Tactical Electronic Warfare Takeaways
+1. **Adaptive ECCM Triggers:** When $$\sigma_{\text{epistemic}}$$ spikes, the cognitive radio detects an anomalous, jammed RF state and triggers tactical frequency hopping.
+2. **Robust Situational Awareness:** Provides pilots and autonomous drone swarms with actionable confidence intervals rather than misleading point estimates.
+
+
+### Future Roadmap
+- Scale to the full 2.55-million frame RadioML benchmark via distributed variational inference.
+- Evaluate out-of-distribution detection on specialized pulse and chirp jamming signatures.
+- Deploy quantized BNN inference onto edge Software Defined Radios (Ettus USRP / FPGA).
+
+:::
+
+
+
+::: {.callout-tip}
+### Final Thought
+*"In contested military operations, an estimate without uncertainty is a liability. Bayesian neural networks turn that liability into tactical awareness."*
+:::
+
 
 ## References
