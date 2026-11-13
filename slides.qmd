@@ -10,6 +10,13 @@ course: Capstone Projects in Data Science
 bibliography: references.bib # file contains bibtex for references
 #always_allow_html: true # this allows to get PDF with HTML features
 self-contained: true
+theme: dark
+transition: slide
+slide-number: true
+math: mathjax
+width: 1280
+height: 720
+margin: 0.08
 execute: 
   warning: false
   message: false
