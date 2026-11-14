@@ -18,6 +18,9 @@ title-slide-attributes:
   data-background-image: "images/transparency.png"
   data-background-size: cover
   data-background-position: center
+pointer:
+  pointerSize: 24
+  color: purple
 width: 1280
 height: 1280
 margin: 0.08
@@ -27,6 +30,8 @@ execute:
 editor: 
   markdown: 
     wrap: 72
+revealjs-plugins:
+  - pointer
 ---
 
 
