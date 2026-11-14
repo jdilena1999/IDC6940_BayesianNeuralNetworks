@@ -15,7 +15,7 @@ transition: slide
 slide-number: true
 math: mathjax
 width: 1280
-height: 720
+height: 1280
 margin: 0.08
 execute: 
   warning: false
@@ -108,7 +108,69 @@ random search [@snoek2015scalable].\*
 
 ## Data Exploration and Visualization
 
--   Describe your data sources and collection process.
+<!--
+
+| Variable Name | Type | Feature Type | Description |
+|---|---|---|---|
+| SNR | Numeric | Response | Signal-to-noise ratio (target variable) |
+| I_mean | Numeric | \*\*Time-domain | Mean of in-phase signal |
+| Q_mean | Numeric | \*\*Time-domain | Mean of quadrature signal |
+| IQ_mean | Numeric | \*\*Time-domain | Mean of the signal magnitude across the 1,024 samples: $\text{IQ\_mean} = \frac{1}{N}\sum_{n=1}^{N} |x_n|$ |
+| I_var | Numeric | \*\*Time-domain | Variance of I component |
+| Q_var | Numeric | \*\*Time-domain | Variance of Q component |
+| I_Power | Numeric | \*\*Time-domain | Average power of I signal |
+| Q_Power | Numeric | \*\*Time-domain | Average power of Q signal |
+| *IQ_Power | Numeric | Combined | Total signal power from I and Q |
+| IQ_sd | Numeric | Combined | Standard deviation of signal magnitude: $\text{IQ\_sd} = \sqrt{\frac{1}{N}\sum_{n=1}^{N}\big(|x_n| - \text{IQ\_mean}\big)^2}$ |
+| Modulation | Categorical | Categorical | Type of modulation (e.g., QPSK, BPSK) |
+
+: Feature definitions and categories {#tbl-feature-definitions}
+
+\* `IQ_Power` was subsequently removed during preprocessing to ensure the posterior weights remain strongly identifiable and allow for quicker and more stable sampling and variational fitting.
+
+\** Features were categorized into time-domain, combined signal, and distribution-based groups to better capture different aspects of the RF signal behavior and support interpretation of model performance.
+-->
+
+<!--
+```{python}
+#| label: tbl-general-stats
+#| tbl-cap: "General Statistics of all Variables"
+from General_Statistics import table
+import pandas as pd
+
+pd.set_option("display.width", 2000)
+pd.set_option("display.max_columns", None)
+#pd.set_option("display.length",1_000)
+table
+
+```
+-->
+Our Response Variable:
+
+```{python}
+#| label: fig-snr-dist
+#| fig-cap: "Distribution of Signal-to-Noise Ratio in the RadioML dataset"
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+data = pd.read_csv("radioml_features.csv")
+
+bins1 = np.arange(min(data['SNR'].to_numpy())-1,max(data["SNR"].to_numpy())+2)
+
+
+plt.hist(data['SNR'].to_numpy(),bins=bins1,edgecolor='black')
+counts = []
+for val in list(set(data["SNR"].to_numpy())):
+  counts.append(list(data["SNR"].to_numpy()).count(val))
+plt.ylabel("Frequency")
+plt.xlabel("SNR Ratio")
+plt.axhline(np.array(counts).mean(),-30,30,linestyle='--',color='red')
+#sns.kdeplot(data=data,x="SNR")
+#plt.title("Response Variable (Signal-to-Noise Ratio) Distribution")
+plt.show()
+
+```
 
 -   Present initial findings and insights through visualizations.
 

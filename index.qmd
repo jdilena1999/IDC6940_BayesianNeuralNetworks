@@ -175,13 +175,14 @@ The RadioML 2018.01A dataset, created by DeepSig Inc. and accessed via Kaggle [@
 
 ```{python}
 #| label: tbl-general-stats
-#| fig-cap: "General Statistics of all Variables"
+#| tbl-cap: "General Statistics of all Variables"
 from General_Statistics import table
 import pandas as pd
 
 pd.set_option("display.width", 2000)
 pd.set_option("display.max_columns", None)
-print(table)
+
+table
 
 ```
 
@@ -215,6 +216,7 @@ Histograms are shown to display the distribution of our Signal-to-Noise (SNR) Ra
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+import seaborn as sns
 data = pd.read_csv("radioml_features.csv")
 
 bins1 = np.arange(min(data['SNR'].to_numpy())-1,max(data["SNR"].to_numpy())+2)
@@ -227,12 +229,13 @@ for val in list(set(data["SNR"].to_numpy())):
 plt.ylabel("Frequency")
 plt.xlabel("SNR Ratio")
 plt.axhline(np.array(counts).mean(),-30,30,linestyle='--',color='red')
+#sns.kdeplot(data=data,x="SNR")
 #plt.title("Response Variable (Signal-to-Noise Ratio) Distribution")
 plt.show()
 
 ```
 
-The SNR distribution has 26 discrete levels from -20dB to +30dB, visually appears to look like a uniform distribution
+The SNR distribution has 26 discrete levels from -20dB to +30dB, visually appears to roughly look like a uniform distribution
 
 
 ```{python}
@@ -351,14 +354,14 @@ For each layer, the kernel is a big matrix of weights, and each weight has its o
 
 ```{python}
 #| label: tbl-prior-posterior-kl
-#| fig-cap: "Prior vs Posterior Distributions"
+#| tbl-cap: "Prior vs Posterior Distributions"
 from prior_posterior_kl import model_priors_posteriors_kl
 import pandas as pd
 
 pd.set_option("display.width", 10_000)
 pd.set_option("display.max_columns", None)
-print(model_priors_posteriors_kl.round(4))
-
+table = model_priors_posteriors_kl.round(4)
+table
 ```
 
 
@@ -375,7 +378,7 @@ print(model_priors_posteriors_kl.round(4))
 Scalar values were then found for the epistemic, aleatoric, and total uncertainty of the model by taking the mean of each of the uncertainty arrays, then taking their square root (@tbl-epistemic-aleatoric-uncertainty).
 ```{python}
 #| label: tbl-epistemic-aleatoric-uncertainty
-#| fig-cap: "Epistemic vs Aleatoric Uncertainty"
+#| tbl-cap: "Epistemic vs Aleatoric Uncertainty"
 from BNN import epistemic,aleatoric,total_sd
 import pandas as pd
 
@@ -386,7 +389,8 @@ table = {
   "Value":[np.sqrt(epistemic.mean()),np.sqrt(aleatoric.mean()),np.sqrt(total_sd.mean())]
   
 }
-print(pd.DataFrame(table).round(4))
+final = pd.DataFrame(table).round(4)
+final
 
 ```
 
