@@ -131,14 +131,7 @@ A study was conducted to determine how...
 
 -   **Tell a story about what the data reveals.**
 
-```{python}
 
-import pandas as pd
-from data_processing import X_transformed,y
-import numpy as np
-print(f"Y mean: {y.mean()}")
-
-```
 
 ## Conclusion {.scrollable}
 
