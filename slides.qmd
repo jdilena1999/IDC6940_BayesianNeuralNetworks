@@ -14,6 +14,10 @@ theme: dark
 transition: slide
 slide-number: true
 math: mathjax
+title-slide-attributes:
+  data-background-image: "images/transparency.png"
+  data-background-size: cover
+  data-background-position: center
 width: 1280
 height: 1280
 margin: 0.08
