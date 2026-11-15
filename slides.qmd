@@ -120,7 +120,7 @@ In contested electromagnetic environments, knowing **how confident** a receiver 
 }
 
 #methods-wheel-svg .wheel-rotating-group {
-  transition: transform 900ms cubic-bezier(0.22, 1, 0.36, 1);
+  transition: transform 1200ms cubic-bezier(0.22, 1, 0.36, 1);
   }
   
 .wheel-segment {
