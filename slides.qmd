@@ -35,48 +35,503 @@ revealjs-plugins:
 ---
 
 
-## EW Introduction  {data-background-color="#1a1e24" .scrollable .smaller}
 
-### The Electronic Warfare Landscape
-- **Proliferation of Autonomous Systems:** Modern unmanned aerial platforms (UAVs) rely completely on RF datalinks for telemetry, command, and control.
-- **The Contested Spectrum:** Adversarial jamming and spoofing severely disrupt mission-critical wireless communications.
-- **The Failure of Deterministic AI:** Conventional deep learning models minimize empirical risk, producing **overconfident point estimates** on noisy or jammed signals.
+## 1. Operational Motivation: The EW Battleground {data-background-color="#1a1e24" .scrollable .smaller}
 
+::: {.panel-tabset}
+
+## Background and Motivation
+
+- **Electronic Warfare (EW)** has been part of military operations since World War I, evolving alongside communications technology
+  - Protects aircraft and pilots in contested environments
+  - Jamming can disrupt communications and operational effectiveness
+  ([Electronic Warfare, n.d.](https://jdilena1999.github.io/IDC6940_BayesianNeuralNetworks/#ref-noauthor_under_nodate))
+
+- **Modern military drones** increasingly depend on reliable radio-frequency (RF) links
+  - Vulnerable to jamming and signal interference
+  ([vgi_admin, 2025](https://jdilena1999.github.io/IDC6940_BayesianNeuralNetworks/#ref-vgi_admin_drones_2025))
+
+- **Machine learning applications in wireless security**
+  - Jere et al. (2024) combined supervised learning and Bayesian network inference
+  - Demonstrated near-real-time jamming detection and classification
+  ([Jere et al., 2024](https://jdilena1999.github.io/IDC6940_BayesianNeuralNetworks/#ref-10352089))
+
+## Dataset: RadioML 2018.01A
+
+- Created by DeepSig Inc.; accessed through Kaggle
+  ([DeepSig Inc., 2018])
+
+- Simulated RF signals across different modulation types and noise levels
+  ([O'Shea et al., 2018])
+
+- **Full dataset characteristics:**
+  - 2,555,904 signal frames
+  - 24 modulation types
+  - 26 SNR levels (-20 dB to +30 dB)
+  - 1,024 in-phase and quadrature (I/Q) samples per signal
+
+- **Research sample:**
+  - Random subsample of N = 5,000 signal frames
+
+- Provides a framework for examining how signal quality changes under varying noise conditions
+  ([O'Shea et al., 2018])
+
+## Research Objective
+
+- Model **Signal-to-Noise Ratio (SNR)** as the response variable using neural networks and Bayesian analysis
+
+- Bayesian methods:
+  - Treat model parameters as probability distributions rather than fixed values
+  - Incorporate prior knowledge
+  - Allow results to be expressed as probability statements
+  ([Berger, 2000])
+
+- **Bayesian Neural Networks (BNNs):**
+  - Provide a framework for addressing overfitting
+    ([Bishop, 1997](https://jdilena1999.github.io/IDC6940_BayesianNeuralNetworks/#ref-Bishop1997))
+  - Quantify predictive uncertainty, particularly useful with noisy data
+    ([Mullachery et al., 2018])
+  - Require consideration of scalability with large datasets
+    ([Jospin et al., 2022](https://jdilena1999.github.io/IDC6940_BayesianNeuralNetworks/#ref-9756596))
+  - Bayesian priors provide a form of regularization comparable to weight decay
+    ([Bishop, 1997])
+
+::: 
 ::: {.callout-important}
 ### The Core Challenge
 In contested electromagnetic environments, knowing **how confident** a receiver is matters just as much as its estimated Signal-to-Noise Ratio (SNR).
 :::
 
-## Data Introduction
+<style>
+.methods-wheel-slide {
+  text-align: center;
+}
 
-  Our project uses the DeepSig RadioML 2018.01A
-dataset, downloaded from Kaggle, containing simulated RF signals across
-different modulation types with varying levels of noise [@OShea2018].
-The dataset includes 24 modulation types, 26 SNR levels ranging from −20
-dB to +30 dB, and 1,024 in-phase and quadrature (I/Q) samples per
-signal, for approximately 2.5 million total observations [@OShea2018].
-It therefore provides a useful schema for studying how signal quality
-changes under different interference conditions [@OShea2018]. 
+.wheel-container {
+  width: min(88vw, 78vh, 700px);
+  aspect-ratio: 1;
+  margin: 5px auto 0;
+}
 
-## Project Introduction {.smaller}
+#methods-wheel-svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
 
-  The objective of this project is to model SNR as the response variable using
-neural networks and Bayesian analysis. Bayesian methods treat model
-parameters as probability distributions rather than fixed values. This
-allows prior knowledge to be formally incorporated and results to be
-expressed as direct probability statements about quantities of interest
-[@Berger01122000]. Applied to neural networks, the Bayesian framework
-has a solution to overfitting and ways to quantify uncertainty in
-predictions [@Bishop1997]. In addition, Bayesian neural networks are
-better than standard networks when data are noisy, because Bayesian
-neural networks reports show how confident each prediction is
-[@DBLP:journals/corr/abs-1801-07710]. Guidance on using these models
-with deep learning tools is explained by Jospin et al. Because the
-dataset is large, scalability is an important consideration [@9756596].
-Hernández-Lobato et al. studied that "probabilistic backpropagation
-allows Bayesian neural networks to be trained efficiently on large
-datasets while retaining accurate uncertainty estimates"
-[@pmlr-v37-hernandez-lobatoc15]. 
+#methods-wheel-svg .wheel-rotating-group {
+  transition: transform 900ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  
+.wheel-segment {
+  cursor: pointer;
+  stroke: white;
+  stroke-width: 5;
+  stroke-linejoin: round;
+  transition: filter 250ms ease;
+}
+
+.wheel-segment:hover {
+  filter: brightness(1.2);
+}
+
+.wheel-segment.active {
+  stroke: #a9dce0;
+  stroke-width: 8;
+  filter: drop-shadow(0 3px 5px #18344f55);
+}
+
+.wheel-label {
+  fill: white;
+  font-family: Arial, sans-serif;
+  text-anchor: middle;
+  pointer-events: none;
+}
+
+.wheel-number {
+  font-size: 17px;
+  font-weight: 700;
+  fill: #c5e5e8;
+}
+
+.wheel-title {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.wheel-center {
+  fill: white;
+  stroke: #18344f;
+  stroke-width: 4;
+}
+
+.wheel-center-title {
+  fill: #18344f;
+  font-family: Arial, sans-serif;
+  font-size: 23px;
+  font-weight: 700;
+  text-anchor: middle;
+}
+
+.wheel-center-subtitle {
+  fill: #367589;
+  font-family: Arial, sans-serif;
+  font-size: 13px;
+  text-anchor: middle;
+}
+
+.wheel-instructions {
+  color: #64748b;
+  font-size: 15px;
+  margin-top: -5px;
+}
+
+.methods-home {
+  position: absolute;
+  bottom: 18px;
+  right: 24px;
+  background: #18344f;
+  color: white;
+  border: 0;
+  border-radius: 7px;
+  padding: 10px 15px;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.methods-home:hover {
+  background: #367589;
+}
+</style>
+
+## Methods: Research Roadmap {.methods-wheel-slide}
+
+<div class="wheel-container">
+  <svg id="methods-wheel-svg"
+       viewBox="0 0 600 600"
+       role="group"
+       aria-label="Seven-section Methods navigation wheel">
+  </svg>
+</div>
+
+<p class="wheel-instructions">
+  Select a section to explore the research methodology.
+</p>
+
+## 3.1 Data Source & Sampling {.scrollable .smaller}
+
+- **Dataset:** RadioML 2018.01A, developed by DeepSig Inc. and accessed through Kaggle.
+- **Original dataset:** 2,555,904 signal frames.
+- **Sample selection:** Random subsample of 5,000 signal frames (\(N=5,000\)).
+- **Signal composition:** Each frame contains 1,024 in-phase (I) and quadrature (Q) measurements.
+- **Dataset coverage:** 24 modulation types and 26 SNR levels ranging from −20 dB to +30 dB.
+
+## 3.2 Data Cleaning & Feature Engineering{.scrollable .smaller}
+
+- **Feature extraction:** Summarized raw I/Q signal measurements into statistical features.
+- **Derived predictors:** Calculated means, variances, standard deviations, and power measurements.
+- **Data quality:** Checked for missing values and reviewed feature distributions.
+- **Outlier assessment:** Retained extreme power values because they represented legitimate signal conditions.
+- **Standardization:** Scaled numerical predictors using training-data means and standard deviations.
+- **Data partitioning:** Split observations into 70% training and 30% testing sets.
+
+## 3.3 Predictor Selection & Multicollinearity{.scrollable .smaller}
+
+- **Feature assessment:** Examined relationships among predictors to identify redundant information.
+- **Exact linear dependency:** Identified `IQ_Power` as the sum of `I_Power` and `Q_Power`.
+- **Multicollinearity check:** Used R's `alias()` function to confirm the linear dependency.
+- **Predictor removal:** Excluded `IQ_Power` to eliminate exact linear dependence.
+- **Feature retention:** Retained `IQ_mean` and `IQ_sd` because they provided additional information without exact linear dependency.
+- **Categorical encoding:** Converted modulation type into a factor for model input.
+
+## 3.4 Bayesian Neural Network Architecture{.scrollable .smaller}
+
+- **Model framework:** Built a Bayesian Neural Network using TensorFlow and TensorFlow Probability.
+- **Network structure:** Five hidden layers followed by an output layer.
+- **Bayesian layers:** Used `DenseFlipout` layers to represent network weights as probability distributions.
+- **Activation function:** Applied ReLU activation in the hidden layers.
+- **Output:** Predicted the parameters of a Gaussian distribution: mean and standard deviation.
+- **Objective:** Generated SNR predictions while representing predictive uncertainty.
+
+## 3.5 Probability Model & Loss Function{.scrollable .smaller}
+
+- **Probability model:** Assumed SNR observations follow a Gaussian (normal) distribution.
+- **Model outputs:** Predicted a mean (\(\mu\)) and standard deviation (\(\sigma\)) for each observation.
+- **Predictive distribution:** Represented each SNR prediction as a probability distribution rather than a single point estimate.
+- **Loss function:** Used Negative Log-Likelihood (NLL) to evaluate how well the predicted distributions fit observed SNR values.
+- **Optimization:** Used the Adam optimizer to minimize the NLL loss during training.
+
+
+## 3.6 Training, Validation & Testing {.scrollable .smaller}
+
+- **Training process:** Trained the Bayesian neural network for 200 epochs using the Adam optimizer.
+- **Validation:** Reserved 20% of the training data for validation during model training.
+- **Repeated sampling:** Repeated the prediction process 200 times to generate a distribution of predictive outputs.
+- **Prediction aggregation:** Combined the repeated predictions to produce final estimated means and standard deviations.
+- **Testing:** Evaluated model performance using the held-out 30% test dataset.
+
+
+## 3.7 Evaluation Metrics & Experimental Comparisons{.scrollable .smaller}
+
+- **Mean Squared Error (MSE):** Measured the average squared difference between predicted and observed SNR values.
+- **Mean Absolute Error (MAE):** Measured the average absolute prediction error.
+- **Predictive uncertainty:** Examined predicted standard deviations to assess the uncertainty associated with SNR estimates.
+- **Training performance:** Reviewed loss, MSE, and MAE across training epochs.
+- **Model assessment:** Compared predicted and observed SNR distributions to evaluate model behavior and predictive performance.
+
+<script>
+
+(function () {
+  function initializeMethodsWheel() {
+
+    const svg = document.getElementById("methods-wheel-svg");
+
+    if (!svg || !window.Reveal || svg.dataset.initialized === "true") {
+      return;
+    }
+
+    svg.dataset.initialized = "true";
+
+    const NS = "http://www.w3.org/2000/svg";
+
+    const sections = [
+      ["3.1", ["Data Source", "& Sampling"]],
+      ["3.2", ["Feature", "Engineering"]],
+      ["3.3", ["Predictor", "Selection"]],
+      ["3.4", ["BNN", "Architecture"]],
+      ["3.5", ["Probability", "Model"]],
+      ["3.6", ["Training &", "Validation"]],
+      ["3.7", ["Model", "Evaluation"]]
+    ];
+
+    const colors = [
+      "#18344f", "#28536b", "#367589",
+      "#244b66", "#367589", "#28536b", "#18344f"
+    ];
+
+    const cx = 300;
+    const cy = 300;
+    const outer = 278;
+    const inner = 119;
+    const labelRadius = 202;
+    const step = 360 / 7;
+    const gap = 4;
+
+    const slides = Reveal.getSlides();
+
+    const wheelIndex = slides.findIndex(
+      slide => slide.querySelector("#methods-wheel-svg")
+    );
+
+    if (wheelIndex < 0) {
+      svg.dataset.initialized = "false";
+      return;
+    }
+
+    function polar(radius, angle) {
+      const rad = angle * Math.PI / 180;
+
+      return {
+        x: cx + radius * Math.cos(rad),
+        y: cy + radius * Math.sin(rad)
+      };
+    }
+
+    function sectorPath(start, end) {
+      const a = polar(outer, start);
+      const b = polar(outer, end);
+      const c = polar(inner, end);
+      const d = polar(inner, start);
+
+      return [
+        `M ${a.x} ${a.y}`,
+        `A ${outer} ${outer} 0 0 1 ${b.x} ${b.y}`,
+        `L ${c.x} ${c.y}`,
+        `A ${inner} ${inner} 0 0 0 ${d.x} ${d.y}`,
+        "Z"
+      ].join(" ");
+    }
+
+    // Clear any previous drawing.
+    svg.replaceChildren();
+
+    // This group contains ONLY the rotating wedges and labels.
+   const rotatingGroup = document.createElementNS(
+  "http://www.w3.org/2000/svg",
+  "g"
+);
+
+rotatingGroup.classList.add("wheel-rotating-group");
+
+    const segmentGroups = [];
+
+    sections.forEach((section, i) => {
+
+      const centerAngle = -90 + i * step;
+      const start = centerAngle - step / 2 + gap / 2;
+      const end = centerAngle + step / 2 - gap / 2;
+
+      const group = document.createElementNS(NS, "g");
+
+      group.style.cursor = "pointer";
+      group.setAttribute("role", "button");
+      group.setAttribute("tabindex", "0");
+      group.setAttribute(
+        "aria-label",
+        section[0] + " " + section[1].join(" ")
+      );
+
+      const path = document.createElementNS(NS, "path");
+
+      path.setAttribute("d", sectorPath(start, end));
+      path.setAttribute("fill", colors[i]);
+      path.setAttribute("class", "wheel-segment");
+
+      group.appendChild(path);
+
+      const point = polar(labelRadius, centerAngle);
+
+      const labelGroup = document.createElementNS(NS, "g");
+
+      const number = document.createElementNS(NS, "text");
+      number.setAttribute("class", "wheel-label wheel-number");
+      number.setAttribute("text-anchor", "middle");
+      number.setAttribute("y", "-12");
+      number.textContent = section[0];
+
+      labelGroup.appendChild(number);
+
+      section[1].forEach((line, j) => {
+
+        const title = document.createElementNS(NS, "text");
+
+        title.setAttribute("class", "wheel-label wheel-title");
+        title.setAttribute("text-anchor", "middle");
+        title.setAttribute("y", 12 + j * 18);
+        title.textContent = line;
+
+        labelGroup.appendChild(title);
+      });
+
+      group.appendChild(labelGroup);
+      rotatingGroup.appendChild(group);
+
+      segmentGroups.push({
+        group,
+        path,
+        labelGroup,
+        point
+      });
+
+      group.addEventListener("click", () => openSection(i));
+
+      group.addEventListener("keydown", event => {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          openSection(i);
+        }
+      });
+  });
+
+    // Add the rotating segments to the SVG.
+    svg.appendChild(rotatingGroup);
+
+    // Stationary white center.
+    const center = document.createElementNS(NS, "circle");
+
+    center.setAttribute("cx", cx);
+    center.setAttribute("cy", cy);
+    center.setAttribute("r", inner - 5);
+    center.setAttribute("class", "wheel-center");
+
+    svg.appendChild(center);
+
+    function addCenterText(text, y, className) {
+
+      const element = document.createElementNS(NS, "text");
+
+      element.setAttribute("x", cx);
+      element.setAttribute("y", y);
+      element.setAttribute("class", className);
+      element.setAttribute("text-anchor", "middle");
+      element.textContent = text;
+
+      svg.appendChild(element);
+    }
+
+    addCenterText("RESEARCH", cy - 9, "wheel-center-title");
+    addCenterText("METHODS", cy + 20, "wheel-center-title");
+    addCenterText("3.1 – 3.7", cy + 47, "wheel-center-subtitle");
+
+    // Rotate the wheel one section at a time.
+    function updateWheel(index) {
+       const rotation = (-index) * step;
+       rotatingGroup.setAttribute("transform", `rotate(${rotation} ${cx} ${cy})`);
+
+    segmentGroups.forEach((item, i) => {
+
+        item.path.classList.toggle("active", i === index);
+
+        // Keep text upright while wedges rotate.
+        item.labelGroup.setAttribute(
+          "transform",
+          `translate(${item.point.x},${item.point.y}) rotate(${-rotation})`
+        );
+      });
+    }
+    
+let selectedSection = 0;
+    
+    function openSection(index) {
+      selectedSection = index;
+       Reveal.slide(wheelIndex + index + 1);
+    }
+
+    // Add return buttons to all seven Methods slides.
+    slides.slice(wheelIndex + 1, wheelIndex + 8)
+      .forEach(slide => {
+
+        if (slide.querySelector(".methods-home")) return;
+
+        const button = document.createElement("button");
+
+        button.className = "methods-home";
+        button.textContent = "↶ Methods Wheel";
+
+        button.addEventListener("click", () => {
+          Reveal.slide(wheelIndex);
+        });
+
+        slide.appendChild(button);
+      });
+
+    
+    // Rotate the wheel when returning to the Methods slide.
+    Reveal.on("slidechanged", event => {
+      const index = slides.indexOf(event.currentSlide);
+
+      if (index === wheelIndex) {
+        updateWheel(selectedSection);
+      }
+    });
+
+    // Set the initial wheel position.
+    updateWheel(0);
+
+  }
+
+  // Wait until RevealJS is fully initialized.
+  const checkReady = setInterval(() => {
+
+    if (window.Reveal && Reveal.isReady()) {
+      clearInterval(checkReady);
+      initializeMethodsWheel();
+    }
+
+  }, 100);
+
+})();
+</script>
 
 ## Methods Introduction {.smaller}
 Because our dataset DeepSig 2018 contains a large number of raw signal 
