@@ -444,7 +444,7 @@
   <meta name="generator" content="quarto-1.10.18">
 
   <meta name="author" content="Margaret Morrison and Joshua DiLena (Advisor: Dr. Cohen)">
-  <meta name="dcterms.date" content="2026-11-14">
+  <meta name="dcterms.date" content="2026-11-15">
   <title>This Means (Bayesian) War(fare)!</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -1049,16 +1049,69 @@ Margaret Morrison and Joshua DiLena (Advisor: Dr. Cohen)
 </div>
 </div>
 
-  <p class="date">November 14, 2026</p>
+  <p class="date">November 15, 2026</p>
 </section>
-<section id="ew-introduction" class="slide level2 scrollable smaller" data-background-color="#1a1e24">
-<h2>EW Introduction</h2>
-<h3 id="the-electronic-warfare-landscape">The Electronic Warfare Landscape</h3>
+<section id="operational-motivation-the-ew-battleground" class="slide level2 scrollable smaller" data-background-color="#1a1e24">
+<h2>1. Operational Motivation: The EW Battleground</h2>
+<div class="panel-tabset">
+<ul id="tabset-1" class="panel-tabset-tabby"><li><a data-tabby-default href="#tabset-1-1">Background and Motivation</a></li><li><a href="#tabset-1-2">Dataset: RadioML 2018.01A</a></li><li><a href="#tabset-1-3">Research Objective</a></li></ul>
+<div class="tab-content">
+<div id="tabset-1-1">
 <ul>
-<li><strong>Proliferation of Autonomous Systems:</strong> Modern unmanned aerial platforms (UAVs) rely completely on RF datalinks for telemetry, command, and control.</li>
-<li><strong>The Contested Spectrum:</strong> Adversarial jamming and spoofing severely disrupt mission-critical wireless communications.</li>
-<li><strong>The Failure of Deterministic AI:</strong> Conventional deep learning models minimize empirical risk, producing <strong>overconfident point estimates</strong> on noisy or jammed signals.</li>
+<li><strong>Electronic Warfare (EW)</strong> has been part of military operations since World War I, evolving alongside communications technology
+<ul>
+<li>Protects aircraft and pilots in contested environments</li>
+<li>Jamming can disrupt communications and operational effectiveness (<a href="https://jdilena1999.github.io/IDC6940_BayesianNeuralNetworks/#ref-noauthor_under_nodate">Electronic Warfare, n.d.</a>)</li>
+</ul></li>
+<li><strong>Modern military drones</strong> increasingly depend on reliable radio-frequency (RF) links
+<ul>
+<li>Vulnerable to jamming and signal interference (<a href="https://jdilena1999.github.io/IDC6940_BayesianNeuralNetworks/#ref-vgi_admin_drones_2025">vgi_admin, 2025</a>)</li>
+</ul></li>
+<li><strong>Machine learning applications in wireless security</strong>
+<ul>
+<li>Jere et al. (2024) combined supervised learning and Bayesian network inference</li>
+<li>Demonstrated near-real-time jamming detection and classification (<a href="https://jdilena1999.github.io/IDC6940_BayesianNeuralNetworks/#ref-10352089">Jere et al., 2024</a>)</li>
+</ul></li>
 </ul>
+</div>
+<div id="tabset-1-2">
+<ul>
+<li><p>Created by DeepSig Inc.; accessed through Kaggle ([DeepSig Inc., 2018])</p></li>
+<li><p>Simulated RF signals across different modulation types and noise levels ([O’Shea et al., 2018])</p></li>
+<li><p><strong>Full dataset characteristics:</strong></p>
+<ul>
+<li>2,555,904 signal frames</li>
+<li>24 modulation types</li>
+<li>26 SNR levels (-20 dB to +30 dB)</li>
+<li>1,024 in-phase and quadrature (I/Q) samples per signal</li>
+</ul></li>
+<li><p><strong>Research sample:</strong></p>
+<ul>
+<li>Random subsample of N = 5,000 signal frames</li>
+</ul></li>
+<li><p>Provides a framework for examining how signal quality changes under varying noise conditions ([O’Shea et al., 2018])</p></li>
+</ul>
+</div>
+<div id="tabset-1-3">
+<ul>
+<li><p>Model <strong>Signal-to-Noise Ratio (SNR)</strong> as the response variable using neural networks and Bayesian analysis</p></li>
+<li><p>Bayesian methods:</p>
+<ul>
+<li>Treat model parameters as probability distributions rather than fixed values</li>
+<li>Incorporate prior knowledge</li>
+<li>Allow results to be expressed as probability statements ([Berger, 2000])</li>
+</ul></li>
+<li><p><strong>Bayesian Neural Networks (BNNs):</strong></p>
+<ul>
+<li>Provide a framework for addressing overfitting (<a href="https://jdilena1999.github.io/IDC6940_BayesianNeuralNetworks/#ref-Bishop1997">Bishop, 1997</a>)</li>
+<li>Quantify predictive uncertainty, particularly useful with noisy data ([Mullachery et al., 2018])</li>
+<li>Require consideration of scalability with large datasets (<a href="https://jdilena1999.github.io/IDC6940_BayesianNeuralNetworks/#ref-9756596">Jospin et al., 2022</a>)</li>
+<li>Bayesian priors provide a form of regularization comparable to weight decay ([Bishop, 1997])</li>
+</ul></li>
+</ul>
+</div>
+</div>
+</div>
 <div class="callout callout-important callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
@@ -1072,14 +1125,427 @@ Margaret Morrison and Joshua DiLena (Advisor: Dr. Cohen)
 </div>
 </div>
 </div>
+<style>
+.methods-wheel-slide {
+text-align: center;
+}
+.wheel-container {
+width: min(88vw, 78vh, 700px);
+aspect-ratio: 1;
+margin: 5px auto 0;
+}
+#methods-wheel-svg {
+width: 100%;
+height: 100%;
+overflow: visible;
+}
+#methods-wheel-svg .wheel-rotating-group {
+transition: transform 1200ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.wheel-segment {
+cursor: pointer;
+stroke: white;
+stroke-width: 5;
+stroke-linejoin: round;
+transition: filter 250ms ease;
+}
+.wheel-segment:hover {
+filter: brightness(1.2);
+}
+.wheel-segment.active {
+stroke: #a9dce0;
+stroke-width: 8;
+filter: drop-shadow(0 3px 5px #18344f55);
+}
+.wheel-label {
+fill: white;
+font-family: Arial, sans-serif;
+text-anchor: middle;
+pointer-events: none;
+}
+.wheel-number {
+font-size: 17px;
+font-weight: 700;
+fill: #c5e5e8;
+}
+.wheel-title {
+font-size: 14px;
+font-weight: 600;
+}
+.wheel-center {
+fill: white;
+stroke: #18344f;
+stroke-width: 4;
+}
+.wheel-center-title {
+fill: #18344f;
+font-family: Arial, sans-serif;
+font-size: 23px;
+font-weight: 700;
+text-anchor: middle;
+}
+.wheel-center-subtitle {
+fill: #367589;
+font-family: Arial, sans-serif;
+font-size: 13px;
+text-anchor: middle;
+}
+.wheel-instructions {
+color: #64748b;
+font-size: 15px;
+margin-top: -5px;
+}
+.methods-home {
+position: absolute;
+bottom: 18px;
+right: 24px;
+background: #18344f;
+color: white;
+border: 0;
+border-radius: 7px;
+padding: 10px 15px;
+cursor: pointer;
+font-size: 13px;
+}
+.methods-home:hover {
+background: #367589;
+}
+</style>
 </section>
-<section id="data-introduction" class="slide level2">
-<h2>Data Introduction</h2>
-<p>Our project uses the DeepSig RadioML 2018.01A dataset, downloaded from Kaggle, containing simulated RF signals across different modulation types with varying levels of noise <span class="citation" data-cites="OShea2018">(<a href="#/references" role="doc-biblioref" onclick>O’Shea et al. 2018</a>)</span>. The dataset includes 24 modulation types, 26 SNR levels ranging from −20 dB to +30 dB, and 1,024 in-phase and quadrature (I/Q) samples per signal, for approximately 2.5 million total observations <span class="citation" data-cites="OShea2018">(<a href="#/references" role="doc-biblioref" onclick>O’Shea et al. 2018</a>)</span>. It therefore provides a useful schema for studying how signal quality changes under different interference conditions <span class="citation" data-cites="OShea2018">(<a href="#/references" role="doc-biblioref" onclick>O’Shea et al. 2018</a>)</span>.</p>
+<section id="methods-research-roadmap" class="slide level2 methods-wheel-slide">
+<h2>Methods: Research Roadmap</h2>
+<div class="wheel-container">
+<p><svg id="methods-wheel-svg" viewbox="0 0 600 600" role="group" aria-label="Seven-section Methods navigation wheel"> </svg></p>
+</div>
+<p class="wheel-instructions">
+Select a section to explore the research methodology.
+</p>
 </section>
-<section id="project-introduction" class="slide level2 smaller">
-<h2>Project Introduction</h2>
-<p>The objective of this project is to model SNR as the response variable using neural networks and Bayesian analysis. Bayesian methods treat model parameters as probability distributions rather than fixed values. This allows prior knowledge to be formally incorporated and results to be expressed as direct probability statements about quantities of interest <span class="citation" data-cites="Berger01122000">(<a href="#/references" role="doc-biblioref" onclick>Berger 2000</a>)</span>. Applied to neural networks, the Bayesian framework has a solution to overfitting and ways to quantify uncertainty in predictions <span class="citation" data-cites="Bishop1997">(<a href="#/references" role="doc-biblioref" onclick>Bishop 1997</a>)</span>. In addition, Bayesian neural networks are better than standard networks when data are noisy, because Bayesian neural networks reports show how confident each prediction is <span class="citation" data-cites="DBLP:journals/corr/abs-1801-07710">(<a href="#/references" role="doc-biblioref" onclick>Mullachery et al. 2018</a>)</span>. Guidance on using these models with deep learning tools is explained by Jospin et al. Because the dataset is large, scalability is an important consideration <span class="citation" data-cites="9756596">(<a href="#/references" role="doc-biblioref" onclick>Jospin et al. 2022</a>)</span>. Hernández-Lobato et al. studied that “probabilistic backpropagation allows Bayesian neural networks to be trained efficiently on large datasets while retaining accurate uncertainty estimates” <span class="citation" data-cites="pmlr-v37-hernandez-lobatoc15">(<a href="#/references" role="doc-biblioref" onclick>Hernandez-Lobato and Adams 2015</a>)</span>.</p>
+<section id="data-source-sampling" class="slide level2 scrollable smaller">
+<h2>3.1 Data Source &amp; Sampling</h2>
+<ul>
+<li><strong>Dataset:</strong> RadioML 2018.01A, developed by DeepSig Inc. and accessed through Kaggle.</li>
+<li><strong>Original dataset:</strong> 2,555,904 signal frames.</li>
+<li><strong>Sample selection:</strong> Random subsample of 5,000 signal frames ((N=5,000)).</li>
+<li><strong>Signal composition:</strong> Each frame contains 1,024 in-phase (I) and quadrature (Q) measurements.</li>
+<li><strong>Dataset coverage:</strong> 24 modulation types and 26 SNR levels ranging from −20 dB to +30 dB.</li>
+</ul>
+</section>
+<section id="data-cleaning-feature-engineering" class="slide level2 scrollable smaller">
+<h2>3.2 Data Cleaning &amp; Feature Engineering</h2>
+<ul>
+<li><strong>Feature extraction:</strong> Summarized raw I/Q signal measurements into statistical features.</li>
+<li><strong>Derived predictors:</strong> Calculated means, variances, standard deviations, and power measurements.</li>
+<li><strong>Data quality:</strong> Checked for missing values and reviewed feature distributions.</li>
+<li><strong>Outlier assessment:</strong> Retained extreme power values because they represented legitimate signal conditions.</li>
+<li><strong>Standardization:</strong> Scaled numerical predictors using training-data means and standard deviations.</li>
+<li><strong>Data partitioning:</strong> Split observations into 70% training and 30% testing sets.</li>
+</ul>
+</section>
+<section id="predictor-selection-multicollinearity" class="slide level2 scrollable smaller">
+<h2>3.3 Predictor Selection &amp; Multicollinearity</h2>
+<ul>
+<li><strong>Feature assessment:</strong> Examined relationships among predictors to identify redundant information.</li>
+<li><strong>Exact linear dependency:</strong> Identified <code>IQ_Power</code> as the sum of <code>I_Power</code> and <code>Q_Power</code>.</li>
+<li><strong>Multicollinearity check:</strong> Used R’s <code>alias()</code> function to confirm the linear dependency.</li>
+<li><strong>Predictor removal:</strong> Excluded <code>IQ_Power</code> to eliminate exact linear dependence.</li>
+<li><strong>Feature retention:</strong> Retained <code>IQ_mean</code> and <code>IQ_sd</code> because they provided additional information without exact linear dependency.</li>
+<li><strong>Categorical encoding:</strong> Converted modulation type into a factor for model input.</li>
+</ul>
+</section>
+<section id="bayesian-neural-network-architecture" class="slide level2 scrollable smaller">
+<h2>3.4 Bayesian Neural Network Architecture</h2>
+<ul>
+<li><strong>Model framework:</strong> Built a Bayesian Neural Network using TensorFlow and TensorFlow Probability.</li>
+<li><strong>Network structure:</strong> Five hidden layers followed by an output layer.</li>
+<li><strong>Bayesian layers:</strong> Used <code>DenseFlipout</code> layers to represent network weights as probability distributions.</li>
+<li><strong>Activation function:</strong> Applied ReLU activation in the hidden layers.</li>
+<li><strong>Output:</strong> Predicted the parameters of a Gaussian distribution: mean and standard deviation.</li>
+<li><strong>Objective:</strong> Generated SNR predictions while representing predictive uncertainty.</li>
+</ul>
+</section>
+<section id="probability-model-loss-function" class="slide level2 scrollable smaller">
+<h2>3.5 Probability Model &amp; Loss Function</h2>
+<ul>
+<li><strong>Probability model:</strong> Assumed SNR observations follow a Gaussian (normal) distribution.</li>
+<li><strong>Model outputs:</strong> Predicted a mean (()) and standard deviation (()) for each observation.</li>
+<li><strong>Predictive distribution:</strong> Represented each SNR prediction as a probability distribution rather than a single point estimate.</li>
+<li><strong>Loss function:</strong> Used Negative Log-Likelihood (NLL) to evaluate how well the predicted distributions fit observed SNR values.</li>
+<li><strong>Optimization:</strong> Used the Adam optimizer to minimize the NLL loss during training.</li>
+</ul>
+</section>
+<section id="training-validation-testing" class="slide level2 scrollable smaller">
+<h2>3.6 Training, Validation &amp; Testing</h2>
+<ul>
+<li><strong>Training process:</strong> Trained the Bayesian neural network for 200 epochs using the Adam optimizer.</li>
+<li><strong>Validation:</strong> Reserved 20% of the training data for validation during model training.</li>
+<li><strong>Repeated sampling:</strong> Repeated the prediction process 200 times to generate a distribution of predictive outputs.</li>
+<li><strong>Prediction aggregation:</strong> Combined the repeated predictions to produce final estimated means and standard deviations.</li>
+<li><strong>Testing:</strong> Evaluated model performance using the held-out 30% test dataset.</li>
+</ul>
+</section>
+<section id="evaluation-metrics-experimental-comparisons" class="slide level2 scrollable smaller">
+<h2>3.7 Evaluation Metrics &amp; Experimental Comparisons</h2>
+<ul>
+<li><strong>Mean Squared Error (MSE):</strong> Measured the average squared difference between predicted and observed SNR values.</li>
+<li><strong>Mean Absolute Error (MAE):</strong> Measured the average absolute prediction error.</li>
+<li><strong>Predictive uncertainty:</strong> Examined predicted standard deviations to assess the uncertainty associated with SNR estimates.</li>
+<li><strong>Training performance:</strong> Reviewed loss, MSE, and MAE across training epochs.</li>
+<li><strong>Model assessment:</strong> Compared predicted and observed SNR distributions to evaluate model behavior and predictive performance.</li>
+</ul>
+<script>
+
+(function () {
+  function initializeMethodsWheel() {
+
+    const svg = document.getElementById("methods-wheel-svg");
+
+    if (!svg || !window.Reveal || svg.dataset.initialized === "true") {
+      return;
+    }
+
+    svg.dataset.initialized = "true";
+
+    const NS = "http://www.w3.org/2000/svg";
+
+    const sections = [
+      ["3.1", ["Data Source", "& Sampling"]],
+      ["3.2", ["Feature", "Engineering"]],
+      ["3.3", ["Predictor", "Selection"]],
+      ["3.4", ["BNN", "Architecture"]],
+      ["3.5", ["Probability", "Model"]],
+      ["3.6", ["Training &", "Validation"]],
+      ["3.7", ["Model", "Evaluation"]]
+    ];
+
+    const colors = [
+      "#18344f", "#28536b", "#367589",
+      "#244b66", "#367589", "#28536b", "#18344f"
+    ];
+
+    const cx = 300;
+    const cy = 300;
+    const outer = 278;
+    const inner = 119;
+    const labelRadius = 202;
+    const step = 360 / 7;
+    const gap = 4;
+
+    const slides = Reveal.getSlides();
+
+    const wheelIndex = slides.findIndex(
+      slide => slide.querySelector("#methods-wheel-svg")
+    );
+
+    if (wheelIndex < 0) {
+      svg.dataset.initialized = "false";
+      return;
+    }
+
+    function polar(radius, angle) {
+      const rad = angle * Math.PI / 180;
+
+      return {
+        x: cx + radius * Math.cos(rad),
+        y: cy + radius * Math.sin(rad)
+      };
+    }
+
+    function sectorPath(start, end) {
+      const a = polar(outer, start);
+      const b = polar(outer, end);
+      const c = polar(inner, end);
+      const d = polar(inner, start);
+
+      return [
+        `M ${a.x} ${a.y}`,
+        `A ${outer} ${outer} 0 0 1 ${b.x} ${b.y}`,
+        `L ${c.x} ${c.y}`,
+        `A ${inner} ${inner} 0 0 0 ${d.x} ${d.y}`,
+        "Z"
+      ].join(" ");
+    }
+
+    // Clear any previous drawing.
+    svg.replaceChildren();
+
+    // This group contains ONLY the rotating wedges and labels.
+   const rotatingGroup = document.createElementNS(
+  "http://www.w3.org/2000/svg",
+  "g"
+);
+
+rotatingGroup.classList.add("wheel-rotating-group");
+
+    const segmentGroups = [];
+
+    sections.forEach((section, i) => {
+
+      const centerAngle = -90 + i * step;
+      const start = centerAngle - step / 2 + gap / 2;
+      const end = centerAngle + step / 2 - gap / 2;
+
+      const group = document.createElementNS(NS, "g");
+
+      group.style.cursor = "pointer";
+      group.setAttribute("role", "button");
+      group.setAttribute("tabindex", "0");
+      group.setAttribute(
+        "aria-label",
+        section[0] + " " + section[1].join(" ")
+      );
+
+      const path = document.createElementNS(NS, "path");
+
+      path.setAttribute("d", sectorPath(start, end));
+      path.setAttribute("fill", colors[i]);
+      path.setAttribute("class", "wheel-segment");
+
+      group.appendChild(path);
+
+      const point = polar(labelRadius, centerAngle);
+
+      const labelGroup = document.createElementNS(NS, "g");
+
+      const number = document.createElementNS(NS, "text");
+      number.setAttribute("class", "wheel-label wheel-number");
+      number.setAttribute("text-anchor", "middle");
+      number.setAttribute("y", "-12");
+      number.textContent = section[0];
+
+      labelGroup.appendChild(number);
+
+      section[1].forEach((line, j) => {
+
+        const title = document.createElementNS(NS, "text");
+
+        title.setAttribute("class", "wheel-label wheel-title");
+        title.setAttribute("text-anchor", "middle");
+        title.setAttribute("y", 12 + j * 18);
+        title.textContent = line;
+
+        labelGroup.appendChild(title);
+      });
+
+      group.appendChild(labelGroup);
+      rotatingGroup.appendChild(group);
+
+      segmentGroups.push({
+        group,
+        path,
+        labelGroup,
+        point
+      });
+
+      group.addEventListener("click", () => openSection(i));
+
+      group.addEventListener("keydown", event => {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          openSection(i);
+        }
+      });
+  });
+
+    // Add the rotating segments to the SVG.
+    svg.appendChild(rotatingGroup);
+
+    // Stationary white center.
+    const center = document.createElementNS(NS, "circle");
+
+    center.setAttribute("cx", cx);
+    center.setAttribute("cy", cy);
+    center.setAttribute("r", inner - 5);
+    center.setAttribute("class", "wheel-center");
+
+    svg.appendChild(center);
+
+    function addCenterText(text, y, className) {
+
+      const element = document.createElementNS(NS, "text");
+
+      element.setAttribute("x", cx);
+      element.setAttribute("y", y);
+      element.setAttribute("class", className);
+      element.setAttribute("text-anchor", "middle");
+      element.textContent = text;
+
+      svg.appendChild(element);
+    }
+
+    addCenterText("RESEARCH", cy - 9, "wheel-center-title");
+    addCenterText("METHODS", cy + 20, "wheel-center-title");
+    addCenterText("3.1 – 3.7", cy + 47, "wheel-center-subtitle");
+
+    // Rotate the wheel one section at a time.
+    function updateWheel(index) {
+       const rotation = (-index) * step;
+       rotatingGroup.setAttribute("transform", `rotate(${rotation} ${cx} ${cy})`);
+
+    segmentGroups.forEach((item, i) => {
+
+        item.path.classList.toggle("active", i === index);
+
+        // Keep text upright while wedges rotate.
+        item.labelGroup.setAttribute(
+          "transform",
+          `translate(${item.point.x},${item.point.y}) rotate(${-rotation})`
+        );
+      });
+    }
+    
+let selectedSection = 0;
+    
+    function openSection(index) {
+      selectedSection = index;
+       Reveal.slide(wheelIndex + index + 1);
+    }
+
+    // Add return buttons to all seven Methods slides.
+    slides.slice(wheelIndex + 1, wheelIndex + 8)
+      .forEach(slide => {
+
+        if (slide.querySelector(".methods-home")) return;
+
+        const button = document.createElement("button");
+
+        button.className = "methods-home";
+        button.textContent = "↶ Methods Wheel";
+
+        button.addEventListener("click", () => {
+          Reveal.slide(wheelIndex);
+        });
+
+        slide.appendChild(button);
+      });
+
+    
+    // Rotate the wheel when returning to the Methods slide.
+    Reveal.on("slidechanged", event => {
+      const index = slides.indexOf(event.currentSlide);
+
+      if (index === wheelIndex) {
+        updateWheel(selectedSection);
+      }
+    });
+
+    // Set the initial wheel position.
+    updateWheel(0);
+
+  }
+
+  // Wait until RevealJS is fully initialized.
+  const checkReady = setInterval(() => {
+
+    if (window.Reveal && Reveal.isReady()) {
+      clearInterval(checkReady);
+      initializeMethodsWheel();
+    }
+
+  }, 100);
+
+})();
+</script>
 </section>
 <section id="methods-introduction" class="slide level2 smaller">
 <h2>Methods Introduction</h2>
@@ -1327,15 +1793,15 @@ Figure 1: Distribution of Signal-to-Noise Ratio in the RadioML dataset
 <section id="conclusion" class="slide level2 scrollable">
 <h2>Conclusion</h2>
 <div class="panel-tabset">
-<ul id="tabset-1" class="panel-tabset-tabby"><li><a data-tabby-default href="#tabset-1-1">Tactical Electronic Warfare Takeaways</a></li><li><a href="#tabset-1-2">Future Roadmap</a></li></ul>
+<ul id="tabset-2" class="panel-tabset-tabby"><li><a data-tabby-default href="#tabset-2-1">Tactical Electronic Warfare Takeaways</a></li><li><a href="#tabset-2-2">Future Roadmap</a></li></ul>
 <div class="tab-content">
-<div id="tabset-1-1">
+<div id="tabset-2-1">
 <ol type="1">
 <li><strong>Adaptive ECCM Triggers:</strong> When <span class="math display">\[\sigma_{\text{epistemic}}\]</span> spikes, the cognitive radio detects an anomalous, jammed RF state and triggers tactical frequency hopping.</li>
 <li><strong>Robust Situational Awareness:</strong> Provides pilots and autonomous drone swarms with actionable confidence intervals rather than misleading point estimates.</li>
 </ol>
 </div>
-<div id="tabset-1-2">
+<div id="tabset-2-2">
 <ul>
 <li>Scale to the full 2.55-million frame RadioML benchmark via distributed variational inference.</li>
 <li>Evaluate out-of-distribution detection on specialized pulse and chirp jamming signatures.</li>
@@ -1366,23 +1832,8 @@ Figure 1: Distribution of Signal-to-Noise Ratio in the RadioML dataset
 <div id="ref-5376749" class="csl-entry" role="listitem">
 Bai, Runbo, Xiumei Qiu, and Maosen Cao. 2009. <span>“Factor Sensitivity Analysis for Multivariable Systems Using Bayesian Neural Networks.”</span> <em>2009 International Conference on Computational Intelligence and Security</em> 1: 30–33. <a href="https://doi.org/10.1109/CIS.2009.43">https://doi.org/10.1109/CIS.2009.43</a>.
 </div>
-<div id="ref-Berger01122000" class="csl-entry" role="listitem">
-Berger, James O. 2000. <span>“Bayesian Analysis: A Look at Today and Thoughts of Tomorrow.”</span> <em>Journal of the American Statistical Association</em> 95 (452): 1269–76. <a href="https://doi.org/10.1080/01621459.2000.10474328">https://doi.org/10.1080/01621459.2000.10474328</a>.
-</div>
 <div id="ref-Bishop1997" class="csl-entry" role="listitem">
 Bishop, Christopher M. 1997. <span>“Bayesian Neural Networks.”</span> <em>Journal of the Brazilian Computer Society</em> 4 (1). <a href="https://doi.org/10.1590/s0104-65001997000200006">https://doi.org/10.1590/s0104-65001997000200006</a>.
-</div>
-<div id="ref-pmlr-v37-hernandez-lobatoc15" class="csl-entry" role="listitem">
-Hernandez-Lobato, Jose Miguel, and Ryan Adams. 2015. <span>“Probabilistic Backpropagation for Scalable Learning of Bayesian Neural Networks.”</span> In <em>Proceedings of the 32nd International Conference on Machine Learning</em>, edited by Francis Bach and David Blei, vol. 37. Proceedings of Machine Learning Research. PMLR. <a href="https://proceedings.mlr.press/v37/hernandez-lobatoc15.html">https://proceedings.mlr.press/v37/hernandez-lobatoc15.html</a>.
-</div>
-<div id="ref-9756596" class="csl-entry" role="listitem">
-Jospin, Laurent Valentin, Hamid Laga, Farid Boussaid, Wray Buntine, and Mohammed Bennamoun. 2022. <span>“Hands-on Bayesian Neural Networks—a Tutorial for Deep Learning Users.”</span> <em>IEEE Computational Intelligence Magazine</em> 17 (2): 29–48. <a href="https://doi.org/10.1109/MCI.2022.3155327">https://doi.org/10.1109/MCI.2022.3155327</a>.
-</div>
-<div id="ref-DBLP:journals/corr/abs-1801-07710" class="csl-entry" role="listitem">
-Mullachery, Vikram, Aniruddh Khera, and Amir Husain. 2018. <span>“Bayesian Neural Networks.”</span> <em>CoRR</em> abs/1801.07710. <a href="http://arxiv.org/abs/1801.07710">http://arxiv.org/abs/1801.07710</a>.
-</div>
-<div id="ref-OShea2018" class="csl-entry" role="listitem">
-O’Shea, Timothy James, Tamoghna Roy, and T. Charles Clancy. 2018. <span>“Over-the-Air Deep Learning Based Radio Signal Classification.”</span> <em>IEEE Journal of Selected Topics in Signal Processing</em> 12 (1): 168–79. <a href="https://doi.org/10.1109/jstsp.2018.2797022">https://doi.org/10.1109/jstsp.2018.2797022</a>.
 </div>
 <div id="ref-snoek2015scalable" class="csl-entry" role="listitem">
 Snoek, Jasper, Oren Rippel, Kevin Swersky, et al. 2015. <span>“Scalable Bayesian Optimization Using Deep Neural Networks.”</span> <em>International Conference on Machine Learning</em>, 2171–80.
