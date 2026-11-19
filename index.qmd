@@ -374,7 +374,7 @@ $$
 + \frac{\sigma_{q,i}^{2} + (\mu_{q,i} - \mu_{p})^{2}}{2\,\sigma_{p}^{2}}
 - \frac{1}{2}
 \right]
-$$ {eq-kl-layer}
+$$ {#eq-kl-layer}
 
 ```{python}
 #| label: tbl-prior-posterior-kl
