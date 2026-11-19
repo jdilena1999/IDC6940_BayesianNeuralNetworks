@@ -352,6 +352,30 @@ The prior distribution for each layer was a Normal Distribution with mean 0 and 
 
 For each layer, the kernel is a big matrix of weights, and each weight has its own posterior mean and standard deviation. The “Kernel Post Mean” column is the average of all those per-weight means, and “Kernel Post Std” is the average of all those per-weight standard deviations at the final epoch (@tbl-prior-posterior-kl).
 
+The KL divergence for each kernal is a measure of how much the layer's new, learned weight distribution varies from the prior. The equation for measuring the KL for a single weight in a layer can be found here (@eq-kl-single)
+
+
+
+
+$$
+\mathrm{KL}\left(q(w)\,\|\,p(w)\right)
+= \log\frac{\sigma_p}{\sigma_q}
++ \frac{\sigma_q^{2} + (\mu_q - \mu_p)^{2}}{2\,\sigma_p^{2}}
+- \frac{1}{2}
+$$ {#eq-kl-single}
+
+
+Once all weights' KL values are found, the entire layer's KL value is measure by the below equation (@eq-kl-layer).
+
+$$
+\mathrm{KL}_{\text{layer}}
+= \sum_{i=1}^{N}\left[
+\log\frac{\sigma_{p}}{\sigma_{q,i}}
++ \frac{\sigma_{q,i}^{2} + (\mu_{q,i} - \mu_{p})^{2}}{2\,\sigma_{p}^{2}}
+- \frac{1}{2}
+\right]
+$$ {eq-kl-layer}
+
 ```{python}
 #| label: tbl-prior-posterior-kl
 #| tbl-cap: "Prior vs Posterior Distributions"
