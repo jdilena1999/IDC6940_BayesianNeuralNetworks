@@ -19,7 +19,7 @@ editor:
     wrap: 72
 ---
 
-Slides: [slides.html](slides.html){target="_blank"}
+Slides: [slides_.html](slides_.html){target="_blank"}
 
 
 ## Introduction
@@ -203,6 +203,7 @@ import seaborn as sns
 data = pd.read_csv("radioml_features.csv")
 
 sns.heatmap(data.corr(),cmap="coolwarm",center=0)
+plt.savefig("images/correlation_matrix.png", dpi=300, bbox_inches="tight")
 
 ```
 
@@ -231,6 +232,7 @@ plt.xlabel("SNR Ratio")
 plt.axhline(np.array(counts).mean(),-30,30,linestyle='--',color='red')
 #sns.kdeplot(data=data,x="SNR")
 #plt.title("Response Variable (Signal-to-Noise Ratio) Distribution")
+plt.savefig("images/snr_dist.png", dpi=300, bbox_inches="tight")
 plt.show()
 
 ```
@@ -257,6 +259,7 @@ plt.ylabel("Frequency")
 plt.xlabel("Modulation")
 plt.axhline(np.array(counts).mean(),xmin=-30,xmax=30,linestyle='--',color='red')
 #plt.title("Response Variable (Signal-to-Noise Ratio) Distribution")
+plt.savefig("images/modulation_dist.png", dpi=300, bbox_inches="tight")
 plt.show()
 
 
@@ -280,6 +283,7 @@ for col,c,name in zip(["I_mean","Q_mean","IQ_mean"],['red','blue','green'],["I M
 #plt.title("Response Variable (Signal-to-Noise Ratio) Distribution")
 plt.legend()
 plt.ylabel("Signal-to-Noise Ratio")
+plt.savefig("images/means_fig.png", dpi=300, bbox_inches="tight")
 plt.show()
 
 ```
@@ -295,6 +299,7 @@ for col,c,name in zip(["I_power","Q_power","IQ_power"],['red','blue','green'],["
   plt.scatter(data[col].to_numpy(),data['SNR'].to_numpy(),c=c,edgecolors='black',label=name,alpha=0.4, s=15)
 plt.legend()
 plt.ylabel("Signal-to-Noise Ratio")
+plt.savefig("images/powers.png", dpi=300, bbox_inches="tight")
 plt.show()
 #plt.title("Response Variable (Signal-to-Noise Ratio) Distribution")
 #plt.legend()
@@ -309,15 +314,15 @@ plt.show()
 In order to find a scope of distributions the true distribution might be, this process was repeated 200 times and each of those probability density functions can be found at @fig-all-dist. An average of the means and standard deviations were then taken to find an overall mean and standard deviation, shown in @fig-avg-dist.
 
 
-![Loss](images/Training vs Validation Loss (Negative Log-Loss).png){#fig-loss width=80%}
+![Loss](images/Training_vs_Validation_Loss_(Negative_Log-Loss).png){#fig-loss width=80%}
 
-![MAE](images/Training vs Validation MAE.png){#fig-mae width=80%}
+![MAE](images/Training_vs_Validation_MAE.png){#fig-mae width=80%}
 
-![MSE](images/Training vs Validation MSE.png){#fig-mse width=80%}
+![MSE](images/Training_vs_Validation_MSE.png){#fig-mse width=80%}
 
 ![All Distributions](images/All_Distributions.png){#fig-all-dist fig-alt="200 Sample Distributions predicted" width=80%}
 
-![Final Distribution](images/Predictive Distribution (test-set mixture).png){#fig-avg-dist fig-alt="Final Predicted Distribution, found by taking the mean of the means and standard deviations" width=80%}
+![Final Distribution](images/Predictive_Distribution_(test-set_mixture).png){#fig-avg-dist fig-alt="Final Predicted Distribution, found by taking the mean of the means and standard deviations" width=80%}
 
 The model's posterior predictive distribution is approximated by Monte Carlo sampling. For each test input $x_i$, we run $T = 200$ stochastic forward passes, each using a fresh draw of weights from the posterior and returning a predicted mean $\mu_t(x_i)$ and standard deviation $\sigma_t(x_i)$.
 

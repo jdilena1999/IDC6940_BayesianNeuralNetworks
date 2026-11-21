@@ -102,7 +102,7 @@ sns.lineplot(data=performance_df,x=performance_df.index.values,y='mean_mse',colo
 sns.lineplot(data=performance_df,x=performance_df.index.values,y='val_mean_mse',color='blue',label="Validation MSE",ax=ax)
 
 plt.title(f"Training vs Validation MSE")
-plt.savefig(f"./images/Training vs Validation MSE.png")
+plt.savefig(f"./images/Training_vs_Validation_MSE.png")
 plt.show()
 
 
@@ -111,7 +111,7 @@ sns.lineplot(data=performance_df,x=performance_df.index.values,y='mean_mae',colo
 sns.lineplot(data=performance_df,x=performance_df.index.values,y='val_mean_mae',color='blue',label="Validation MAE",ax=ax)
 
 plt.title(f"Training vs Validation MAE")
-plt.savefig(f"./images/Training vs Validation MAE.png")
+plt.savefig(f"./images/Training_vs_Validation_MAE.png")
 plt.show()
 
 
@@ -121,7 +121,7 @@ sns.lineplot(data=performance_df,x=performance_df.index.values,y='loss',color='r
 sns.lineplot(data=performance_df,x=performance_df.index.values,y='val_loss',color='blue',label="Validation Loss",ax=ax)
 
 plt.title(f"Training vs Validation Loss")
-plt.savefig(f"./images/Training vs Validation Loss (Negative Log-Loss).png")
+plt.savefig(f"./images/Training_vs_Validation_Loss_(Negative_Log-Loss).png")
 plt.show()
 
 
@@ -174,6 +174,6 @@ for k, c in zip([1, 2, 3], ["green", "gold", "red"]):
     plt.axvline(mix_mean - k*mix_sd, linestyle="--", color=c)
 plt.title(f"Average Distribution (mixture)\nMean: {mix_mean:,.2f} | SD: {mix_sd:,.2f}")
 plt.legend()
-plt.savefig("./images/Predictive Distribution (test-set mixture).png")
+plt.savefig("./images/Predictive_Distribution_(test-set_mixture).png")
 plt.show()
 
