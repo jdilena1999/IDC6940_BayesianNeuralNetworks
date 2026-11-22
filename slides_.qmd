@@ -7,7 +7,7 @@ date-format: "MMMM D, YYYY"
 format:
   revealjs
 course: Capstone Projects in Data Science
-#bibliography: references.bib # file contains bibtex for references
+bibliography: references.bib # file contains bibtex for references
 #always_allow_html: true # this allows to get PDF with HTML features
 self-contained: true
 theme: dark
@@ -71,72 +71,67 @@ revealjs-plugins:
 </style>
 
 
-# Why Signal Confidence Matters
+## 1. Operational Motivation: The EW Battleground {data-background-color="#1a1e24" .scrollable .smaller}
 
-- Modern drones and communication systems depend on reliable **radio-frequency (RF) links**.
-- Jamming and interference can degrade those links.
-- An SNR estimate is useful—but understanding the **uncertainty around that estimate** is also important.
+::: {.panel-tabset}
 
-::: {.callout-important}
-**The challenge:** A prediction is more informative when we also understand how reliable it may be.
-:::
+## Background and Motivation
 
-# Research Question
+- **Electronic Warfare (EW)** has been part of military operations since World War I, evolving alongside communications technology
+  - Protects aircraft and pilots in contested environments
+  - Jamming can disrupt communications and operational effectiveness
+  ([Electronic Warfare, n.d.](https://jdilena1999.github.io/IDC6940_BayesianNeuralNetworks/#ref-noauthor_under_nodate))
 
-- How effectively can a Bayesian neural network predict signal-to-noise ratio (SNR) from signal-derived features, and can predictive uncertainty help characterize those predictions?
+- **Modern military drones** increasingly depend on reliable radio-frequency (RF) links
+  - Vulnerable to jamming and signal interference
+  ([vgi_admin, 2025](https://jdilena1999.github.io/IDC6940_BayesianNeuralNetworks/#ref-vgi_admin_drones_2025))
 
+- **Machine learning applications in wireless security**
+  - Jere et al. (2024) combined supervised learning and Bayesian network inference
+  - Demonstrated near-real-time jamming detection and classification
+  ([Jere et al., 2024](https://jdilena1999.github.io/IDC6940_BayesianNeuralNetworks/#ref-10352089))
 
-**Our objective**
+## Dataset: RadioML 2018.01A
 
-- Develop and evaluate a Bayesian neural network that predicts SNR while estimating predictive uncertainty.
- 
-# The Data: RadioML 2018.01A
+- Created by DeepSig Inc.; accessed through Kaggle
+  ([DeepSig Inc., 2018])
 
-::: {.columns}
-::: {.column width="58%"}
-- Simulated RF signals from DeepSig's RadioML 2018.01A dataset.
-- Random sample of **5,000 signal frames**.
-- **24 modulation types**.
-- **26 SNR levels**, from −20 dB to +30 dB.
-:::
-::: {.column width="42%"}
-::: {.callout-note}
-### Each signal frame
+- Simulated RF signals across different modulation types and noise levels
+  ([O'Shea et al., 2018])
 
-**1,024**
+- **Full dataset characteristics:**
+  - 2,555,904 signal frames
+  - 24 modulation types
+  - 26 SNR levels (-20 dB to +30 dB)
+  - 1,024 in-phase and quadrature (I/Q) samples per signal
 
-in-phase (I) and quadrature (Q) measurements
-:::
-:::
-:::
+- **Research sample:**
+  - Random subsample of N = 5,000 signal frames
 
-## Data Preparation and Predictor Selection
+- Provides a framework for examining how signal quality changes under varying noise conditions
+  ([O'Shea et al., 2018])
 
-::: {.columns}
+## Research Objective
 
-::: {.column width="50%"}
-### Dataset and sample
+- Model **Signal-to-Noise Ratio (SNR)** as the response variable using neural networks and Bayesian analysis
 
-- RadioML 2018.01A: 2,555,904 signal frames
-- Random sample: **5,000 frames**
-- 1,024 I/Q measurements per frame
-- 24 modulation types and 26 SNR levels
-:::
+- Bayesian methods:
+  - Treat model parameters as probability distributions rather than fixed values
+  - Incorporate prior knowledge
+  - Allow results to be expressed as probability statements
+  ([Berger, 2000])
 
-::: {.column width="50%"}
-### Preparation
+- **Bayesian Neural Networks (BNNs):**
+  - Provide a framework for addressing overfitting
+    ([Bishop, 1997](https://jdilena1999.github.io/IDC6940_BayesianNeuralNetworks/#ref-Bishop1997))
+  - Quantify predictive uncertainty, particularly useful with noisy data
+    ([Mullachery et al., 2018])
+  - Require consideration of scalability with large datasets
+    ([Jospin et al., 2022](https://jdilena1999.github.io/IDC6940_BayesianNeuralNetworks/#ref-9756596))
+  - Bayesian priors provide a form of regularization comparable to weight decay
+    ([Bishop, 1997])
 
-- Summarized I/Q measurements using means, variability, and power features
-- Checked for missing values and reviewed feature distributions
-- Retained extreme power values as potentially valid signal conditions
-- Standardized numeric predictors using training-set means and SDs
-:::
-
-:::
-
-::: {.callout-note}
-**Predictor selection:** `IQ_Power` was removed because it is exactly redundant: `IQ_Power = I_Power + Q_Power`. Modulation was treated as a categorical predictor.
-:::
+::: 
 
 
 ## Bayesian Neural Network and Probability Model
@@ -196,7 +191,7 @@ in-phase (I) and quadrature (Q) measurements
 
 - Mean squared error (MSE)
 - Mean absolute error (MAE)
-- Predictive uncertainty
+- Negative Log-Loss
 :::
 :::
 :::
@@ -204,7 +199,7 @@ in-phase (I) and quadrature (Q) measurements
 **Prediction procedure:** 200 stochastic prediction passes were used to generate predictive distributions; the resulting predictions were combined for the final summaries.
 
 
-# What the Data Revealed
+## What the Data Revealed
 
 ::: {.columns}
 ::: {.column width="50%"}
@@ -224,7 +219,7 @@ in-phase (I) and quadrature (Q) measurements
 :::
 
 
-# Signal Characteristics
+## Signal Characteristics
 
 ::: {.columns}
 ::: {.column width="50%"}
@@ -240,7 +235,7 @@ in-phase (I) and quadrature (Q) measurements
 :::
 
 
-# How Well Did the Model Predict SNR?
+## How Well Did the Model Predict SNR?
 
 ::: {.columns}
 ::: {.column width="33%"}
@@ -260,10 +255,9 @@ in-phase (I) and quadrature (Q) measurements
 :::
 :::
 
-**Test-set performance**
+**Training and Validation performance**
 
-- **RMSE:** 4.16 dB
-- **MAE:** [Insert final test MAE]
+- During model training, our model was successful in minimizing our loss function (Negative Log-Loss)
 
 
 # What Does Predictive Uncertainty Tell Us?
@@ -274,13 +268,9 @@ in-phase (I) and quadrature (Q) measurements
 - **Epistemic uncertainty:** uncertainty associated with what the model has learned.
 - **Predictive uncertainty:** combines both sources.
 
-\[
-\operatorname{Var}(Y\mid x,\mathcal{D})
-=
-\mathbb{E}_{w}\!\left[\operatorname{Var}(Y\mid x,w)\right]
-+
-\operatorname{Var}_{w}\!\left[\mathbb{E}(Y\mid x,w)\right]
-\]
+$$
+\sigma_{\text{total}}(x) = \sqrt{\underbrace{\frac{1}{T}\sum_{t=1}^{T}\left(\mu_t(x) - \bar{\mu}(x)\right)^2}_{\text{epistemic}} + \underbrace{\frac{1}{T}\sum_{t=1}^{T}\sigma_t^2(x)}_{\text{aleatoric}}}
+$$
 
 
 # Conclusion: The Takeaway
