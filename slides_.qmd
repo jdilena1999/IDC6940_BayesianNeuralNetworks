@@ -269,9 +269,14 @@ revealjs-plugins:
 - **Predictive uncertainty:** combines both sources.
 
 $$
-\sigma_{\text{total}}(x) = \sqrt{\underbrace{\frac{1}{T}\sum_{t=1}^{T}\left(\mu_t(x) - \bar{\mu}(x)\right)^2}_{\text{epistemic}} + \underbrace{\frac{1}{T}\sum_{t=1}^{T}\sigma_t^2(x)}_{\text{aleatoric}}}
+\sigma_{\text{total}}(x) = \sqrt{\sigma_{\text{epi}}^2(x) + \sigma_{\text{ale}}^2(x)}
 $$
-
+where
+$$
+\sigma_{\text{epi}}^2(x) = \frac{1}{T}\sum_{t=1}^{T}\left(\mu_t(x) - \bar{\mu}(x)\right)^2,
+\qquad
+\sigma_{\text{ale}}^2(x) = \frac{1}{T}\sum_{t=1}^{T}\sigma_t^2(x)
+$$
 
 ## Conclusion
 

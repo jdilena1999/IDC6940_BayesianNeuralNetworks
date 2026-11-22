@@ -606,7 +606,7 @@
   <meta name="generator" content="quarto-1.11.9">
 
   <meta name="author" content="Margaret Morrison and Joshua DiLena (Advisor: Dr. Cohen)">
-  <meta name="dcterms.date" content="2026-11-21">
+  <meta name="dcterms.date" content="2026-11-22">
   <title>This Means (Bayesian) War(fare)!</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -1178,7 +1178,7 @@ Margaret Morrison and Joshua DiLena (Advisor: Dr. Cohen)
 </div>
 </div>
 
-  <p class="date">November 21, 2026</p>
+  <p class="date">November 22, 2026</p>
 </section>
 <section class="slide level2">
 
@@ -1430,7 +1430,11 @@ Relationships among the signal-derived predictors.
 <li><strong>Predictive uncertainty:</strong> combines both sources.</li>
 </ul>
 <p><span class="math display">\[
-\sigma_{\text{total}}(x) = \sqrt{\underbrace{\frac{1}{T}\sum_{t=1}^{T}\left(\mu_t(x) - \bar{\mu}(x)\right)^2}_{\text{epistemic}} + \underbrace{\frac{1}{T}\sum_{t=1}^{T}\sigma_t^2(x)}_{\text{aleatoric}}}
+\sigma_{\text{total}}(x) = \sqrt{\sigma_{\text{epi}}^2(x) + \sigma_{\text{ale}}^2(x)}
+\]</span> where <span class="math display">\[
+\sigma_{\text{epi}}^2(x) = \frac{1}{T}\sum_{t=1}^{T}\left(\mu_t(x) - \bar{\mu}(x)\right)^2,
+\qquad
+\sigma_{\text{ale}}^2(x) = \frac{1}{T}\sum_{t=1}^{T}\sigma_t^2(x)
 \]</span></p>
 </section>
 <section id="conclusion" class="slide level2">
