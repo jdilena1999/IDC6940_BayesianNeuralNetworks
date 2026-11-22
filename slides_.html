@@ -1420,6 +1420,7 @@ Relationships among the signal-derived predictors.
 <li>During model training, our model was successful in minimizing our loss function (Negative Log-Loss)</li>
 </ul>
 </section>
+<section>
 <section id="what-does-predictive-uncertainty-tell-us" class="title-slide slide level1 center">
 <h1>What Does Predictive Uncertainty Tell Us?</h1>
 <p><strong>A Bayesian model provides more than a single SNR estimate.</strong></p>
@@ -1432,37 +1433,39 @@ Relationships among the signal-derived predictors.
 \sigma_{\text{total}}(x) = \sqrt{\underbrace{\frac{1}{T}\sum_{t=1}^{T}\left(\mu_t(x) - \bar{\mu}(x)\right)^2}_{\text{epistemic}} + \underbrace{\frac{1}{T}\sum_{t=1}^{T}\sigma_t^2(x)}_{\text{aleatoric}}}
 \]</span></p>
 </section>
-
-<section>
-<section id="conclusion-the-takeaway" class="title-slide slide level1 center">
-<h1>Conclusion: The Takeaway</h1>
-<div class="takeaway">
+<section id="conclusion" class="slide level2">
+<h2>Conclusion</h2>
+<div class="panel-tabset">
+<ul id="tabset-2" class="panel-tabset-tabby"><li><a data-tabby-default href="#tabset-2-1">The Takeaway</a></li><li><a href="#tabset-2-2">Limitations and Next Steps</a></li><li><a href="#tabset-2-3">Future work</a></li></ul>
+<div class="tab-content">
+<div id="tabset-2-1">
 <p><strong>The value of the Bayesian approach is the ability to examine prediction accuracy and uncertainty together.</strong></p>
-</div>
 <ul>
 <li>SNR prediction provides an estimate of signal quality.</li>
 <li>Predictive uncertainty adds information about how variable or uncertain that estimate may be.</li>
 <li>This is a potential foundation for further investigation—not a demonstrated real-time electronic-warfare capability.</li>
 </ul>
-</section>
-<section id="limitations-and-next-steps" class="slide level2">
-<h2>Limitations and Next Steps</h2>
-<div class="columns">
-<div class="column" style="width:50%;">
-<h3 id="limitations">Limitations</h3>
+</div>
+<div id="tabset-2-2">
+<!-- {.columns}
+# {.column width="50%"}
+### Limitations
+-->
 <ul>
 <li>Random sample of 5,000 simulated frames.</li>
 <li>No real-world RF deployment.</li>
 <li>Results depend on the selected features and model configuration.</li>
 </ul>
-</div><div class="column" style="width:50%;">
-<h3 id="future-work">Future work</h3>
+</div>
+<div id="tabset-2-3">
 <ul>
 <li>Evaluate the full RadioML benchmark.</li>
 <li>Test on additional or out-of-distribution signal conditions.</li>
 <li>Investigate implementation on software-defined radio hardware.</li>
 </ul>
-</div></div>
+</div>
+</div>
+</div>
 </section></section>
 <section>
 <section id="final-takeaway" class="title-slide slide level1 center">
