@@ -97,12 +97,14 @@ a_v_p = pd.DataFrame(actual_v_predicted)
 #print(actual_v_predicted)
 #print(a_v_p)
 #print(performance_df)
+
 fig,ax = plt.subplots(figsize=(12,6))
 sns.lineplot(data=performance_df,x=performance_df.index.values,y='mean_mse',color='red',label="Training MSE",ax=ax)
 sns.lineplot(data=performance_df,x=performance_df.index.values,y='val_mean_mse',color='blue',label="Validation MSE",ax=ax)
 
 plt.title(f"Training vs Validation MSE")
 plt.savefig(f"./images/Training_vs_Validation_MSE.png")
+#if __name__ == "__main__":
 plt.show()
 
 
@@ -112,6 +114,7 @@ sns.lineplot(data=performance_df,x=performance_df.index.values,y='val_mean_mae',
 
 plt.title(f"Training vs Validation MAE")
 plt.savefig(f"./images/Training_vs_Validation_MAE.png")
+#if __name__ == "__main__":
 plt.show()
 
 
@@ -122,6 +125,7 @@ sns.lineplot(data=performance_df,x=performance_df.index.values,y='val_loss',colo
 
 plt.title(f"Training vs Validation Loss")
 plt.savefig(f"./images/Training_vs_Validation_Loss_(Negative_Log-Loss).png")
+#if __name__ == "__main__":
 plt.show()
 
 
@@ -154,6 +158,7 @@ rand_ys = np.array(stats.Normal(mu=final_mean_pred,sigma=total_sd).pdf(rand_xs))
 plt.plot(rand_xs,rand_ys)
 plt.title("All Distributions")
 plt.savefig(f"./images/All_Distributions.png")
+#if __name__ == "__main__":
 plt.show()
 
 # Avg Distribution:
@@ -175,5 +180,6 @@ for k, c in zip([1, 2, 3], ["green", "gold", "red"]):
 plt.title(f"Average Distribution (mixture)\nMean: {mix_mean:,.2f} | SD: {mix_sd:,.2f}")
 plt.legend()
 plt.savefig("./images/Predictive_Distribution_(test-set_mixture).png")
+#if __name__ == "__main__":
 plt.show()
 

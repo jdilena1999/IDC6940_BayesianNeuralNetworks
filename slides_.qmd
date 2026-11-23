@@ -8,6 +8,8 @@ format:
   revealjs
 course: Capstone Projects in Data Science
 bibliography: references.bib # file contains bibtex for references
+nocite: |
+  @*
 #always_allow_html: true # this allows to get PDF with HTML features
 self-contained: true
 theme: dark
@@ -134,6 +136,44 @@ revealjs-plugins:
 ::: 
 
 
+## What the Data Revealed
+
+
+::: {.columns}
+::: {.column width="50%"}
+### SNR and modulation
+
+![](images/snr_dist.png)
+
+<p class="chart-caption">SNR distribution across the sampled signal frames.</p>
+:::
+::: {.column width="50%"}
+### Feature relationships
+
+![](images/correlation_matrix.png)
+
+<p class="chart-caption">Relationships among the signal-derived predictors.</p>
+:::
+:::
+
+
+## Signal Characteristics
+
+::: {.columns}
+::: {.column width="50%"}
+### Signal means
+
+![](images/means_fig.png)
+:::
+::: {.column width="50%"}
+### Signal power
+
+![](images/powers.png)
+:::
+:::
+
+
+
 ## Bayesian Neural Network and Probability Model
 
 ::: {.columns}
@@ -199,40 +239,6 @@ revealjs-plugins:
 **Prediction procedure:** 200 stochastic prediction passes were used to generate predictive distributions; the resulting predictions were combined for the final summaries.
 
 
-## What the Data Revealed
-
-::: {.columns}
-::: {.column width="50%"}
-### SNR and modulation
-
-![](images/snr_dist.png)
-
-<p class="chart-caption">SNR distribution across the sampled signal frames.</p>
-:::
-::: {.column width="50%"}
-### Feature relationships
-
-![](images/correlation_matrix.png)
-
-<p class="chart-caption">Relationships among the signal-derived predictors.</p>
-:::
-:::
-
-
-## Signal Characteristics
-
-::: {.columns}
-::: {.column width="50%"}
-### Signal means
-
-![](images/means_fig.png)
-:::
-::: {.column width="50%"}
-### Signal power
-
-![](images/powers.png)
-:::
-:::
 
 
 ## How Well Did the Model Predict SNR?
